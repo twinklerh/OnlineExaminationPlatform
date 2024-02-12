@@ -1,4 +1,4 @@
-package org.oep.backend;
+package com.oep.backend;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

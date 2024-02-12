@@ -1,8 +1,8 @@
-package org.oep.backend.serviceImpl;
+package com.oep.backend.serviceImpl.User;
 
-import org.oep.backend.mapper.AccountMapper;
-import org.oep.backend.pojo.Account;
-import org.oep.backend.service.RegisterService;
+import com.oep.backend.mapper.AccountMapper;
+import com.oep.backend.service.RegisterService;
+import com.oep.backend.pojo.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

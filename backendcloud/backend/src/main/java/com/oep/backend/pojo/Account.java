@@ -1,4 +1,4 @@
-package org.oep.backend.pojo;
+package com.oep.backend.pojo;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
