@@ -1,18 +1,23 @@
-package com.oep.backend.serviceImpl.User;
+package com.oep.backend.serviceImpl.account;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.oep.backend.mapper.AccountMapper;
-import com.oep.backend.service.RegisterService;
+import com.oep.backend.service.account.RegisterService;
 import com.oep.backend.pojo.Account;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
 public class RegisterServiceImpl implements RegisterService {
     @Autowired
     public AccountMapper accountMapper;
-    private Map<String, String> map;
+    private final Map<String, String> map = new HashMap<>();
     @Override
     public Map<String, String> addAccount(String accountId, String password, String confirmPassword) {
         if(accountId == null) {
@@ -24,7 +29,7 @@ public class RegisterServiceImpl implements RegisterService {
             map.put("error_message", "用户名不能为空");
             return map;
         }
-        if(password == null){
+        if(password.isEmpty()){
             map.put("error_message", "密码不能为空");
             return map;
         }
@@ -40,9 +45,18 @@ public class RegisterServiceImpl implements RegisterService {
             map.put("error_message", "密码长度不能超过16位");
             return map;
         }
-        map.put("error_message", "register successfully!");
-        Account account = new Account(accountId,password);
+        QueryWrapper<Account> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("account_id", accountId);
+        List<Account> accounts = accountMapper.selectList(queryWrapper);
+        if(!accounts.isEmpty()) {
+            map.put("error_message", "该用户名已存在");
+            return map;
+        }
+        PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String encodedPassword = passwordEncoder.encode(password);
+        Account account = new Account(accountId, encodedPassword, "candidate");
         accountMapper.insert(account);
+        map.put("error_message", "register successfully!");
         return map;
     }
 }
