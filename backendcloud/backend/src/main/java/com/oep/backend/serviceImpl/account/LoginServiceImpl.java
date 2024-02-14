@@ -6,6 +6,8 @@ import com.oep.backend.security.utils.UserDetailsImpl;
 import com.oep.backend.service.account.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -26,11 +28,19 @@ public class LoginServiceImpl implements LoginService {
             Authentication authenticate = authenticationManager.authenticate(authenticationToken);  //  如果登录失败会自动处理
             UserDetailsImpl loginUser = (UserDetailsImpl) authenticate.getPrincipal();
             Account account = loginUser.getAccount();
+            System.out.println(account);
+            if("enterprise".equals(account.getStatus()))        map.put("status", "enterprise");
+            else if("candidate".equals(account.getStatus()))    map.put("status", "candidate");
             String jwt = JwtUtil.createJWT(account.getAccountId());
             map.put("error_message","success");
             map.put("token", jwt);
+
         } catch(AuthenticationException e){
-            map.put("error_message", "Authentication failed");
+            if (e instanceof LockedException) {
+                map.put("error_message", "该账户状态存在异常");
+            } else {
+                map.put("error_message", "用户名或密码不正确");
+            }
         }
         return map;
     }

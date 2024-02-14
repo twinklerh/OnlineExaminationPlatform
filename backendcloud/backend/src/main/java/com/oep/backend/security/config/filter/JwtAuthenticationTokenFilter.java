@@ -2,6 +2,7 @@ package com.oep.backend.security.config.filter;
 
 //  实现config.filter.JwtAuthenticationTokenFilter类，用来验证jwt token，如果验证成功，则将User信息注入上下文中
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.oep.backend.mapper.AccountMapper;
 import com.oep.backend.pojo.Account;
 import com.oep.backend.security.utils.UserDetailsImpl;
@@ -24,7 +25,7 @@ import java.io.IOException;
 @Component
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Autowired
-    private AccountMapper userMapper;
+    private AccountMapper accountMapper;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, @NotNull HttpServletResponse response, @NotNull FilterChain filterChain) throws ServletException, IOException {
@@ -37,15 +38,16 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
         token = token.substring(7);
 
-        String userid;
+        String accountId;
         try {
             Claims claims = JwtUtil.parseJWT(token);
-            userid = claims.getSubject();
+            accountId = claims.getSubject();
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-
-        Account account = userMapper.selectById(Integer.parseInt(userid));
+        QueryWrapper<Account> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("account_id", accountId);
+        Account account = accountMapper.selectOne(queryWrapper);
 
         if (account == null) {
             throw new RuntimeException("用户名未登录");

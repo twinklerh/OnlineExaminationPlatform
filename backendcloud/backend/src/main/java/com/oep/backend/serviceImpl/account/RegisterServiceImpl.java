@@ -2,6 +2,8 @@ package com.oep.backend.serviceImpl.account;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.oep.backend.mapper.AccountMapper;
+import com.oep.backend.mapper.CandidateMapper;
+import com.oep.backend.pojo.Candidate;
 import com.oep.backend.service.account.RegisterService;
 import com.oep.backend.pojo.Account;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import java.util.Map;
 public class RegisterServiceImpl implements RegisterService {
     @Autowired
     public AccountMapper accountMapper;
+    @Autowired
+    public CandidateMapper candidateMapper;
     private final Map<String, String> map = new HashMap<>();
     @Override
     public Map<String, String> addAccount(String accountId, String password, String confirmPassword) {
@@ -56,6 +60,10 @@ public class RegisterServiceImpl implements RegisterService {
         String encodedPassword = passwordEncoder.encode(password);
         Account account = new Account(accountId, encodedPassword, "candidate");
         accountMapper.insert(account);
+        //  下面往从表中插入数据
+        Candidate candidate = new Candidate();
+        candidate.setAccountId(accountId);
+        candidateMapper.insert(candidate);
         map.put("error_message", "register successfully!");
         return map;
     }

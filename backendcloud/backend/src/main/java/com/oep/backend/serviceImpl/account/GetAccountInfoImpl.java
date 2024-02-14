@@ -1,0 +1,46 @@
+package com.oep.backend.serviceImpl.account;
+
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.Mapper;
+import com.oep.backend.mapper.CandidateMapper;
+import com.oep.backend.mapper.EnterpriseMapper;
+import com.oep.backend.pojo.Account;
+import com.oep.backend.pojo.Candidate;
+import com.oep.backend.pojo.Enterprise;
+import com.oep.backend.security.utils.UserDetailsImpl;
+import com.oep.backend.service.account.GetAccountInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.Map;
+
+@Service
+public class GetAccountInfoImpl implements GetAccountInfo {
+    @Autowired
+    private CandidateMapper candidateMapper;
+    @Autowired
+    private EnterpriseMapper enterpriseMapper;
+    @Override
+    public Map<String, String> getAccountInfo() {
+        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
+        Account account = loginUser.getAccount();
+        Map<String,String> map = new HashMap<>();
+        map.put("status", account.getStatus());
+        if("enterprise".equals(account.getStatus())){
+            QueryWrapper<Enterprise> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("account_id", account.getAccountId());
+            Enterprise enterprise = enterpriseMapper.selectOne(queryWrapper);
+            if(enterprise!=null) map.put("name", enterprise.getName());
+        }   else if ("candidate".equals(account.getStatus())) {
+            QueryWrapper<Candidate> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("account_id", account.getAccountId());
+            Candidate candidate = candidateMapper.selectOne(queryWrapper);
+            if(candidate!=null) map.put("name", candidate.getFullname());
+        }
+        return map;
+    }
+}
