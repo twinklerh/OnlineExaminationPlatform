@@ -23,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onBeforeMount, ref } from 'vue';
+import { ref } from 'vue';
 import { useUserStore } from '@/store/user';
 import router from '@/router';
 
@@ -33,12 +33,6 @@ const error_message = ref('');
 
 const userStore = useUserStore();
 
-onBeforeMount(async()=>{
-  userStore.token = localStorage.getItem('jwt_token') as string;
-  await userStore.getUserInfo();
-  if(userStore.token && userStore.status==='enterprise') router.push({name: 'enterprise'});
-})
-
 async function login(){
     error_message.value = await userStore.login(account_id.value, password.value);
     console.log(43, error_message.value, userStore.status);
@@ -47,6 +41,8 @@ async function login(){
     if(userStore.token === '') return;
     if(userStore.status === 'enterprise') router.push({name: 'enterprise'})
 }
+
+
 </script>
 
 <style scoped>

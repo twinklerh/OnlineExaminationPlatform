@@ -6,19 +6,33 @@
         text-color="black" active-text-color="rgb(64,158,255)" 
         background-color="red"> 
       <!-- 上面这一行的background-color是鼠标悬浮的颜色，css里的是背景色 -->
-      <el-menu-item index="1" class="el-menu-item" @click="setNowPage('problems')">
+      <el-menu-item index="1" class="el-menu-item" @click="setNowPage('problems', '试题库')">
         <el-icon><Files /></el-icon>
         <span>试题库</span>
       </el-menu-item>
-      <el-menu-item index="2" class="el-menu-item" @click="setNowPage('addproblem')">
-        <el-icon><CirclePlus /></el-icon>
-        <span>试题录入</span>
-      </el-menu-item>
-      <el-menu-item index="3" class="el-menu-item" @click="setNowPage('getgrade')">
+
+      <el-sub-menu index="2" class="el-sub-menu" >
+        <template #title>
+          <span style="font-size: 16px;">
+            <el-icon><CirclePlus /></el-icon>
+            <span>试题录入</span>
+          </span>
+        </template>
+        <el-menu-item class="el-menu-item" index="2-1" @click="setNowPage('addproblem1', '试题录入')">
+          <el-icon><CirclePlus /></el-icon>
+          <span>主观题</span>
+        </el-menu-item>
+        <el-menu-item class="el-menu-item" index="2-2" @click="setNowPage('addproblem2', '试题录入')">
+          <el-icon><CirclePlus /></el-icon>
+          <span>客观题</span>
+        </el-menu-item>
+      </el-sub-menu>
+
+      <el-menu-item index="3" class="el-menu-item" @click="setNowPage('getgrade', '成绩查询')">
         <el-icon><Search /></el-icon>
         <span>成绩查询</span>
       </el-menu-item>
-      <el-menu-item index="4" class="el-menu-item" @click="setNowPage('boardtest')">
+      <el-menu-item index="4" class="el-menu-item" @click="setNowPage('boardtest', '发布考试')">
         <el-icon><Calendar /></el-icon>
         <span>发布考试</span>
       </el-menu-item>
@@ -31,8 +45,9 @@ import { Files, CirclePlus, Search, Calendar } from '@element-plus/icons-vue'
 import "@/css/asideBarStyle.css";
 import { usePageStore } from '@/store/page';
 const pageStore = usePageStore();
-function setNowPage(page:string){
-  pageStore.setNowPage(page);
+function setNowPage(page:string, name:string){
+  pageStore.nowPage = page;
+  pageStore.pageName = name;
 }
 </script>
 
@@ -54,15 +69,11 @@ function setNowPage(page:string){
   height: 0px;
 }
 .el-menu-item{
-  border-radius: 8px;
   font-size: 16px;
   height: 60px;
 }
-.el-menu-item.is-active {
-  background-color: rgb(236,245,255);
-}
-.el-menu-item:hover{
-  background-color: transparent; /*取消鼠标悬浮时的背景色*/
+.el-menu-item:hover, .el-sub-menu:deep(.el-sub-menu__title):hover, .el-sub-menu:deep(.el-menu){
+  background-color: transparent;
   color: rgb(64,158,255)
 }
 </style>

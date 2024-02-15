@@ -40,7 +40,6 @@ export const useUserStore = defineStore('user',{
             return error_message;
         },
         async getUserInfo(){
-            console.log(this);
             await $.ajax({
                 url: 'http://localhost:3000/account/user/info/',
                 type: 'post',

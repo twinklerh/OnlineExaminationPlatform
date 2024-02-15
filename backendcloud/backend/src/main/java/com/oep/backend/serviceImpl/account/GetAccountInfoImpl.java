@@ -14,6 +14,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,6 +43,8 @@ public class GetAccountInfoImpl implements GetAccountInfo {
             Candidate candidate = candidateMapper.selectOne(queryWrapper);
             if(candidate!=null) map.put("name", candidate.getFullname());
         }
+        String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        System.out.println(dateTime + ": userId "+account.getAccountId()+" login or get info by token.");
         return map;
     }
 }

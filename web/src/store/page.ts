@@ -3,7 +3,8 @@ import { defineStore } from "pinia";
 export const usePageStore = defineStore('page', {
     state(){
         return {
-            nowPage: 'problems'   //值为problems、addproblem、getgrade、boardtest
+            nowPage: 'problems',   //值为problems、addproblem、getgrade、boardtest
+            pageName: '试题库'
         }
     },
     actions:{
