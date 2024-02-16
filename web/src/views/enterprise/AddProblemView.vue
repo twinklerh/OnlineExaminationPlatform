@@ -3,14 +3,6 @@
 
         <br>
         <el-row>
-            <el-col :span="2" class="el-col-text-pure">试题编号：</el-col>
-            <el-col :span="8">
-                <el-input placeholder="Please input" disabled/>            
-            </el-col>
-        </el-row>
-
-        <br>
-        <el-row>
             <el-col :span="2" class="el-col-text-pure">标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;题：</el-col>
             <el-col :span="8">
                 <el-input v-model="title" placeholder="标题" clearable />            
@@ -33,7 +25,7 @@
         <el-row>
             <el-col :span="2" class="el-col-text-pure-descript">题目描述：</el-col>
             <el-col :span="16">
-                <el-input class="el-input-descript" v-model="descript" type="textarea" placeholder="题目描述" :autosize="{ minRows: 5, maxRows: 100 }" clearable />            
+                <el-input class="el-input-descript" v-model="description" type="textarea" placeholder="题目描述" :autosize="{ minRows: 5, maxRows: 100 }" clearable />            
             </el-col>
         </el-row>
 
@@ -83,7 +75,7 @@
             </el-col>
         </el-row>
         <div style="margin-left: 770px; margin-top: 20px;">
-            <el-button type="primary">提交</el-button>
+            <el-button type="primary" @click="submit">提交</el-button>
         </div>
     </el-form>
 
@@ -92,10 +84,13 @@
 <script lang="ts" setup>
 import { ref, watch } from 'vue';
 import { CirclePlus } from '@element-plus/icons-vue'
+import $ from 'jquery'
+import { useUserStore } from '@/store/user';
 
+const userStore = useUserStore();
 const title = ref('');
 const groupSelect = ref('default group')
-const descript = ref('')
+const description = ref('')
 const radioSelectRank = ref('noSet')
 const checkSelect = ref('mechine')
 const rightAnswer = ref('');
@@ -108,6 +103,31 @@ function addNewGroup() {
 watch(appendix, ()=>{
     console.log(appendix.value);
 },{deep:true})
+
+function submit(){
+    $.ajax({
+        url: 'http://localhost:3000/account/submit/subjectivity/problems/',
+        type: 'post',
+        Headers: {
+            Authorization: "Bearer " + userStore.token,
+        },
+        data:{
+            'title': title.value,
+            'groupSelect': groupSelect.value,
+            'description': description.value,
+            'radioSelectRank': radioSelectRank.value,
+            'checkSelect': checkSelect.value,
+            'rightAnswer': rightAnswer.value,
+            'appendix': appendix.value
+        },// eslint-disable-next-line
+        success: (resp:any)=>{
+            alert(resp);
+        },
+        error(){
+            alert("failed");
+        }
+    })
+}
 
 </script>
 
