@@ -13,7 +13,7 @@
         <el-row class="el-row-group">
             <el-col :span="2" class="el-col-text-pure">分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;组：</el-col>
             <el-select v-model="groupSelect" placeholder="Select">
-                <el-option label="默认分组" value="default group" />
+                <el-option label="默认分组" value="default" />
                 <el-option label="分组一" value="group1" />
             </el-select>
             <el-tooltip effect="dark" content="添加一个分组" placement="right-start">
@@ -62,7 +62,6 @@
             </el-col>
         </el-row>
 
-
         <el-row v-if="checkSelect==='human'">
             <el-col :span="2" class="el-col-text-pure">附&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件：</el-col>
             <el-col :span="13">
@@ -89,12 +88,12 @@ import { useUserStore } from '@/store/user';
 
 const userStore = useUserStore();
 const title = ref('');
-const groupSelect = ref('default group')
+const groupSelect = ref('default')
 const description = ref('')
 const radioSelectRank = ref('noSet')
 const checkSelect = ref('mechine')
 const rightAnswer = ref('');
-const appendix = ref('false');
+const appendix = ref('');
 
 function addNewGroup() {
     groupSelect.value = 'group1';
@@ -106,9 +105,9 @@ watch(appendix, ()=>{
 
 function submit(){
     $.ajax({
-        url: 'http://localhost:3000/account/submit/subjectivity/problems/',
+        url: 'http://localhost:3000/problem/submit/subjectivity/',
         type: 'post',
-        Headers: {
+        headers: {
             Authorization: "Bearer " + userStore.token,
         },
         data:{

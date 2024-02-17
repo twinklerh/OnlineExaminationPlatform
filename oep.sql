@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 16/02/2024 23:52:23
+ Date: 17/02/2024 23:26:47
 */
 
 SET NAMES utf8mb4;
@@ -84,11 +84,11 @@ DROP TABLE IF EXISTS `group`;
 CREATE TABLE `group`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `group_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `enterprise_name` int NOT NULL,
+  `enterprise_id` int NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `group_pk`(`group_name` ASC) USING BTREE,
-  INDEX `enterprise_id`(`enterprise_name` ASC) USING BTREE,
-  CONSTRAINT `enterprise_id` FOREIGN KEY (`enterprise_name`) REFERENCES `enterprise` (`enterprise_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  UNIQUE INDEX `groups_pk`(`group_name` ASC) USING BTREE,
+  INDEX `enterprise_id`(`enterprise_id` ASC) USING BTREE,
+  CONSTRAINT `enterprise_id` FOREIGN KEY (`enterprise_id`) REFERENCES `enterprise` (`enterprise_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
@@ -97,39 +97,42 @@ CREATE TABLE `group`  (
 INSERT INTO `group` VALUES (1, 'default', 1);
 
 -- ----------------------------
--- Table structure for group_problems
+-- Table structure for group_problem
 -- ----------------------------
-DROP TABLE IF EXISTS `group_problems`;
-CREATE TABLE `group_problems`  (
+DROP TABLE IF EXISTS `group_problem`;
+CREATE TABLE `group_problem`  (
   `group_id` int NOT NULL,
   `problem_id` int NOT NULL,
   PRIMARY KEY (`problem_id`, `group_id`) USING BTREE,
   INDEX `group_problems_group_id_fk`(`group_id` ASC) USING BTREE,
   CONSTRAINT `group_problems_group_id_fk` FOREIGN KEY (`group_id`) REFERENCES `group` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
-  CONSTRAINT `group_problems_problems_id_fk` FOREIGN KEY (`problem_id`) REFERENCES `problems` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+  CONSTRAINT `group_problems_problems_id_fk` FOREIGN KEY (`problem_id`) REFERENCES `problem` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of group_problems
+-- Records of group_problem
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for problems
+-- Table structure for problem
 -- ----------------------------
-DROP TABLE IF EXISTS `problems`;
-CREATE TABLE `problems`  (
+DROP TABLE IF EXISTS `problem`;
+CREATE TABLE `problem`  (
   `id` int NOT NULL AUTO_INCREMENT,
   `title` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `description` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `difficulty` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT '0',
-  `if_check_by_human` tinyint(1) NOT NULL,
+  `difficulty` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `check_by` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `answer` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `appendix_name` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `accurate_times` int NOT NULL DEFAULT 0,
+  `finished_times` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of problems
+-- Records of problem
 -- ----------------------------
 
 SET FOREIGN_KEY_CHECKS = 1;

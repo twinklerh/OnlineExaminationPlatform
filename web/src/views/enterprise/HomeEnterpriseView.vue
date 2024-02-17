@@ -53,17 +53,21 @@ function logout(){
     height: 800px;
 }
 .el-aside{
-    width: 280px;
+    position: fixed;
+    width: 260px;
+    height: 1080px;
     background-color: var(--aside-bar-color);
 }
 .el-main{
-    padding-top: 0px;
+    margin-left: 280px;
+    padding-top: 5px;
     padding-left: 0px;
-    padding-right: 0px;
+    padding-right: 15px;
 }
 .el-row{
     background-color: rgb(240,248,255);
     height: 100px;
+    border-radius: 19px;
 }
 .el-col-di1{
     display: flex;
