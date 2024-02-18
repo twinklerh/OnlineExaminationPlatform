@@ -1,4 +1,4 @@
-package com.oep.backend.serviceImpl.problems;
+package com.oep.backend.serviceImpl.submitProblem;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.oep.backend.mapper.EnterpriseMapper;
@@ -7,14 +7,13 @@ import com.oep.backend.pojo.Account;
 import com.oep.backend.pojo.Enterprise;
 import com.oep.backend.pojo.Group;
 import com.oep.backend.security.utils.UserDetailsImpl;
-import com.oep.backend.service.problems.GetAllGroupService;
+import com.oep.backend.service.submitProblem.GetAllGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;

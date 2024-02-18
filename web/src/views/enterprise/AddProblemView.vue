@@ -90,8 +90,8 @@ const userStore = useUserStore();
 const title = ref('');
 const groupSelect = ref('default')
 const description = ref('')
-const radioSelectRank = ref('noSet')
-const checkSelect = ref('mechine')
+const radioSelectRank = ref('尚未设置')
+const checkSelect = ref('自动批改')
 const rightAnswer = ref('');
 const appendix = ref('');
 

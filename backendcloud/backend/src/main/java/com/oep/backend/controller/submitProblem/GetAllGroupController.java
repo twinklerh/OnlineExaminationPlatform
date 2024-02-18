@@ -1,7 +1,6 @@
-package com.oep.backend.controller.problems;
+package com.oep.backend.controller.submitProblem;
 
-import com.oep.backend.pojo.Group;
-import com.oep.backend.service.problems.GetAllGroupService;
+import com.oep.backend.service.submitProblem.GetAllGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -10,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-public class GetAllGroupProblemController {
+public class GetAllGroupController {
     @Autowired
     private GetAllGroupService getAllGroupService;
 

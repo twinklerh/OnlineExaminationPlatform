@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 17/02/2024 23:26:47
+ Date: 19/02/2024 00:38:59
 */
 
 SET NAMES utf8mb4;
@@ -112,6 +112,8 @@ CREATE TABLE `group_problem`  (
 -- ----------------------------
 -- Records of group_problem
 -- ----------------------------
+INSERT INTO `group_problem` VALUES (1, 9);
+INSERT INTO `group_problem` VALUES (1, 10);
 
 -- ----------------------------
 -- Table structure for problem
@@ -129,10 +131,12 @@ CREATE TABLE `problem`  (
   `accurate_times` int NOT NULL DEFAULT 0,
   `finished_times` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of problem
 -- ----------------------------
+INSERT INTO `problem` VALUES (9, '计算1+1的值', '请写出1+1的值', 'noSet', 'mechine', '2', '', '综合', 0, 0);
+INSERT INTO `problem` VALUES (10, '计算CPI', '某计算机系统的CPU主频为2.8GHz。某应用程序包括3类指令，各类指令的CPI(执行每条指令所需要的时钟周期数)及指令比例如下表所示。执行该应用程序时的平均CPI为？', 'easy', 'human', '', 'false', '综合', 0, 0);
 
 SET FOREIGN_KEY_CHECKS = 1;
