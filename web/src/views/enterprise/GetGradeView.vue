@@ -6,5 +6,5 @@
 <script lang="ts" setup>
 </script>
 
-<style>
+<style scpoed>
 </style>

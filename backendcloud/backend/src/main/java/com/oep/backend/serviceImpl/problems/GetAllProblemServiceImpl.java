@@ -10,6 +10,7 @@ import com.oep.backend.mapper.ProblemMapper;
 import com.oep.backend.pojo.*;
 import com.oep.backend.security.utils.UserDetailsImpl;
 import com.oep.backend.service.problems.GetAllProblemService;
+import com.oep.backend.utils.WriteValueAsString;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -46,20 +47,10 @@ public class GetAllProblemServiceImpl implements GetAllProblemService {
         for(Group i: groupList){ groupProblemQueryWrapper.eq("group_id", i.getId()); }
         List<Integer> problemIdList =
             groupProblemMapper.selectList(groupProblemQueryWrapper).stream().map(GroupProblem::getProblemId).toList();
-
+        if(problemIdList.isEmpty()){  return "数据为空"; }
         QueryWrapper<Problem> problemQueryWrapper = new QueryWrapper<>();
-        problemQueryWrapper.in("id", problemIdList); //查询problem中id在groupProblemList中的所有元素
+        problemQueryWrapper.in("id", problemIdList);
         List<Problem> list = problemMapper.selectList(problemQueryWrapper);
-        System.out.println(list);
-        ObjectMapper objectMapper = new ObjectMapper();
-        String jsonStr;
-        try {
-            jsonStr = objectMapper.writeValueAsString(list);
-        } catch (JsonProcessingException e) {
-            System.out.println("jsonStr转换出现异常 GetAllProblemServiceImpl.java line:57");
-            return null;
-        }
-        System.out.println("line-60:" + jsonStr);
-        return jsonStr;
+        return WriteValueAsString.writeValueAsString(list);
     }
 }

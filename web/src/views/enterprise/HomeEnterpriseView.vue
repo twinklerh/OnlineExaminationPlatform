@@ -18,7 +18,9 @@
                     </el-col>
                 </el-row>
                 <ProblemView  v-if="pageStore.nowPage==='problems'" />
-                <AddProblemView v-if="pageStore.nowPage==='addproblem1'" />
+                <AddSubProblemView v-if="pageStore.nowPage==='addproblem1'" />
+                <AddObjProblemView v-if="pageStore.nowPage==='addproblem2'" />
+                <MakeTestPaperView v-if="pageStore.nowPage==='maketestpaper'" />
                 <GetGradeView v-if="pageStore.nowPage==='getgrade'" />
                 <AddExamView v-if="pageStore.nowPage==='boardtest'" />
             </el-main>
@@ -29,12 +31,15 @@
 <script lang="ts" setup>
 import AsideBar from '@/components/AsideBar.vue';
 import ProblemView from '@/views/enterprise/ProblemView.vue';
-import AddProblemView from '@/views/enterprise/AddProblemView.vue';
+import AddSubProblemView from '@/views/enterprise/AddSubProblemView.vue';
 import GetGradeView from '@/views/enterprise/GetGradeView.vue';
 import AddExamView from '@/views/enterprise/AddExamView.vue';
+import AddObjProblemView from '@/views/enterprise/AddObjProblemView.vue';
+
 import { usePageStore } from '@/store/page';
 import { useUserStore } from '@/store/user';
 import { useRouter } from 'vue-router';
+import MakeTestPaperView from './MakeTestPaperView.vue';
 
 const router = useRouter();
 const pageStore = usePageStore();

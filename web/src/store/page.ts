@@ -8,8 +8,9 @@ export const usePageStore = defineStore('page', {
         }
     },
     actions:{
-        setNowPage(nowpage:string){
-            this.nowPage = nowpage;
+        setNowPage(page:string, name:string){
+            this.nowPage = page;
+            this.pageName = name;
         }
     }
 })

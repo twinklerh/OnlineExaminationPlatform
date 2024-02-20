@@ -12,7 +12,7 @@
         <br>
         <el-row class="el-row-group">
             <el-col :span="2" class="el-col-text-pure">分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;组：</el-col>
-            <el-select v-model="groupSelect" placeholder="Select">
+            <el-select class="el-select" v-model="groupSelect" placeholder="Select">
                 <el-option label="默认分组" value="default" />
                 <el-option label="分组一" value="group1" />
             </el-select>
@@ -90,7 +90,7 @@ const userStore = useUserStore();
 const title = ref('');
 const groupSelect = ref('default')
 const description = ref('')
-const radioSelectRank = ref('尚未设置')
+const radioSelectRank = ref('noSet')
 const checkSelect = ref('自动批改')
 const rightAnswer = ref('');
 const appendix = ref('');
@@ -134,9 +134,6 @@ function submit(){
 .el-form{
     margin-top: 10px;
     margin-left: 30px;
-}
-.el-form el-input {
-   --el-input-width: 100%;
 }
 .el-select{
     width: 200px;

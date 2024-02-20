@@ -13,7 +13,7 @@ import java.lang.reflect.Type;
 @AllArgsConstructor
 public class Enterprise {
     @TableId(type = IdType.AUTO)
-    private int enterpriseId;
+    private Integer enterpriseId;
     private String name;
     private String email;
     private String accountId;

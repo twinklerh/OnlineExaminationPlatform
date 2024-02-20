@@ -30,7 +30,7 @@ export const useProblemStore = defineStore('problem', {
                 },
                 type: 'get',
                 success: (resp:string)=>{
-                    console.log(resp);
+                    if(resp==="数据为空")   return;
                     this.problemList = JSON.parse(resp)
                     console.log(this.problemList);
                     this.calculateAccuracy();
@@ -59,6 +59,28 @@ export const useProblemStore = defineStore('problem', {
                     problem.accuracy = "N/A";
                 }
             }
+        },
+        deleteProblem(problem_id:number){
+            $.ajax({
+                url: 'http://localhost:3000/problems/deleteproblem/',
+                type: 'post',
+                headers: {
+                    Authorization: "Bearer " + useUserStore().token,
+                },
+                data:{
+                    "problem_id": problem_id,
+                },
+                success: (resp:string)=>{
+                    if (JSON.parse(resp).error_message === 'success') {
+                        alert("删除成功！");
+                        this.problemList = this.problemList.filter((item:ProblemInterface)=>{ item.id !== problem_id })
+                        console.log(this.problemList)
+                    }
+                },
+                error: ()=>{
+                    alert("删除失败！");
+                }
+            })
         }
     },
 

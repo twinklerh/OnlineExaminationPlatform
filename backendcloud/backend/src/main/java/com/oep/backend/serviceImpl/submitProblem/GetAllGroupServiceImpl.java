@@ -34,8 +34,6 @@ public class GetAllGroupServiceImpl implements GetAllGroupService {
         enterpriseQueryWrapper.eq("account_id",account.getAccountId());
         Enterprise enterprise = enterpriseMapper.selectOne(enterpriseQueryWrapper);
 
-        System.out.println(enterprise.getEnterpriseId());
-
         QueryWrapper<Group> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("enterprise_id",enterprise.getEnterpriseId());
         List<String> stringList = groupMapper.selectList(queryWrapper).stream()
