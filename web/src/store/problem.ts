@@ -32,7 +32,6 @@ export const useProblemStore = defineStore('problem', {
                 success: (resp:string)=>{
                     if(resp==="数据为空")   return;
                     this.problemList = JSON.parse(resp)
-                    console.log(this.problemList);
                     this.calculateAccuracy();
                 },
                 error: ()=>{

@@ -1,4 +1,4 @@
-package com.oep.backend.serviceImpl.submitProblem;
+package com.oep.backend.serviceImpl.problems.submitProblem;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.oep.backend.mapper.GroupMapper;
@@ -9,8 +9,8 @@ import com.oep.backend.pojo.Group;
 import com.oep.backend.pojo.GroupProblem;
 import com.oep.backend.pojo.Problem;
 import com.oep.backend.security.utils.UserDetailsImpl;
-import com.oep.backend.service.account.GetAccountInfo;
-import com.oep.backend.service.submitProblem.SubmitSubjectService;
+import com.oep.backend.service.problems.submitProblem.SubmitObjectService;
+import com.oep.backend.utils.WriteValueAsString;
 import org.apache.ibatis.executor.ExecutorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,38 +21,42 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class SubmitSubjectServiceImpl implements SubmitSubjectService {
+public class SubmitObjectServiceImpl implements SubmitObjectService {
     @Autowired
     private ProblemMapper problemMapper;
     @Autowired
     private GroupProblemMapper groupProblemMapper;
     @Autowired
     private GroupMapper groupMapper;
-    private GetAccountInfo getAccountInfo;
     @Override
-    public Map<String, String> addSubjectProblem(Map<String, String> map) {
+    public String addObjectProblem(Map<String, String> map) {
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
-        Account account = loginUser.getAccount();
-        if(!"enterprise".equals(account.getStatus())) return new HashMap<>() {{ put("error_message", "身份验证异常"); }};
+        UserDetailsImpl userDetails = (UserDetailsImpl) authenticationToken.getPrincipal();
+
+        Account account = userDetails.getAccount();
+
+        if(!"enterprise".equals(account.getStatus())) return WriteValueAsString.writeValueAsString(new HashMap<>() {{ put("error_message", "身份验证异常"); }});
 
         Map<String,String> returnHashMap = new HashMap<>();
 
+        String problemType = map.get("problemType");
         String title = map.get("title");
         String groupSelect = map.get("groupSelect");
         String description = map.get("description");
+        String rightAnswer = map.get("rightAnswer");
         String difficulty = map.get("radioSelectRank");
         String checkBy = map.get("checkSelect");
-        String rightAnswer = map.get("rightAnswer");
-        String appendix_name = map.get("appendix");
+        String appendix_name =map.get("selectAnswer");
 
-        if("".equals(description))    {
-            returnHashMap.put("error_message", "题目描述不能为空！");
-            return returnHashMap;
-        }
+        if("select".equals(problemType))  problemType = "选择";
+        else if ("judge".equals(problemType))   problemType = "判断";
+        else if ("filling".equals(problemType)) problemType = "填空";
+
+        if(!"选择".equals(problemType))    appendix_name = "";
 
         try{
-            Problem problem = new Problem(null,title,description,difficulty,checkBy,rightAnswer,appendix_name,"综合",0,0);
+            Problem problem = new Problem(null,title,description,difficulty,checkBy,rightAnswer,appendix_name,problemType,0,0);
+
             int resp = problemMapper.insert(problem);
             QueryWrapper<Group> groupQueryWrapper = new QueryWrapper<>();
             groupQueryWrapper.eq("group_name", groupSelect);
@@ -62,14 +66,13 @@ public class SubmitSubjectServiceImpl implements SubmitSubjectService {
             GroupProblem groupProblem = new GroupProblem(group.getId(), problem.getId());
             resp = groupProblemMapper.insert(groupProblem);
 
-            if(resp==0) throw new ExecutorException();
-
-        } catch(ExecutorException e) {
-            returnHashMap.put("error_message","更新失败");
-            return returnHashMap;
+            if(resp==0)  throw new ExecutorException();
+        } catch (ExecutorException e) {
+            returnHashMap.put("error_message", "更新失败");
+            return WriteValueAsString.writeValueAsString(returnHashMap);
         }
-
         returnHashMap.put("error_message", "success");
-        return returnHashMap;
+        return WriteValueAsString.writeValueAsString(returnHashMap);
     }
+
 }

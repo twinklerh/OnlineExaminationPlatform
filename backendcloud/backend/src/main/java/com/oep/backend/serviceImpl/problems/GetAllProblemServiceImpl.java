@@ -41,16 +41,18 @@ public class GetAllProblemServiceImpl implements GetAllProblemService {
 
         QueryWrapper<Group>groupQueryWrapper = new QueryWrapper<>();
         groupQueryWrapper.eq("enterprise_id", enterpriseId);
-        List<Group> groupList = groupMapper.selectList(groupQueryWrapper);
+        List<Integer> groupIdList = groupMapper.selectList(groupQueryWrapper).stream().map(Group::getId).toList();
 
         QueryWrapper<GroupProblem> groupProblemQueryWrapper = new QueryWrapper<>();
-        for(Group i: groupList){ groupProblemQueryWrapper.eq("group_id", i.getId()); }
-        List<Integer> problemIdList =
-            groupProblemMapper.selectList(groupProblemQueryWrapper).stream().map(GroupProblem::getProblemId).toList();
+        groupProblemQueryWrapper.in("group_id", groupIdList);
+        List<Integer> problemIdList = groupProblemMapper.selectList(groupProblemQueryWrapper).stream().map(GroupProblem::getProblemId).toList();
+
         if(problemIdList.isEmpty()){  return "数据为空"; }
+
         QueryWrapper<Problem> problemQueryWrapper = new QueryWrapper<>();
         problemQueryWrapper.in("id", problemIdList);
         List<Problem> list = problemMapper.selectList(problemQueryWrapper);
+
         return WriteValueAsString.writeValueAsString(list);
     }
 }

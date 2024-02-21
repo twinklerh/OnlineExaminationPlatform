@@ -22,5 +22,5 @@ public class Problem {
     private String appendixName;
     private String type;
     private Integer accurateTimes;
-    private Integer finished_times;
+    private Integer finishedTimes;
 }

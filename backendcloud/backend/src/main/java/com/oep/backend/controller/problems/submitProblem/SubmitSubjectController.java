@@ -1,6 +1,6 @@
-package com.oep.backend.controller.submitProblem;
+package com.oep.backend.controller.problems.submitProblem;
 
-import com.oep.backend.service.submitProblem.SubmitSubjectService;
+import com.oep.backend.service.problems.submitProblem.SubmitSubjectService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

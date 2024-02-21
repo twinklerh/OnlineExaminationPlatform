@@ -1,4 +1,4 @@
-package com.oep.backend.service.submitProblem;
+package com.oep.backend.service.problems.submitProblem;
 
 import java.util.Map;
 

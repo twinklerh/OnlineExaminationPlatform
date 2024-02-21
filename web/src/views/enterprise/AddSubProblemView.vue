@@ -13,8 +13,7 @@
         <el-row class="el-row-group">
             <el-col :span="2" class="el-col-text-pure">分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;组：</el-col>
             <el-select class="el-select" v-model="groupSelect" placeholder="Select">
-                <el-option label="默认分组" value="default" />
-                <el-option label="分组一" value="group1" />
+                <el-option :label="i" :value="i" v-for="(i,index) in groupStore.groupList" :key="index" />
             </el-select>
             <el-tooltip effect="dark" content="添加一个分组" placement="right-start">
                 <el-icon class="el-icon" size="20"><CirclePlus @click="addNewGroup" /></el-icon>
@@ -77,7 +76,7 @@
             <el-button type="primary" @click="submit">提交</el-button>
         </div>
     </el-form>
-
+    <AddingGroup ref="childRef"/>
 </template>
 
 <script lang="ts" setup>
@@ -85,18 +84,26 @@ import { ref, watch } from 'vue';
 import { CirclePlus } from '@element-plus/icons-vue'
 import $ from 'jquery'
 import { useUserStore } from '@/store/user';
+import { useGroupStore } from '@/store/group';
+import AddingGroup from '@/components/AddingGroup.vue';
+
+const groupStore = useGroupStore();
 
 const userStore = useUserStore();
 const title = ref('');
-const groupSelect = ref('default')
+const groupSelect = ref('默认分组')
 const description = ref('')
 const radioSelectRank = ref('noSet')
 const checkSelect = ref('自动批改')
 const rightAnswer = ref('');
 const appendix = ref('');
 
+const childRef = ref();
+
+groupStore.getAllGroups();
+
 function addNewGroup() {
-    groupSelect.value = 'group1';
+    childRef.value.changeDialogVisable();
 }
 
 watch(appendix, ()=>{

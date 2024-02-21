@@ -1,8 +1,26 @@
 <template>
-    <div>{{ problem }}</div>
     <el-card class="el-card">
-        <h1 style="width=1090px">题目详情</h1>
-        <el-divider border-style="dashed" style="width=100%"/>
+        <el-container>
+           <el-header>
+                <h1 style="width:1090px">题目详情</h1>
+                <el-divider border-style="dashed"/>  
+           </el-header>
+           <el-container>
+                <el-aside width="70%">
+                    <h2>{{ problem.id }}.{{ problem.title }}</h2>    
+                    <h3 style="margin-left: 20px;">题目描述：</h3>
+                    <p style="margin-left: 40px;">{{ problem.description }}</p>
+                </el-aside>
+                <el-main width="30%">
+                    <h3>难度：{{ problem.difficulty }}</h3>
+                    <h3>批改类型：{{ problem.check_by }}</h3>
+                    <h3>题型：{{ problem.type }}</h3>
+                    <h3>正确答案：{{ problem.answer }}</h3>
+                    <h3>通过次数：{{ problem.accurateTimes }}</h3>
+                    <h3>完成次数：{{ problem.finishedTimes }}</h3>            
+                </el-main>
+            </el-container>
+        </el-container>
     </el-card>
 </template>
 
@@ -15,7 +33,17 @@ import { ref } from 'vue';
 const userStore = useUserStore();
 const route = useRoute();
 const problem_id = route.query.id;
-let problem = ref({});
+interface problem_detail {
+    id: number, title: string, description: string, difficulty: string, 
+    check_by: string, type: '', accurateTimes: number, finishedTimes: number, answer: string,
+}
+let problem = ref<problem_detail>({
+    id: 0, title: '', 
+    description:'', difficulty: '', 
+    check_by:'', type: '',
+    accurateTimes: 0,finishedTimes:0,
+    answer:''
+});
 
 $.ajax({
     url: 'http://localhost:3000/getaproblem/',
@@ -28,7 +56,12 @@ $.ajax({
     },
     success: (resp:string)=>{
         problem.value = JSON.parse(resp);
-        console.log(problem.value);
+        if(problem.value.difficulty==='average')    problem.value.difficulty = '一般';
+        else if(problem.value.difficulty==='easy')  problem.value.difficulty = '容易';
+        else if(problem.value.difficulty==='difficult')  problem.value.difficulty = '难';
+        else if(problem.value.difficulty==='noSet')     problem.value.difficulty = '尚未设置';
+        problem.value.check_by==='mechine' ? problem.value.check_by = '自动批改' : problem.value.check_by = '人工批改';
+
     },
     error: ()=>{
         alert("失败");
@@ -42,5 +75,7 @@ $.ajax({
 .el-card{
     margin: auto auto;
     width: 80%;
+    border-radius: 15px;
+    margin-top: 20px;
 }
 </style>
