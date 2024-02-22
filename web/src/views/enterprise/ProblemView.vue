@@ -54,7 +54,6 @@ function handlePrimaryDelete(problem_id:number){
 function handleButtonDelete(problem_id:number){
     visible.value[problem_id] = false;
     problemStore.deleteProblem(problem_id)
-    location.reload();
 }
 
 </script>

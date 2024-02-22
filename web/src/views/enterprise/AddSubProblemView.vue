@@ -86,6 +86,7 @@ import $ from 'jquery'
 import { useUserStore } from '@/store/user';
 import { useGroupStore } from '@/store/group';
 import AddingGroup from '@/components/AddingGroup.vue';
+import { ElMessage } from 'element-plus';
 
 const groupStore = useGroupStore();
 
@@ -127,10 +128,10 @@ function submit(){
             'appendix': appendix.value
         },// eslint-disable-next-line
         success: (resp:any)=>{
-            alert(resp);
+            ElMessage({message: "成功添加一个试题", type: 'success',});
         },
         error(){
-            alert("failed");
+            ElMessage.error('添加失败');
         }
     })
 }

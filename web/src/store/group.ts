@@ -40,6 +40,7 @@ export const useGroupStore = defineStore('group', {
                     group_name: group_name,
                 },
                 success: (resp:string)=>{
+                    this.getAllGroups();
                     ElMessage({
                         message: resp,
                         type: 'success',

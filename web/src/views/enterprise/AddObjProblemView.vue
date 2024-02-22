@@ -112,6 +112,7 @@ import { useUserStore } from '@/store/user';
 import $ from 'jquery';
 import { useGroupStore } from '@/store/group';
 import AddingGroup from '@/components/AddingGroup.vue';
+import { ElMessage } from "element-plus";
 
 const userStore = useUserStore();
 const groupStore = useGroupStore();
@@ -155,13 +156,13 @@ function submit(){
         },
         success: (resp:string)=>{
             if(JSON.parse(resp).error_message === 'success'){
-                alert("添加成功！")
                 title.value = description.value = '';
+                ElMessage({message: "成功添加一个试题", type: 'success',})
                 selectAnswer.value = [];
             }
         },
         error(){
-            alert("failed");
+            ElMessage.error("添加失败");
         }
     })
 }

@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import $ from 'jquery';
 import { useUserStore } from "./user";
+import { ElMessage } from "element-plus";
 
 export interface ProblemInterface{
     id: number,
@@ -71,13 +72,12 @@ export const useProblemStore = defineStore('problem', {
                 },
                 success: (resp:string)=>{
                     if (JSON.parse(resp).error_message === 'success') {
-                        alert("删除成功！");
-                        this.problemList = this.problemList.filter((item:ProblemInterface)=>{ item.id !== problem_id })
-                        console.log(this.problemList)
+                        this.getProblemList();
+                        ElMessage({message: "成功删除一个试题", type: 'success',});
                     }
                 },
                 error: ()=>{
-                    alert("删除失败！");
+                    ElMessage.error("失败");
                 }
             })
         }
