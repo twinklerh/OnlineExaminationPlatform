@@ -1,6 +1,6 @@
-package com.oep.backend.controller.problems;
+package com.oep.backend.controller.problems.deleteProblem;
 
-import com.oep.backend.service.problems.DeleteProblemService;
+import com.oep.backend.service.problems.deleteProblem.DeleteProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;

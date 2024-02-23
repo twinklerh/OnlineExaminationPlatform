@@ -13,7 +13,7 @@
                 </el-aside>
                 <el-main width="30%">
                     <h3>难度：{{ problem.difficulty }}</h3>
-                    <h3>批改类型：{{ problem.check_by }}</h3>
+                    <h3>批改类型：{{ problem.checkBy }}</h3>
                     <h3>题型：{{ problem.type }}</h3>
                     <h3>正确答案：{{ problem.answer }}</h3>
                     <h3>通过次数：{{ problem.accurateTimes }}</h3>
@@ -35,12 +35,12 @@ const route = useRoute();
 const problem_id = route.query.id;
 interface problem_detail {
     id: number, title: string, description: string, difficulty: string, 
-    check_by: string, type: '', accurateTimes: number, finishedTimes: number, answer: string,
+    checkBy: string, type: '', accurateTimes: number, finishedTimes: number, answer: string,
 }
 let problem = ref<problem_detail>({
     id: 0, title: '', 
     description:'', difficulty: '', 
-    check_by:'', type: '',
+    checkBy:'', type: '',
     accurateTimes: 0,finishedTimes:0,
     answer:''
 });
@@ -60,7 +60,7 @@ $.ajax({
         else if(problem.value.difficulty==='easy')  problem.value.difficulty = '容易';
         else if(problem.value.difficulty==='difficult')  problem.value.difficulty = '难';
         else if(problem.value.difficulty==='noSet')     problem.value.difficulty = '尚未设置';
-        problem.value.check_by==='mechine' ? problem.value.check_by = '自动批改' : problem.value.check_by = '人工批改';
+        problem.value.checkBy==='mechine' ? problem.value.checkBy = '自动批改' : problem.value.checkBy = '人工批改';
 
     },
     error: ()=>{

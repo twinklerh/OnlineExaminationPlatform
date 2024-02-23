@@ -34,10 +34,10 @@
             <el-col :span="13">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <el-radio-group v-model="radioSelectRank">
-                    <el-radio label="noSet">暂不设置</el-radio>
-                    <el-radio label="easy">容易</el-radio>
-                    <el-radio label="average">一般</el-radio>
-                    <el-radio label="difficult">难</el-radio>
+                    <el-radio label="未设置">暂不设置</el-radio>
+                    <el-radio label="简单">简单</el-radio>
+                    <el-radio label="一般">一般</el-radio>
+                    <el-radio label="难">难</el-radio>
                 </el-radio-group>
             </el-col>
         </el-row>
@@ -47,8 +47,8 @@
             <el-col :span="2" class="el-col-text-pure">批改类型：</el-col>
             <el-col :span="13">
                 <el-select v-model="checkSelect">
-                    <el-option label="自动批改" value="mechine"  />
-                    <el-option label="人工批改" value="human"  />
+                    <el-option label="自动批改" value="自动批改"  />
+                    <el-option label="人工批改" value="人工批改"  />
                 </el-select>
             </el-col>
         </el-row>
@@ -94,7 +94,7 @@ const userStore = useUserStore();
 const title = ref('');
 const groupSelect = ref('默认分组')
 const description = ref('')
-const radioSelectRank = ref('noSet')
+const radioSelectRank = ref('未设置')
 const checkSelect = ref('自动批改')
 const rightAnswer = ref('');
 const appendix = ref('');

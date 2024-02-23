@@ -1,11 +1,11 @@
 <template>
     <el-card shadow="never" class="el-card">
         <el-table :data="problemStore.problemList" stripe class="el-table">
-            <el-table-column prop="id" label="题号" width="100" align="center"/>
+            <el-table-column prop="id" label="题号" width="125" align="center" sortable/>
             <el-table-column prop="title" label="名称" width="250" />
-            <el-table-column prop="type" label="题型" width="70" />
-            <el-table-column prop="check_by" label="批改" width="100"/>
-            <el-table-column prop="difficulty" label="难度" width="90" align="center" />
+            <el-table-column prop="type" label="题型" width="90" sortable/>
+            <el-table-column prop="checkBy" label="批改" width="100" />
+            <el-table-column prop="difficulty" label="难度" width="100" align="center" sortable/>
             <el-table-column prop="" label="正确率" width="180" />
             <el-table-column width="180">
                 <template #default="{row}">
@@ -24,7 +24,6 @@
             </el-table-column>
         </el-table>        
     </el-card>
-
 </template>
 
 <script lang="ts" setup>
@@ -73,5 +72,7 @@ function handleButtonDelete(problem_id:number){
 }
 .el-table :deep(.el-table__header-wrapper){
     width: 100%;
+    display: flex;
+    flex-shrink: 0;
 }
 </style>

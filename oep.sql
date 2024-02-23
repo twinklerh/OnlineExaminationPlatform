@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 20/02/2024 23:55:30
+ Date: 23/02/2024 00:02:06
 */
 
 SET NAMES utf8mb4;
@@ -89,12 +89,13 @@ CREATE TABLE `group`  (
   UNIQUE INDEX `groups_pk`(`group_name` ASC) USING BTREE,
   INDEX `enterprise_id`(`enterprise_id` ASC) USING BTREE,
   CONSTRAINT `enterprise_id` FOREIGN KEY (`enterprise_id`) REFERENCES `enterprise` (`enterprise_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of group
 -- ----------------------------
-INSERT INTO `group` VALUES (1, 'default', 1);
+INSERT INTO `group` VALUES (1, '默认分组', 1);
+INSERT INTO `group` VALUES (18, 'hhhhh', 1);
 
 -- ----------------------------
 -- Table structure for group_problem
@@ -112,7 +113,7 @@ CREATE TABLE `group_problem`  (
 -- ----------------------------
 -- Records of group_problem
 -- ----------------------------
-INSERT INTO `group_problem` VALUES (1, 23);
+INSERT INTO `group_problem` VALUES (18, 26);
 
 -- ----------------------------
 -- Table structure for problem
@@ -130,11 +131,11 @@ CREATE TABLE `problem`  (
   `accurate_times` int NOT NULL DEFAULT 0,
   `finished_times` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 24 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of problem
 -- ----------------------------
-INSERT INTO `problem` VALUES (23, '2323232', '12121212', 'average', 'mechine', 'true', '', '判断', 0, 0);
+INSERT INTO `problem` VALUES (26, '2121', '2121', 'noSet', 'mechine', 'false', '', '判断', 0, 0);
 
 SET FOREIGN_KEY_CHECKS = 1;

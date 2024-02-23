@@ -1,6 +1,6 @@
-package com.oep.backend.controller.problems;
+package com.oep.backend.controller.problems.getProblem;
 
-import com.oep.backend.service.problems.GetAllProblemService;
+import com.oep.backend.service.problems.getProblem.GetAllProblemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

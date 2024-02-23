@@ -1,4 +1,4 @@
-package com.oep.backend.service.problems;
+package com.oep.backend.service.problems.getProblem;
 
 import java.util.Map;
 

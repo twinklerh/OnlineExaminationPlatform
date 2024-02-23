@@ -1,31 +1,29 @@
 <template>
-    <div>
-        <el-container class="el-container" >
-            <el-aside class="el-aside"><AsideBar /></el-aside>
-            <el-main class="el-main">
-                <el-row class="el-row">
-                    <el-col :span="3" class="el-col-di1">{{ pageStore.pageName }}</el-col>
-                    <el-col :span="3" :offset="15" class="el-col-di7">
-                        <el-dropdown trigger="click">
-                            <img class="el-avatar" size="30" src="@/assets/defaultHeadImg.png" />
-                            <template #dropdown>
-                                <el-dropdown-menu>
-                                    <el-dropdown-item>企业资料</el-dropdown-item>
-                                    <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
-                                </el-dropdown-menu>
-                            </template>
-                        </el-dropdown>
-                    </el-col>
-                </el-row>
-                <ProblemView  v-if="pageStore.nowPage==='problems'" />
-                <AddSubProblemView v-if="pageStore.nowPage==='addproblem1'" />
-                <AddObjProblemView v-if="pageStore.nowPage==='addproblem2'" />
-                <MakeTestPaperView v-if="pageStore.nowPage==='maketestpaper'" />
-                <GetGradeView v-if="pageStore.nowPage==='getgrade'" />
-                <AddExamView v-if="pageStore.nowPage==='boardtest'" />
-            </el-main>
-        </el-container>
-    </div>
+    <el-container class="el-container">
+        <el-aside class="el-aside"><AsideBar /></el-aside>
+        <el-main class="el-main">
+            <el-row class="el-row">
+                <el-col :span="3" class="el-col-di1">{{ pageStore.pageName }}</el-col>
+                <el-col :span="3" :offset="15" class="el-col-di7">
+                    <el-dropdown trigger="click">
+                        <img class="el-avatar" size="30" src="@/assets/defaultHeadImg.png" />
+                        <template #dropdown>
+                            <el-dropdown-menu>
+                                <el-dropdown-item>企业资料</el-dropdown-item>
+                                <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </template>
+                    </el-dropdown>
+                </el-col>
+            </el-row>
+            <ProblemView  v-if="pageStore.nowPage==='problems'" />
+            <AddSubProblemView v-if="pageStore.nowPage==='addproblem1'" />
+            <AddObjProblemView v-if="pageStore.nowPage==='addproblem2'" />
+            <MakeTestPaperView v-if="pageStore.nowPage==='maketestpaper'" />
+            <GetGradeView v-if="pageStore.nowPage==='getgrade'" />
+            <AddExamView v-if="pageStore.nowPage==='boardtest'" />
+        </el-main>
+    </el-container>
 </template>
 
 <script lang="ts" setup>
@@ -56,6 +54,8 @@ function logout(){
 <style scoped>
 .el-container{
     height: 800px;
+    display: flex;
+    flex-shrink: 0;
 }
 .el-aside{
     position: fixed;

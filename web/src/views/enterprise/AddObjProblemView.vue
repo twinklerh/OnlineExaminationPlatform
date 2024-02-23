@@ -201,12 +201,4 @@ function submit(){
 .el-input-descript{
     min-height: 50px;
 }
-.el-col-right-select{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-.el-input-right-select{
-    width:95%;
-}
 </style>

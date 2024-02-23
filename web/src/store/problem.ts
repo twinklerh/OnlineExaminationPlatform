@@ -8,10 +8,10 @@ export interface ProblemInterface{
     title: string,
     description: string,
     difficulty: string,
-    check_by: string,
+    checkBy: string,
     type: string,
-    accurate_times: number,
-    finished_times: number,
+    accurateTimes: number,
+    finishedTimes: number,
     accuracy: string
 }
 
@@ -31,7 +31,10 @@ export const useProblemStore = defineStore('problem', {
                 },
                 type: 'get',
                 success: (resp:string)=>{
-                    if(resp==="数据为空")   return;
+                    if(resp==="数据为空"){
+                        this.problemList = [];
+                        return;
+                    }   
                     this.problemList = JSON.parse(resp)
                     this.calculateAccuracy();
                 },
@@ -45,16 +48,8 @@ export const useProblemStore = defineStore('problem', {
             for (let i = 0; i < this.problemList.length; i++) {
                 problem = this.problemList[i];
 
-                if(problem.difficulty==='noSet')             problem.difficulty = '未设置'
-                else if(problem.difficulty==='easy')         problem.difficulty = '简单'
-                else if(problem.difficulty==='average')      problem.difficulty = '一般'
-                else if(problem.difficulty==='difficult')    problem.difficulty = '困难'
-
-                if(problem.check_by==='mechine')    problem.check_by='自动批改'
-                else    problem.check_by='人工批改'
-
-                if (problem.finished_times > 0) {
-                    problem.accuracy = problem.accurate_times.toString() + '/' + problem.finished_times.toString();
+                if (problem.finishedTimes > 0) {
+                    problem.accuracy = problem.accurateTimes.toString() + '/' + problem.finishedTimes.toString();
                 } else {
                     problem.accuracy = "N/A";
                 }
@@ -75,6 +70,26 @@ export const useProblemStore = defineStore('problem', {
                         this.getProblemList();
                         ElMessage({message: "成功删除一个试题", type: 'success',});
                     }
+                },
+                error: ()=>{
+                    ElMessage.error("失败");
+                }
+            })
+        },
+        getProblemByTitle(problem_title:string, callbackfunction: (problems: ProblemInterface[] | null) => void) {
+            $.ajax({
+                url: 'http://localhost:3000/problem/getproblembytitle/',
+                type: 'get',
+                headers: {
+                    Authorization: 'Bearer ' + useUserStore().token,
+                },
+                data: {
+                    'problem_title': problem_title
+                },
+                success: (resp:string)=>{
+                    //返回值通过调用 callback 函数传递给外部
+                    callbackfunction(JSON.parse(resp)); //  上面声明了回调函数的参数是ProblemInterface[]或空类型，返回值类型是void
+                    //回调函数是把函数当参数供函数体调用的函数
                 },
                 error: ()=>{
                     ElMessage.error("失败");
