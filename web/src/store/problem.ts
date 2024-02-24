@@ -22,7 +22,7 @@ export const useProblemStore = defineStore('problem', {
         }
     },
     actions: {
-        getProblemList(callback ? : () => void){
+        getProblemList(callback ? : (msg?:string) => void){
             $.ajax({
                 url: 'http://localhost:3000/problems/getallproblems/',
                 headers: {
@@ -32,11 +32,12 @@ export const useProblemStore = defineStore('problem', {
                 success: (resp:string)=>{
                     if(resp==="数据为空"){
                         this.problemList = [];
+                        if(typeof callback !== 'undefined') callback('数据为空');
                         return;
                     }   
                     this.problemList = JSON.parse(resp)
                     this.calculateAccuracy();
-                    if(typeof callback !== 'undefined') callback();
+                    if(typeof callback !== 'undefined') callback("成功删除一个试题");
                 },
                 error: ()=>{
                     alert('error');
@@ -67,8 +68,9 @@ export const useProblemStore = defineStore('problem', {
                 },
                 success: (resp:string)=>{
                     if (JSON.parse(resp).error_message !== 'success') return;
-                    this.getProblemList(()=>{
-                        ElMessage({message: "成功删除一个试题", type: 'success',});
+                    this.getProblemList((msg)=>{
+                        if(msg==='数据为空') ElMessage({message: msg, type: 'error'});
+                        else ElMessage({message: msg, type: 'success'});
                         if(typeof callback !== 'undefined') callback();
                     });
                 },
@@ -77,7 +79,7 @@ export const useProblemStore = defineStore('problem', {
                 }
             })
         },
-        getProblemByTitle(problem_title:string, callbackfunction: (problems: ProblemInterface[] | null) => void) {
+        getProblemByTitle(problem_title:string, callbackfunction: (problems: ProblemInterface[]) => void) {
             $.ajax({
                 url: 'http://localhost:3000/problem/getproblembytitle/',
                 type: 'get',
@@ -88,6 +90,11 @@ export const useProblemStore = defineStore('problem', {
                     'problem_title': problem_title
                 },
                 success: (resp:string)=>{
+                    if(resp==="数据为空")   {
+                        ElMessage.error("数据为空")
+                        callbackfunction([]);
+                        return;
+                    }
                     callbackfunction(JSON.parse(resp));
                 },
                 error: ()=>{

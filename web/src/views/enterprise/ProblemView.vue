@@ -14,10 +14,10 @@
         <el-table-column width="180">
             <template #default="{row}">
                 <el-button type="primary" @click="handleButtonClick(row)">查看</el-button>
-                <el-popover :visible="visible[row.id]" placement="right" :width="160" trigger="click">
+                <el-popover :visible="cancelVisible[row.id]" placement="right" :width="160" trigger="click">
                     <p>确定要删除吗？</p>
                     <div style="text-align: right; margin: 0">
-                        <el-button size="small" type="success" @click="visible[row.id]=false">取消</el-button>
+                        <el-button size="small" type="success" @click="cancelVisible[row.id]=false">取消</el-button>
                         <el-button size="small" type="danger" @click="handleButtonDelete(row.id)">确认</el-button>
                     </div>
                     <template #reference>
@@ -37,7 +37,7 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const problemStore = useProblemStore();
-const visible = ref([false]);
+const cancelVisible = ref([false]);
 let last_row = 0;
 
 const inputdata = ref('');
@@ -53,7 +53,6 @@ onBeforeMount(()=>{
  
 function selectProblem(){
     problemStore.getProblemByTitle(inputdata.value, (list)=>{
-        if(list == null)    return;
         resultlist.value = list;
         console.log(resultlist.value, list)
     });
@@ -65,13 +64,13 @@ function handleButtonClick(row: ProblemInterface){
 }
 
 function handlePrimaryDelete(problem_id:number){
-    visible.value[last_row] = false;
-    visible.value[problem_id] = true;
+    cancelVisible.value[last_row] = false;
+    cancelVisible.value[problem_id] = true;
     last_row = problem_id;
 }
 
 function handleButtonDelete(problem_id:number){
-    visible.value[problem_id] = false;
+    cancelVisible.value[problem_id] = false;
     problemStore.deleteProblem(problem_id, ()=>{
         resultlist.value = problemStore.problemList;
     })
