@@ -21,9 +21,8 @@ export const useProblemStore = defineStore('problem', {
             problemList: [] as ProblemInterface[]
         }
     },
-
     actions: {
-        getProblemList(){
+        getProblemList(callback ? : () => void){
             $.ajax({
                 url: 'http://localhost:3000/problems/getallproblems/',
                 headers: {
@@ -37,6 +36,7 @@ export const useProblemStore = defineStore('problem', {
                     }   
                     this.problemList = JSON.parse(resp)
                     this.calculateAccuracy();
+                    if(typeof callback !== 'undefined') callback();
                 },
                 error: ()=>{
                     alert('error');
@@ -55,7 +55,7 @@ export const useProblemStore = defineStore('problem', {
                 }
             }
         },
-        deleteProblem(problem_id:number){
+        deleteProblem(problem_id:number, callback ?:()=> void ){
             $.ajax({
                 url: 'http://localhost:3000/problems/deleteproblem/',
                 type: 'post',
@@ -66,10 +66,11 @@ export const useProblemStore = defineStore('problem', {
                     "problem_id": problem_id,
                 },
                 success: (resp:string)=>{
-                    if (JSON.parse(resp).error_message === 'success') {
-                        this.getProblemList();
+                    if (JSON.parse(resp).error_message !== 'success') return;
+                    this.getProblemList(()=>{
                         ElMessage({message: "成功删除一个试题", type: 'success',});
-                    }
+                        if(typeof callback !== 'undefined') callback();
+                    });
                 },
                 error: ()=>{
                     ElMessage.error("失败");
@@ -87,9 +88,7 @@ export const useProblemStore = defineStore('problem', {
                     'problem_title': problem_title
                 },
                 success: (resp:string)=>{
-                    //返回值通过调用 callback 函数传递给外部
-                    callbackfunction(JSON.parse(resp)); //  上面声明了回调函数的参数是ProblemInterface[]或空类型，返回值类型是void
-                    //回调函数是把函数当参数供函数体调用的函数
+                    callbackfunction(JSON.parse(resp));
                 },
                 error: ()=>{
                     ElMessage.error("失败");

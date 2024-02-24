@@ -72,10 +72,10 @@
             <el-col :span="13">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <el-radio-group v-model="radioSelectRank">
-                    <el-radio label="noSet">暂不设置</el-radio>
-                    <el-radio label="easy">容易</el-radio>
-                    <el-radio label="average">一般</el-radio>
-                    <el-radio label="difficult">难</el-radio>
+                    <el-radio label="未设置">暂不设置</el-radio>
+                    <el-radio label="简单">简单</el-radio>
+                    <el-radio label="一般">一般</el-radio>
+                    <el-radio label="难">难</el-radio>
                 </el-radio-group>
             </el-col>
         </el-row>
@@ -124,8 +124,8 @@ const title = ref('');
 const groupSelect = ref('默认分组');
 const select_count = ref(4);
 const description = ref('');
-const radioSelectRank = ref('noSet');
-const checkSelect = 'mechine';
+const radioSelectRank = ref('未设置');
+const checkSelect = '自动批改';
 const right_select = ref('');
 const selectAnswer = ref([]);
 
