@@ -7,7 +7,7 @@ import com.oep.backend.pojo.GroupProblem;
 import com.oep.backend.pojo.Problem;
 import com.oep.backend.service.problems.deleteProblem.DeleteProblemService;
 import com.oep.backend.serviceImpl.problems.ClassProblem;
-import com.oep.backend.utils.WriteValueAsString;
+import com.oep.backend.utils.WriteValue;
 import org.apache.ibatis.executor.ExecutorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -41,9 +41,9 @@ public class DeleteProblemServiceImpl extends ClassProblem implements DeleteProb
             if(resp != 2)   throw new ExecutorException();
         } catch (ExecutorException e){
             returnMap.put("error_message", "failed");
-            return WriteValueAsString.writeValueAsString(returnMap);
+            return WriteValue.writeValueAsString(returnMap);
         }
         returnMap.put("error_message", "success");
-        return WriteValueAsString.writeValueAsString(returnMap);
+        return WriteValue.writeValueAsString(returnMap);
     }
 }

@@ -10,7 +10,7 @@ import com.oep.backend.pojo.GroupProblem;
 import com.oep.backend.pojo.Problem;
 import com.oep.backend.security.utils.UserDetailsImpl;
 import com.oep.backend.service.problems.submitProblem.SubmitObjectService;
-import com.oep.backend.utils.WriteValueAsString;
+import com.oep.backend.utils.WriteValue;
 import org.apache.ibatis.executor.ExecutorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,7 +35,7 @@ public class SubmitObjectServiceImpl implements SubmitObjectService {
 
         Account account = userDetails.getAccount();
 
-        if(!"enterprise".equals(account.getStatus())) return WriteValueAsString.writeValueAsString(new HashMap<>() {{ put("error_message", "身份验证异常"); }});
+        if(!"enterprise".equals(account.getStatus())) return WriteValue.writeValueAsString(new HashMap<>() {{ put("error_message", "身份验证异常"); }});
 
         Map<String,String> returnHashMap = new HashMap<>();
 
@@ -69,10 +69,10 @@ public class SubmitObjectServiceImpl implements SubmitObjectService {
             if(resp==0)  throw new ExecutorException();
         } catch (ExecutorException e) {
             returnHashMap.put("error_message", "更新失败");
-            return WriteValueAsString.writeValueAsString(returnHashMap);
+            return WriteValue.writeValueAsString(returnHashMap);
         }
         returnHashMap.put("error_message", "success");
-        return WriteValueAsString.writeValueAsString(returnHashMap);
+        return WriteValue.writeValueAsString(returnHashMap);
     }
 
 }

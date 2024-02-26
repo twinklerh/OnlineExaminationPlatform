@@ -1,98 +1,128 @@
-<template><div>d</div>
-<!-- 
-    <el-card v-if="result_form_visable" shadow="never" class="el-card">
-        <el-table ref="multipleTableRef" @selection-change="handleSelectionChange" :data="resultlist" stripe class="el-table">
-            <el-table-column type="selection" width="55" />
-            <el-table-column prop="id" label="题号" width="125" align="center" sortable/>
-            <el-table-column prop="title" label="名称" width="250" />
-            <el-table-column prop="type" label="题型" width="90" sortable/>
-            <el-table-column prop="checkBy" label="批改" width="100" />
-            <el-table-column prop="difficulty" label="难度" width="100" align="center" sortable/>
-            <el-table-column prop="" label="正确率" width="180" />
-            <el-table-column width="180">
-                <template #default="{row}">
-                    <el-button type="primary" @click="handleButtonClick(row)">查看</el-button>
-                    <el-popover :visible="visible[row.id]" placement="right" :width="160" trigger="click">
-                        <p>确定要删除吗？</p>
-                        <div style="text-align: right; margin: 0">
-                            <el-button size="small" type="success" @click="visible[row.id]=false">取消</el-button>
-                            <el-button size="small" type="danger" @click="handleButtonDelete(row.id)">确认</el-button>
-                        </div>
-                        <template #reference>
-                            <el-button type="danger" @click="handlePrimaryDelete(row.id)">删除</el-button>
-                        </template>
-                    </el-popover>
-                </template>
-            </el-table-column>
-        </el-table>
-        <el-col :offset="20">
-            <el-button type="success" @click="addtotestpaper">添加到试卷</el-button>
-            <el-button type="primary" @click="result_form_visable=false;" style="margin-right: 12px; margin-top: 12px;">关闭搜索结果</el-button>            
-        </el-col>
-    </el-card> -->
+<template>
+    <div style="padding-top: 20px;">
+        <el-steps :active="activeNumber" finish-status="success" process-status="finish" align-center>
+            <el-step title="Step 1" description="输入试卷的简单信息" />
+            <el-step title="Step 2" description="移动试题到试卷" />
+            <el-step title="Step 3" description="确认试卷信息" />
+        </el-steps>
+    </div>
+    <div v-if="activeNumber===0" style="margin-left: 280px; margin-top:60px">
+        <el-form>
+            <el-form-item label="试卷标题：">
+                <el-input class="el-input-1" v-model="paper.title" placeholder="试卷标题" clearable />
+            </el-form-item>
+            <el-form-item label="备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：">
+                <el-input class="el-input-1" v-model="paper.memo" placeholder="备注信息" clearable />
+            </el-form-item>
+        </el-form>
+    </div>
+    <div v-if="activeNumber===1" style="display: flex; justify-content: center; align-items: center; ">
+        <el-transfer v-model="targetData" :data="sourceData" target-order="unshift" :titles="['Source', 'Target']" filterable filter-placeholder="输入试题名查找" />
+    </div>
+    
+    <div v-if="activeNumber===2" style="margin-left: 280px; margin-top:60px">
+        <el-form>
+            <el-form-item label="试卷标题：">
+                <span>{{ paper.title }}</span>
+            </el-form-item>
+            <el-form-item label="备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：">
+                <span>{{ paper.memo }}</span>
+            </el-form-item>
+            <el-form-item label="试题数目：">
+                <span>{{ paper.problemCount }} 题</span>
+            </el-form-item>
+        </el-form>
+    </div>
+
+    <div style="display: flex; flex-direction: row-reverse; width: 85%; margin-top:5px">
+        <el-button type="primary" @click="nextStep" style="margin-left: 10px;">下一步</el-button>
+        <el-button type="success" v-if="activeNumber" @click="lastStep">上一步</el-button>
+    </div>
+    
 </template>
 
 <script lang="ts" setup>
-// import { ProblemInterface, useProblemStore } from '@/store/problem';
-// import { ref, toRaw } from 'vue';
-// import router from '@/router';
-// import { ElTable } from 'element-plus';
+import { reactive, ref, } from 'vue'
+import { TestpaperInterface, useTestpaperStore } from '@/store/testpaper';
+import { useProblemStore,ProblemInterface } from '@/store/problem';
+import { rawData_to_sourceData, Option, sortProblem } from '@/ts/handleTransferData';
+import { ElMessage } from 'element-plus';
 
+const paper = reactive<TestpaperInterface>({ title: '', memo: '', problemCount: 0 });
+const activeNumber = ref(0)
+const problemStore = useProblemStore();
+const testpaperStore = useTestpaperStore();
 
+const targetData = ref<Option[]>([]);
+const sourceData = ref<Option[]>([]);
+const beforeSubmitData = ref<ProblemInterface[]>([]);
 
-// const visible = ref([false]);
-// const problemStore = useProblemStore();
-// let last_row = 0;
-// function handlePrimaryDelete(problem_id:number){
-//     visible.value[last_row] = false;
-//     visible.value[problem_id] = true;
-//     last_row = problem_id;
-// }
-// function handleButtonDelete(problem_id:number){
-//     visible.value[problem_id] = false;
-//     problemStore.deleteProblem(problem_id)
-// }
-// function handleButtonClick(row: ProblemInterface){
-//     const url = router.resolve({ name: 'problemdetail', query: { id: row.id },}).href;
-//     window.open(url, '_blank');
-// }
+problemStore.getProblemList(()=>{
+    sortProblem(problemStore.problemList);
+    sourceData.value = rawData_to_sourceData(problemStore.problemList);
+})
 
+const lastStep = () =>{
+    if(activeNumber.value !== 0)  activeNumber.value--;
+}
 
+const nextStep = () => {
+    if(activeNumber.value < 3) activeNumber.value++;
+    if(activeNumber.value === 1 && paper.title==='') {
+        ElMessage.error("试卷标题不能为空");
+        activeNumber.value--;
+    }
+    if(activeNumber.value === 2) {
+        moveProblem();
+        if(paper.problemCount === 0){
+            ElMessage.error("试题为空")
+            activeNumber.value--;
+        }
+    }
+    if(activeNumber.value === 3) submit();
+}
 
-// const multipleTableRef = ref<InstanceType<typeof ElTable>>()
-// const multipleSelection = ref<ProblemInterface[]>([])   //  存储选中的数据
-// const handleSelectionChange = (val: ProblemInterface[]) => multipleSelection.value = val;
-// function addtotestpaper(rows ?: ProblemInterface[]){
-//     if (rows) {
-//     rows.forEach((row) => {
-//       // TODO: improvement typing when refactor table
-//       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-//       // @ts-expect-error
-//       multipleTableRef.value!.toggleRowSelection(row, undefined)
-//     })
-//   } else {  //  rows是个可选参数，else对应未传入参数时间的情形。! 是非空断言操作符（Non-null assertion operator）。它告诉 TypeScript 编译器，你确信某个表达式的值不会是 null 或 undefined，并请求 TypeScript 在此表达式上放宽空值检查。
-//     multipleTableRef.value!.clearSelection()
-//   }
-// }
+function moveProblem(){
+    const targetvalues:number[] = [];
+    for(const item of targetData.value){
+        // eslint-disable-next-line
+        // @ts-ignore
+        targetvalues.push(item);
+        paper.problemCount++;
+    }
+    sourceData.value.forEach(item=>{
+        if(targetvalues.includes(item.key))     beforeSubmitData.value.push(item.initial);
+    })
+}
 
+function submit(){
+    let problemsString = "";
+    beforeSubmitData.value.forEach(item=>{
+        let obj = {
+            problemId: item.id,
+            description: item.description,
+            rightAnswer: item.rightAnswer,
+            checkBy: item.checkBy,
+            type: item.type,
+        };
+        problemsString = problemsString + JSON.stringify(obj);
+    })
+    testpaperStore.submitTestPaper(paper, problemsString, (msg)=>{
+        if(msg === 'success'){
+            paper.problemCount = activeNumber.value = 0;
+            ElMessage({message: msg, type: 'success'});
+            paper.memo = paper.title = '';
+            targetData.value = [];
+            sourceData.value = [];
+            beforeSubmitData.value = [];
+        }
+        else    ElMessage.error(msg)
+    });
+}
 </script>
 
 <style scoped>
-
-
-.el-card{
-    display: flex;
-    background-color: white;
-    margin-top:10px;
-    border-radius: 19px;
-}
-.el-card :deep(.el-card__body){
-    width: 100%;
-}
-.el-table{
-    width: 100%;
-}
-.el-table :deep(.el-table__header-wrapper){
-    width: 100%;
+.el-input-1{
+    width: 500px;
 }
 </style>

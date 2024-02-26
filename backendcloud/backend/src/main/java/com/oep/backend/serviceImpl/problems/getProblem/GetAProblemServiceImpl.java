@@ -5,7 +5,7 @@ import com.oep.backend.mapper.ProblemMapper;
 import com.oep.backend.pojo.Problem;
 import com.oep.backend.service.problems.getProblem.GetAProblemService;
 import com.oep.backend.serviceImpl.problems.ClassProblem;
-import com.oep.backend.utils.WriteValueAsString;
+import com.oep.backend.utils.WriteValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +25,6 @@ public class GetAProblemServiceImpl extends ClassProblem implements GetAProblemS
         QueryWrapper<Problem> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", problem_id);
         Problem problem = problemMapper.selectOne(queryWrapper);
-        return WriteValueAsString.writeValueAsString(problem);
+        return WriteValue.writeValueAsString(problem);
     }
 }

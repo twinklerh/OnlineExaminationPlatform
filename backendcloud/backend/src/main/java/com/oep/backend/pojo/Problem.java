@@ -18,7 +18,7 @@ public class Problem {
     private String description;
     private String difficulty;
     private String checkBy;
-    private String answer;
+    private String rightAnswer;
     private String appendixName;
     private String type;
     private Integer accurateTimes;

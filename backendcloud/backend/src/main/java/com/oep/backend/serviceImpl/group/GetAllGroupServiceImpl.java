@@ -8,7 +8,7 @@ import com.oep.backend.pojo.Enterprise;
 import com.oep.backend.pojo.Group;
 import com.oep.backend.security.utils.UserDetailsImpl;
 import com.oep.backend.service.group.GetAllGroupService;
-import com.oep.backend.utils.WriteValueAsString;
+import com.oep.backend.utils.WriteValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -40,6 +40,6 @@ public class GetAllGroupServiceImpl implements GetAllGroupService {
         // 首先调用了 stream() 方法将 List<Group> 转换为 Stream
         // 然后使用 map() 方法将每个 Group 对象映射为 Group 对象 的 GroupName 属性的值
         // 最后使用 collect() 方法将映射后的结果收集到一个新的 List<String> 中
-        return WriteValueAsString.writeValueAsString(stringList);
+        return WriteValue.writeValueAsString(stringList);
     }
 }

@@ -15,7 +15,7 @@
                     <h3>难度：{{ problem.difficulty }}</h3>
                     <h3>批改类型：{{ problem.checkBy }}</h3>
                     <h3>题型：{{ problem.type }}</h3>
-                    <h3>正确答案：{{ problem.answer }}</h3>
+                    <h3>正确答案：{{ problem.rightAnswer }}</h3>
                     <h3>通过次数：{{ problem.accurateTimes }}</h3>
                     <h3>完成次数：{{ problem.finishedTimes }}</h3>            
                 </el-main>
@@ -35,14 +35,14 @@ const route = useRoute();
 const problem_id = route.query.id;
 interface problem_detail {
     id: number, title: string, description: string, difficulty: string, 
-    checkBy: string, type: '', accurateTimes: number, finishedTimes: number, answer: string,
+    checkBy: string, type: '', accurateTimes: number, finishedTimes: number, rightAnswer: string,
 }
 let problem = ref<problem_detail>({
     id: 0, title: '', 
     description:'', difficulty: '', 
     checkBy:'', type: '',
     accurateTimes: 0,finishedTimes:0,
-    answer:''
+    rightAnswer:''
 });
 
 $.ajax({

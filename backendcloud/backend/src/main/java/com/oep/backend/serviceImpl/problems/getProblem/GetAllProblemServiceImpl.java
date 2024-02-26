@@ -5,7 +5,7 @@ import com.oep.backend.mapper.ProblemMapper;
 import com.oep.backend.pojo.*;
 import com.oep.backend.service.problems.getProblem.GetAllProblemService;
 import com.oep.backend.serviceImpl.problems.ClassProblem;
-import com.oep.backend.utils.WriteValueAsString;
+import com.oep.backend.utils.WriteValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,6 +25,6 @@ public class GetAllProblemServiceImpl extends ClassProblem implements GetAllProb
         problemQueryWrapper.in("id", problemIdList);
         List<Problem> list = problemMapper.selectList(problemQueryWrapper);
 
-        return WriteValueAsString.writeValueAsString(list);
+        return WriteValue.writeValueAsString(list);
     }
 }

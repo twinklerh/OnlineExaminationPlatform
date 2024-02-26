@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 23/02/2024 00:02:06
+ Date: 27/02/2024 00:25:32
 */
 
 SET NAMES utf8mb4;
@@ -49,7 +49,7 @@ CREATE TABLE `candidate`  (
   PRIMARY KEY (`candidate_id`) USING BTREE,
   INDEX `candidate_account_account_id_fk`(`account_id` ASC) USING BTREE,
   CONSTRAINT `candidate_account_account_id_fk` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of candidate
@@ -68,6 +68,7 @@ CREATE TABLE `enterprise`  (
   UNIQUE INDEX `enterprise_pk`(`name` ASC) USING BTREE,
   UNIQUE INDEX `enterprise_pk_2`(`name` ASC) USING BTREE,
   UNIQUE INDEX `enterprise_pk_3`(`name` ASC) USING BTREE,
+  UNIQUE INDEX `enterprise_pk_4`(`name` ASC) USING BTREE,
   INDEX `enterprise_account_account_id_fk`(`account_id` ASC) USING BTREE,
   CONSTRAINT `enterprise_account_account_id_fk` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
@@ -95,7 +96,6 @@ CREATE TABLE `group`  (
 -- Records of group
 -- ----------------------------
 INSERT INTO `group` VALUES (1, '默认分组', 1);
-INSERT INTO `group` VALUES (18, 'hhhhh', 1);
 
 -- ----------------------------
 -- Table structure for group_problem
@@ -113,7 +113,11 @@ CREATE TABLE `group_problem`  (
 -- ----------------------------
 -- Records of group_problem
 -- ----------------------------
-INSERT INTO `group_problem` VALUES (18, 26);
+INSERT INTO `group_problem` VALUES (1, 55);
+INSERT INTO `group_problem` VALUES (1, 57);
+INSERT INTO `group_problem` VALUES (1, 58);
+INSERT INTO `group_problem` VALUES (1, 59);
+INSERT INTO `group_problem` VALUES (1, 60);
 
 -- ----------------------------
 -- Table structure for problem
@@ -125,17 +129,43 @@ CREATE TABLE `problem`  (
   `description` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `difficulty` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `check_by` varchar(7) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `answer` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `right_answer` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `appendix_name` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `accurate_times` int NOT NULL DEFAULT 0,
   `finished_times` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of problem
 -- ----------------------------
-INSERT INTO `problem` VALUES (26, '2121', '2121', 'noSet', 'mechine', 'false', '', '判断', 0, 0);
+INSERT INTO `problem` VALUES (55, '1', '1', '未设置', '自动批改', 'true', '', '判断', 0, 0);
+INSERT INTO `problem` VALUES (57, '3', '3', '简单', '自动批改', '3', '', '填空', 0, 0);
+INSERT INTO `problem` VALUES (58, '英语', 'sss', '简单', '自动批改', '6', '', '综合', 0, 0);
+INSERT INTO `problem` VALUES (59, '英语', 'sss', '简单', '人工批改', '9', '', '综合', 0, 0);
+INSERT INTO `problem` VALUES (60, 'yuwen', 'w', '简单', '自动批改', '7', '', '综合', 0, 0);
+
+-- ----------------------------
+-- Table structure for testpaper
+-- ----------------------------
+DROP TABLE IF EXISTS `testpaper`;
+CREATE TABLE `testpaper`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `title` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `note` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `problem_count` int NULL DEFAULT NULL,
+  `problems` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `enterprise_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `testpaper_enterprise_name_fk`(`enterprise_name` ASC) USING BTREE,
+  CONSTRAINT `testpaper_enterprise_name_fk` FOREIGN KEY (`enterprise_name`) REFERENCES `enterprise` (`name`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of testpaper
+-- ----------------------------
+INSERT INTO `testpaper` VALUES (18, '32', '32', 2, '{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
+INSERT INTO `testpaper` VALUES (19, 'po', 'op', 2, '{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
 
 SET FOREIGN_KEY_CHECKS = 1;

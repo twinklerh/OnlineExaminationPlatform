@@ -1,32 +1,32 @@
 <template>
     <el-card shadow="never" class="el-card">
-    <el-row class="el-row-select">
-        <el-input class="el-input" v-model="inputdata" placeholder="输入试题名称查询试题" clearable/>
-        <el-button type="primary" class="el-button-select" @click="selectProblem">搜&nbsp;索</el-button>
-    </el-row>
-    <el-table :data="resultlist" stripe class="el-table">
-        <el-table-column prop="id" label="题号" width="125" align="center" sortable/>
-        <el-table-column prop="title" label="名称" width="250" />
-        <el-table-column prop="type" label="题型" width="90" sortable/>
-        <el-table-column prop="checkBy" label="批改" width="100" />
-        <el-table-column prop="difficulty" label="难度" width="100" align="center" sortable/>
-        <el-table-column prop="" label="正确率" width="180" />
-        <el-table-column width="180">
-            <template #default="{row}">
-                <el-button type="primary" @click="handleButtonClick(row)">查看</el-button>
-                <el-popover :visible="cancelVisible[row.id]" placement="right" :width="160" trigger="click">
-                    <p>确定要删除吗？</p>
-                    <div style="text-align: right; margin: 0">
-                        <el-button size="small" type="success" @click="cancelVisible[row.id]=false">取消</el-button>
-                        <el-button size="small" type="danger" @click="handleButtonDelete(row.id)">确认</el-button>
-                    </div>
-                    <template #reference>
-                        <el-button type="danger" @click="handlePrimaryDelete(row.id)">删除</el-button>
-                    </template>
-                </el-popover>
-            </template>
-        </el-table-column>
-    </el-table>        
+        <el-row class="el-row-select">
+            <el-input class="el-input" v-model="inputdata" placeholder="输入试题名称查询试题" clearable/>
+            <el-button type="primary" class="el-button-select" @click="selectProblem">搜&nbsp;索</el-button>
+        </el-row>
+        <el-table :data="resultlist" stripe class="el-table">
+            <el-table-column prop="id" label="题号" width="125" align="center" sortable/>
+            <el-table-column prop="title" label="名称" width="250" />
+            <el-table-column prop="type" label="题型" width="90" sortable/>
+            <el-table-column prop="checkBy" label="批改" width="100" />
+            <el-table-column prop="difficulty" label="难度" width="100" align="center" sortable/>
+            <el-table-column prop="" label="正确率" width="180" />
+            <el-table-column width="180">
+                <template #default="{row}">
+                    <el-button type="primary" @click="handleButtonClick(row)">查看</el-button>
+                    <el-popover :visible="cancelVisible[row.id]" placement="right" :width="160" trigger="click">
+                        <p>确定要删除吗？</p>
+                        <div style="text-align: right; margin: 0">
+                            <el-button size="small" type="success" @click="cancelVisible[row.id]=false">取消</el-button>
+                            <el-button size="small" type="danger" @click="handleButtonDelete(row.id)">确认</el-button>
+                        </div>
+                        <template #reference>
+                            <el-button type="danger" @click="handlePrimaryDelete(row.id)">删除</el-button>
+                        </template>
+                    </el-popover>
+                </template>
+            </el-table-column>
+        </el-table>        
     </el-card>
 </template>
 
@@ -46,7 +46,6 @@ const resultlist = ref<ProblemInterface[]>([]);
 onBeforeMount(()=>{
     problemStore.getProblemList(()=>{
         resultlist.value = problemStore.problemList;
-        console.log(resultlist.value)
     });
 })
 
@@ -54,7 +53,6 @@ onBeforeMount(()=>{
 function selectProblem(){
     problemStore.getProblemByTitle(inputdata.value, (list)=>{
         resultlist.value = list;
-        console.log(resultlist.value, list)
     });
 }
 

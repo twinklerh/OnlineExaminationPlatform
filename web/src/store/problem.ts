@@ -12,7 +12,8 @@ export interface ProblemInterface{
     type: string,
     accurateTimes: number,
     finishedTimes: number,
-    accuracy: string
+    accuracy: string,
+    rightAnswer:string
 }
 
 export const useProblemStore = defineStore('problem', {
