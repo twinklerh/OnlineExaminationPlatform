@@ -57,10 +57,13 @@ const targetData = ref<Option[]>([]);
 const sourceData = ref<Option[]>([]);
 const beforeSubmitData = ref<ProblemInterface[]>([]);
 
-problemStore.getProblemList(()=>{
-    sortProblem(problemStore.problemList);
-    sourceData.value = rawData_to_sourceData(problemStore.problemList);
-})
+function init(){
+    problemStore.getProblemList(()=>{
+        sortProblem(problemStore.problemList);
+        sourceData.value = rawData_to_sourceData(problemStore.problemList);
+    })
+}
+init();
 
 const lastStep = () =>{
     if(activeNumber.value !== 0)  activeNumber.value--;
@@ -113,7 +116,7 @@ function submit(){
             ElMessage({message: msg, type: 'success'});
             paper.memo = paper.title = '';
             targetData.value = [];
-            sourceData.value = [];
+            init();
             beforeSubmitData.value = [];
         }
         else    ElMessage.error(msg)

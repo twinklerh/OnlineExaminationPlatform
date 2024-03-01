@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 27/02/2024 00:25:32
+ Date: 02/03/2024 00:54:16
 */
 
 SET NAMES utf8mb4;
@@ -77,6 +77,30 @@ CREATE TABLE `enterprise`  (
 -- Records of enterprise
 -- ----------------------------
 INSERT INTO `enterprise` VALUES (1, 'hy', '2846617029@qq.com', 'hy');
+
+-- ----------------------------
+-- Table structure for exam
+-- ----------------------------
+DROP TABLE IF EXISTS `exam`;
+CREATE TABLE `exam`  (
+  `exam_id` int NOT NULL AUTO_INCREMENT,
+  `begin_time` datetime NOT NULL,
+  `end_time` datetime NOT NULL,
+  `note` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `testpaper_title` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `enterprise_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  PRIMARY KEY (`exam_id`) USING BTREE,
+  INDEX `exam_enterprise_name_fk`(`enterprise_name` ASC) USING BTREE,
+  INDEX `exam_testpaper_title_fk`(`testpaper_title` ASC) USING BTREE,
+  CONSTRAINT `exam_enterprise_name_fk` FOREIGN KEY (`enterprise_name`) REFERENCES `enterprise` (`name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `exam_testpaper_title_fk` FOREIGN KEY (`testpaper_title`) REFERENCES `testpaper` (`title`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of exam
+-- ----------------------------
+INSERT INTO `exam` VALUES (1, '2024-03-02 08:00:00', '2024-03-02 10:00:00', '无', 'FDS', 'hy');
+INSERT INTO `exam` VALUES (2, '2024-03-08 08:00:00', '2024-03-08 12:00:00', '', '第九次大联考', 'hy');
 
 -- ----------------------------
 -- Table structure for group
@@ -158,14 +182,27 @@ CREATE TABLE `testpaper`  (
   `problems` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `enterprise_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `testpaper_pk`(`title` ASC) USING BTREE,
   INDEX `testpaper_enterprise_name_fk`(`enterprise_name` ASC) USING BTREE,
+  INDEX `testpaper_title_index`(`title` ASC) USING BTREE,
   CONSTRAINT `testpaper_enterprise_name_fk` FOREIGN KEY (`enterprise_name`) REFERENCES `enterprise` (`name`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 20 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of testpaper
 -- ----------------------------
-INSERT INTO `testpaper` VALUES (18, '32', '32', 2, '{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
-INSERT INTO `testpaper` VALUES (19, 'po', 'op', 2, '{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
+INSERT INTO `testpaper` VALUES (1, '32', '32', 2, '{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
+INSERT INTO `testpaper` VALUES (2, 'po', 'op', 2, '{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
+INSERT INTO `testpaper` VALUES (20, 'y', 't', 2, '{\"problemId\":55,\"description\":\"1\",\"rightAnswer\":\"true\",\"checkBy\":\"自动批改\",\"type\":\"判断\"}{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
+INSERT INTO `testpaper` VALUES (21, '第九次大联考', 'hhh', 2, '{\"problemId\":55,\"description\":\"1\",\"rightAnswer\":\"true\",\"checkBy\":\"自动批改\",\"type\":\"判断\"}{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
+INSERT INTO `testpaper` VALUES (22, '第一次大联考', '666', 2, '{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":59,\"description\":\"sss\",\"rightAnswer\":\"9\",\"checkBy\":\"人工批改\",\"type\":\"综合\"}', 'hy');
+INSERT INTO `testpaper` VALUES (23, 'iu', 'iu', 2, '{\"problemId\":55,\"description\":\"1\",\"rightAnswer\":\"true\",\"checkBy\":\"自动批改\",\"type\":\"判断\"}{\"problemId\":59,\"description\":\"sss\",\"rightAnswer\":\"9\",\"checkBy\":\"人工批改\",\"type\":\"综合\"}', 'hy');
+INSERT INTO `testpaper` VALUES (24, 'oic', 'OI', 2, '{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
+INSERT INTO `testpaper` VALUES (25, 'FDS', 'HGF', 2, '{\"problemId\":57,\"description\":\"3\",\"rightAnswer\":\"3\",\"checkBy\":\"自动批改\",\"type\":\"填空\"}{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
+INSERT INTO `testpaper` VALUES (26, '87', '87', 1, '{\"problemId\":55,\"description\":\"1\",\"rightAnswer\":\"true\",\"checkBy\":\"自动批改\",\"type\":\"判断\"}', 'hy');
+INSERT INTO `testpaper` VALUES (27, '09', '90', 1, '{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
+INSERT INTO `testpaper` VALUES (28, '12', '12', 2, '{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":59,\"description\":\"sss\",\"rightAnswer\":\"9\",\"checkBy\":\"人工批改\",\"type\":\"综合\"}', 'hy');
+INSERT INTO `testpaper` VALUES (29, '965675', '63', 2, '{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
+INSERT INTO `testpaper` VALUES (30, 'hg', 'hg', 1, '{\"problemId\":55,\"description\":\"1\",\"rightAnswer\":\"true\",\"checkBy\":\"自动批改\",\"type\":\"判断\"}', 'hy');
 
 SET FOREIGN_KEY_CHECKS = 1;
