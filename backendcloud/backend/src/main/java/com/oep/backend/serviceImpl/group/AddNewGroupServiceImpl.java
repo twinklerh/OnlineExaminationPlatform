@@ -1,14 +1,13 @@
 package com.oep.backend.serviceImpl.group;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.oep.backend.mapper.EnterpriseMapper;
 import com.oep.backend.mapper.GroupMapper;
 import com.oep.backend.pojo.Account;
 import com.oep.backend.pojo.Enterprise;
 import com.oep.backend.pojo.Group;
 import com.oep.backend.security.utils.UserDetailsImpl;
-import com.oep.backend.service.group.AddNewGroup;
+import com.oep.backend.service.group.AddNewGroupService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 
 @Service
-public class AddNewGroupImpl implements AddNewGroup {
+public class AddNewGroupServiceImpl implements AddNewGroupService {
     @Autowired
     private GroupMapper groupMapper;
     @Autowired

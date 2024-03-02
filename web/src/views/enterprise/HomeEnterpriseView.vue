@@ -83,4 +83,7 @@ function logout(){
     margin-right: 15px;
     border-radius: 50%;
 }
+.el-avatar:hover{
+    cursor: pointer;
+}
 </style>

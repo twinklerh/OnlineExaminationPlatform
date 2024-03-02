@@ -14,7 +14,7 @@ public class SubmitSubjectController {
     private SubmitSubjectService submitSubjectService;
 
     @PostMapping("/problem/submit/subjectivity/")
-    public Map<String,String> submitSubjectProblem(@RequestParam Map<String,String> map){
+    public String submitSubjectProblem(@RequestParam Map<String,String> map){
         submitSubjectService.addSubjectProblem(map);
         return null;
     }

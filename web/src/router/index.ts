@@ -1,80 +1,99 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import LoginView from '@/views/account/LoginView.vue';
 import RegisterView from '@/views/account/RegisterView.vue';
-import HomeEnterpriseView from '@/views/enterprise/HomeEnterpriseView.vue';
 import ProblemDetailView from '@/views/enterprise/problemView/ProblemDetailView.vue';
-import ProblemView from '@/views/enterprise/problemView/ProblemView.vue';
-import AddSubProblemView from '@/views/enterprise/addProblemView/AddSubProblemView.vue';
-import GetGradeView from '@/views/enterprise/getGradeView/GetGradeView.vue';
-import ReleaseExamView from '@/views/enterprise/releaseExamView/ReleaseExamView.vue';
-import AddObjProblemView from '@/views/enterprise/addProblemView/AddObjProblemView.vue';
-import MakeTestPaperView from '@/views/enterprise/maketestpaperView/MakeTestPaperView.vue';
+import { useUserStore } from '@/store/user';
 
 const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
             path: '/',
-            redirect: '/enterprise/allproblems'
+            name: 'root',
+            redirect: '/login',
         },
         {
             path: '/login',
             name: 'login',
             component: LoginView,
+            meta: {
+                requestAuth: false,
+            }
         },
         {
             path: '/register',
             name: 'register',
             component: RegisterView,
+            meta: {
+                requestAuth: false,
+            }
         },
         {
             path: '/enterprise',
             name: 'enterprise',
-            component: HomeEnterpriseView,
+            component: () => import('@/views/enterprise/HomeEnterpriseView.vue'),
             children: [
                 {
                     path: 'allproblems',
                     name: 'allproblems',
-                    component: ProblemView,
-                    meta:{ title: '试题库' }
+                    component: () => import('@/views/enterprise/problemView/ProblemView.vue'),
+                    meta:{ title: '试题库', requestAuth: true, holder: 'enterprise'}
                 },
                 {
                     path: 'addsubproblem',
                     name: 'addsubproblem',
-                    component: AddSubProblemView,
-                    meta:{ title: '添加试题' }
+                    component: () => import('@/views/enterprise/addProblemView/AddSubProblemView.vue'),
+                    meta:{ title: '添加试题', requestAuth: true, holder: 'enterprise'}
                 },
                 {
                     path: 'addobjproblem',
                     name: 'addobjproblem',
-                    component: AddObjProblemView,
-                    meta:{ title: '添加试题' }
+                    component: () => import('@/views/enterprise/addProblemView/AddObjProblemView.vue'),
+                    meta:{ title: '添加试题', requestAuth: true, holder: 'enterprise'}
                 },
                 {
                     path: 'maketestpaper',
                     name: 'maketestepaper',
-                    component: MakeTestPaperView,
-                    meta:{ title: '组卷' }
+                    component: () => import('@/views/enterprise/maketestpaperView/MakeTestPaperView.vue'),
+                    meta:{ title: '组卷', requestAuth: true, holder: 'enterprise'}
                 },
                 {
                     path: 'release',
                     name: 'release',
-                    component: ReleaseExamView,
-                    meta:{ title: '发布考试' }
+                    component: () => import('@/views/enterprise/releaseExamView/ReleaseExamView.vue'),
+                    meta:{ title: '发布考试', requestAuth: true, holder: 'enterprise'}
                 },
                 {
                     path: 'grade',
                     name: 'grade',
-                    component: GetGradeView,
-                    meta:{ title: '成绩查询' }              
+                    component: () => import('@/views/enterprise/getGradeView/GetGradeView.vue'),
+                    meta:{ title: '成绩查询', requestAuth: true, holder: 'enterprise'}              
                 }
             ]
+        },
+        {
+            path: '/candidate',
+            name: 'candidate',
+            component: () => import('@/views/candidate/HomeCandidateView.vue'),
+            meta: { requestAuth: true, holder: 'candidate'}
         },
         {
             path: '/problem/detail',
             name: 'problemdetail',
             component: ProblemDetailView,
+            meta: { requestAuth: true, holder: 'enterprise'}
         }
     ]
+});
+router.beforeEach(async(to, from, next)=>{
+    const userStore = useUserStore();
+    userStore.token = localStorage.getItem("jwt_token") as string;
+    if(to.meta.requestAuth) {
+        await userStore.getUserInfo();
+        console.log(to.name, to.meta.holder, userStore.status)
+        if(to.meta.holder === userStore.status) next();
+        else    router.go(-1);
+    }
+    else next();
 })
 export default router

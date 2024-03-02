@@ -1,8 +1,7 @@
 package com.oep.backend.service.papertest;
 
-import java.util.List;
 import java.util.Map;
 
-public interface AddTestPaper {
+public interface AddTestPaperService {
     String addTestPaper(Map<String,String> map);
 }

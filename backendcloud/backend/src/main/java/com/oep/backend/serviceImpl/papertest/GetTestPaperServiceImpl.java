@@ -9,7 +9,6 @@ import com.oep.backend.mapper.TestpaperMapper;
 import com.oep.backend.pojo.Account;
 import com.oep.backend.pojo.Enterprise;
 import com.oep.backend.pojo.Testpaper;
-import com.oep.backend.service.papertest.GetTestPaper;
 import com.oep.backend.utils.WriteValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class GetTestPaperService extends ClassTestPaper implements GetTestPaper {
+public class GetTestPaperServiceImpl extends ClassTestPaper implements com.oep.backend.service.papertest.GetTestPaperService {
     @Autowired
     private TestpaperMapper testpaperMapper;
     @Override

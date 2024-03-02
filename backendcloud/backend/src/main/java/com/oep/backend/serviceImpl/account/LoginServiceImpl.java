@@ -4,9 +4,9 @@ import com.oep.backend.pojo.Account;
 import com.oep.backend.security.JwtUtil;
 import com.oep.backend.security.utils.UserDetailsImpl;
 import com.oep.backend.service.account.LoginService;
+import com.oep.backend.utils.WriteValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.LockedException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -23,7 +23,7 @@ public class LoginServiceImpl implements LoginService {
     @Autowired
     private AuthenticationManager authenticationManager;
     @Override
-    public Map<String, String> getToken(String account_id, String password) {
+    public String getToken(String account_id, String password) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(account_id, password);
         Map<String, String> map = new HashMap<>();
         try{
@@ -41,9 +41,10 @@ public class LoginServiceImpl implements LoginService {
             } else {
                 map.put("error_message", "用户名或密码不正确");
             }
+            return WriteValue.writeValueAsString(map);
         }
         String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         System.out.println(dateTime + ": userId "+account_id+" login.");
-        return map;
+        return WriteValue.writeValueAsString(map);
     }
 }

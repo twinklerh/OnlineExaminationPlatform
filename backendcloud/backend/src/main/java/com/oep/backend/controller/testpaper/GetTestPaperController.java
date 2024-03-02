@@ -1,6 +1,6 @@
 package com.oep.backend.controller.testpaper;
 
-import com.oep.backend.service.papertest.GetTestPaper;
+import com.oep.backend.service.papertest.GetTestPaperService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -11,9 +11,9 @@ import java.util.Map;
 @RestController
 public class GetTestPaperController {
     @Autowired
-    private GetTestPaper getTestPaper;
+    private GetTestPaperService getTestPaperService;
     @GetMapping("/testpaper/gettestpaper/")
     public String getTestPaper(@RequestParam Map<String,String> map){
-        return getTestPaper.getTestPaper(Integer.valueOf(map.get("page")));
+        return getTestPaperService.getTestPaper(Integer.valueOf(map.get("page")));
     }
 }

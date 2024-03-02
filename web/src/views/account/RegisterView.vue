@@ -42,7 +42,8 @@ function register(){
             password: password.value,
             confirmPassword: confirmPassword.value,
         },// eslint-disable-next-line
-        success(resp:any) {
+        success(re:string) {
+            const resp = JSON.parse(re);
             error_message.value = resp.error_message;
             if(error_message.value === "register successfully!")    {
                 alert("注册成功！")

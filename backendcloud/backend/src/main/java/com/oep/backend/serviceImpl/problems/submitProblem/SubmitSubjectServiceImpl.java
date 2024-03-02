@@ -9,8 +9,8 @@ import com.oep.backend.pojo.Group;
 import com.oep.backend.pojo.GroupProblem;
 import com.oep.backend.pojo.Problem;
 import com.oep.backend.security.utils.UserDetailsImpl;
-import com.oep.backend.service.account.GetAccountInfo;
 import com.oep.backend.service.problems.submitProblem.SubmitSubjectService;
+import com.oep.backend.utils.WriteValue;
 import org.apache.ibatis.executor.ExecutorException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -28,13 +28,12 @@ public class SubmitSubjectServiceImpl implements SubmitSubjectService {
     private GroupProblemMapper groupProblemMapper;
     @Autowired
     private GroupMapper groupMapper;
-    private GetAccountInfo getAccountInfo;
     @Override
-    public Map<String, String> addSubjectProblem(Map<String, String> map) {
+    public String addSubjectProblem(Map<String, String> map) {
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
         Account account = loginUser.getAccount();
-        if(!"enterprise".equals(account.getStatus())) return new HashMap<>() {{ put("error_message", "身份验证异常"); }};
+        if(!"enterprise".equals(account.getStatus())) return WriteValue.writeValueAsString(new HashMap<>() {{ put("error_message", "身份验证异常"); }});
 
         Map<String,String> returnHashMap = new HashMap<>();
 
@@ -46,9 +45,9 @@ public class SubmitSubjectServiceImpl implements SubmitSubjectService {
         String rightAnswer = map.get("rightAnswer");
         String appendix_name = map.get("appendix");
 
-        if("".equals(description))    {
+        if("".equals(description)) {
             returnHashMap.put("error_message", "题目描述不能为空！");
-            return returnHashMap;
+            return WriteValue.writeValueAsString(returnHashMap);
         }
 
         try{
@@ -66,10 +65,10 @@ public class SubmitSubjectServiceImpl implements SubmitSubjectService {
 
         } catch(ExecutorException e) {
             returnHashMap.put("error_message","更新失败");
-            return returnHashMap;
+            return WriteValue.writeValueAsString(returnHashMap);
         }
 
         returnHashMap.put("error_message", "success");
-        return returnHashMap;
+        return WriteValue.writeValueAsString(returnHashMap);
     }
 }

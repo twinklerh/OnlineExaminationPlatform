@@ -1,19 +1,15 @@
 package com.oep.backend.serviceImpl.papertest;
 
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.oep.backend.mapper.TestpaperMapper;
 import com.oep.backend.pojo.Account;
 import com.oep.backend.pojo.Testpaper;
-import com.oep.backend.service.papertest.AddTestPaper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Map;
 
 @Service
-public class AddTestPaperService extends ClassTestPaper implements AddTestPaper {
+public class AddTestPaperServiceImpl extends ClassTestPaper implements com.oep.backend.service.papertest.AddTestPaperService {
     @Autowired
     private TestpaperMapper testpaperMapper;
     @Override

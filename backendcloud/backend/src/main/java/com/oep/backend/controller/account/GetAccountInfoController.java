@@ -1,18 +1,16 @@
 package com.oep.backend.controller.account;
 
-import com.oep.backend.service.account.GetAccountInfo;
+import com.oep.backend.service.account.GetAccountInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Map;
-
 @RestController
 public class GetAccountInfoController {
     @Autowired
-    private GetAccountInfo getAccountInfo;
+    private GetAccountInfoService getAccountInfoService;
     @PostMapping("/account/user/info/")
-    public Map<String, String> getAccountInfo() {
-        return getAccountInfo.getAccountInfo();
+    public String getAccountInfo() {
+        return getAccountInfoService.getAccountInfo();
     }
 }

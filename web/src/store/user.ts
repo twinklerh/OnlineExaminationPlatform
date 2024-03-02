@@ -1,5 +1,6 @@
 import { defineStore } from "pinia"
 import $ from 'jquery'
+import { ElMessage } from "element-plus"
 
 export const useUserStore = defineStore('user',{
     state(){
@@ -10,46 +11,41 @@ export const useUserStore = defineStore('user',{
         }
     },
     actions:{
-        getToken(){
-            return this.token;
-        },
-        async login(account_id:string, password:string):Promise<string>{
-            let error_message = '';
-            await $.ajax({
+        login(account_id:string, password:string, callback:(msg:string)=>void){
+            $.ajax({
                 url: 'http://localhost:3000/account/token/',
                 type: "post",
                 data: {
                     account_id: account_id,
                     password: password,
-                },// eslint-disable-next-line
-                success: (resp:any) => {
+                },
+                success: (r:string) => {
+                    const resp = JSON.parse(r);
                     if(resp.error_message === 'success'){
                         localStorage.setItem('jwt_token', resp.token)
                         this.token = resp.token;
                         this.status = resp.status;
-                        console.log("登陆成功", this.status, this.token);
+                        console.log(resp)
                     }
-                    error_message = resp.error_message;
-                },// eslint-disable-next-line
-                error: (resp:any) => {
-                    console.log("登陆失败");
-                    error_message = "failed";
+                    callback(resp.error_message)
+                },
+                error: () => {
+                    ElMessage.error("登录失败")
                 }
             })
-            if(error_message==='success')   return error_message;
-            return error_message;
         },
-        async getUserInfo(){
+        async getUserInfo(callback ? : ()=>void){
             await $.ajax({
                 url: 'http://localhost:3000/account/user/info/',
                 type: 'post',
                 headers: {
                     Authorization: "Bearer " + this.token,
                 },
-                // eslint-disable-next-line
-                success: (resp:any)=>{
+                success: (ru:string)=>{
+                    const resp = JSON.parse(ru);
                     this.status = resp.status;
                     this.username = resp.name;
+                    if(typeof callback !== 'undefined') callback();
                 }
             })
         }

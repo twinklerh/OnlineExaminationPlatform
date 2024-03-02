@@ -16,7 +16,6 @@ import java.util.Date;
 public class Candidate {
     @TableId(type = IdType.AUTO)
     private Integer candidateId;
-    private String nickname;
     private String fullname;
     private char sex;
     private String email;

@@ -33,16 +33,14 @@ const error_message = ref('');
 
 const userStore = useUserStore();
 
-async function login(){
-    error_message.value = await userStore.login(account_id.value, password.value);
-    console.log(43, error_message.value, userStore.status);
-    if(error_message.value != 'success')  return;
-    userStore.token = localStorage.getItem('jwt_token') as string;
-    if(userStore.token === '') return;
-    if(userStore.status === 'enterprise') router.push({name: 'enterprise'})
+function login(){
+    userStore.login(account_id.value, password.value, (msg:string) => {
+        error_message.value = msg;
+        if(error_message.value != 'success' || userStore.token === '')  return;
+        if(userStore.status === 'enterprise') router.push({name: 'allproblems'});
+        else if(userStore.status === 'candidate')   { router.push({name: 'candidate'});}
+    });
 }
-
-
 </script>
 
 <style scoped>

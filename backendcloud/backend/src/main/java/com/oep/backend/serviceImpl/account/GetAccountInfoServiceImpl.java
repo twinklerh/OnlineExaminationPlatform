@@ -1,14 +1,14 @@
 package com.oep.backend.serviceImpl.account;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.Mapper;
 import com.oep.backend.mapper.CandidateMapper;
 import com.oep.backend.mapper.EnterpriseMapper;
 import com.oep.backend.pojo.Account;
 import com.oep.backend.pojo.Candidate;
 import com.oep.backend.pojo.Enterprise;
 import com.oep.backend.security.utils.UserDetailsImpl;
-import com.oep.backend.service.account.GetAccountInfo;
+import com.oep.backend.service.account.GetAccountInfoService;
+import com.oep.backend.utils.WriteValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,13 +20,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class GetAccountInfoImpl implements GetAccountInfo {
+public class GetAccountInfoServiceImpl implements GetAccountInfoService {
     @Autowired
     private CandidateMapper candidateMapper;
     @Autowired
     private EnterpriseMapper enterpriseMapper;
     @Override
-    public Map<String, String> getAccountInfo() {
+    public String getAccountInfo() {
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
         Account account = loginUser.getAccount();
@@ -45,6 +45,6 @@ public class GetAccountInfoImpl implements GetAccountInfo {
         }
         String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         System.out.println(dateTime + ": userId "+account.getAccountId()+" login or get info by token.");
-        return map;
+        return WriteValue.writeValueAsString(map);
     }
 }
