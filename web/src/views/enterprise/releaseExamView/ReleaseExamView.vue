@@ -16,7 +16,9 @@
                     <el-table-column prop="id" label="序号" width="60px" />
                     <el-table-column prop="title" label="标题" />
                     <el-table-column width="112">
-                        <el-button type="primary">查看试卷</el-button>
+                        <template #default="scope">
+                            <el-button type="primary" @click="lookupTestpaper(scope.row)">查看试卷</el-button>
+                        </template>
                     </el-table-column>
                     <el-table-column width="112">
                         <template #default="scope">
@@ -106,6 +108,10 @@ function submitExamData(){
         }
 
     })
+}
+// eslint-disable-next-line
+function lookupTestpaper(obj:any){
+    console.log(obj)
 }
 </script>
 
