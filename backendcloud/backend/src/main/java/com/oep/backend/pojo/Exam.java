@@ -19,6 +19,7 @@ public class Exam {
     private Date beginTime;
     private Date endTime;
     private String note;
+    private boolean announced;
     private String testpaperTitle;
     private String enterpriseName;
 }

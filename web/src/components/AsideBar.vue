@@ -10,7 +10,7 @@
         <el-icon><Files /></el-icon>
         <span>试题库</span>
       </el-menu-item>
-      <el-sub-menu index="" class="el-sub-menu" >
+      <el-sub-menu index="2" class="el-sub-menu" >
         <template #title>
           <span style="font-size: 16px;">
             <el-icon><CirclePlus /></el-icon>
@@ -30,10 +30,24 @@
         <el-icon><Paperclip /></el-icon>
         <span>组卷</span>
       </el-menu-item>
-      <el-menu-item index="/enterprise/release" class="el-menu-item">
-        <el-icon><Calendar /></el-icon>
-        <span>发布考试</span>
-      </el-menu-item>
+
+      <el-sub-menu index="4" >
+        <template #title>
+          <span style="font-size: 16px;">
+            <el-icon><Calendar /></el-icon>
+            <span>考试中心</span>
+          </span>
+        </template>
+        <el-menu-item index="/enterprise/release" class="el-menu-item">
+          <el-icon><Calendar /></el-icon>
+          <span>新建考试</span>
+        </el-menu-item>
+        <el-menu-item index="/enterprise/exam" class="el-menu-item">
+          <el-icon><Calendar /></el-icon>
+          <span>发布考试</span>
+        </el-menu-item>
+      </el-sub-menu>
+
       <el-menu-item index="/enterprise/grade" class="el-menu-item">
         <el-icon><Search /></el-icon>
         <span>成绩查询</span>

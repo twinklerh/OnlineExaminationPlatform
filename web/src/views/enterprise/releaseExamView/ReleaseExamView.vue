@@ -45,7 +45,7 @@ const btnMsg = ref<string[]>([]);
 const type = ref<string[]>([]);
 const beginDateTime = ref('');
 const endDateTime = ref('')
-const pageData = ref({DataCount: 1, currentPage:1, sumPageCount: 0})
+const pageData = ref({DataCount: 1, currentPage:1})
 let lastSelectTestPaper = -1;
 
 function formDate(){
@@ -71,10 +71,10 @@ function selectTestPaper(id:number,title:string){
         lastSelectTestPaper = id;
     }
 }
+
 function changePage(pageNum:number){
-    testPaperStore.getTestPaper(pageNum,(dataCount, sumPageCount)=>{
-        pageData.value.DataCount = dataCount, pageData.value.sumPageCount = sumPageCount;
-        pageData.value.currentPage = pageNum;
+    testPaperStore.getTestPaper(pageNum,(dataCount)=>{
+        pageData.value.DataCount = dataCount, pageData.value.currentPage = pageNum;
         formDate();
     });
 }

@@ -64,6 +64,12 @@ const router = createRouter({
                     meta:{ title: '发布考试', requestAuth: true, holder: 'enterprise'}
                 },
                 {
+                    path: 'exam',
+                    name: 'exam',
+                    component: () => import('@/views/enterprise/releaseExamView/ExamView.vue'),
+                    meta:{ title: '发布考试', requestAuth: true, holder: 'enterprise'}              
+                },
+                {
                     path: 'grade',
                     name: 'grade',
                     component: () => import('@/views/enterprise/getGradeView/GetGradeView.vue'),
@@ -90,7 +96,6 @@ router.beforeEach(async(to, from, next)=>{
     userStore.token = localStorage.getItem("jwt_token") as string;
     if(to.meta.requestAuth) {
         await userStore.getUserInfo();
-        console.log(to.name, to.meta.holder, userStore.status)
         if(to.meta.holder === userStore.status) next();
         else    router.go(-1);
     }

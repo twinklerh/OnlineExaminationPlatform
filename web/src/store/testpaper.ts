@@ -40,7 +40,7 @@ export const useTestpaperStore = defineStore('testpaper', {
                 }
             });
         },
-        getTestPaper(page:number, callback:(dataCount:number, sum_page_count:number)=>void){
+        getTestPaper(page:number, callback:(dataCount:number)=>void){
             $.ajax({
                 url: 'http://127.0.0.1:3000/testpaper/gettestpaper/',
                 type: 'get',
@@ -54,7 +54,7 @@ export const useTestpaperStore = defineStore('testpaper', {
                     const result = JSON.parse(resp);
                     this.testpaperlist = result.testpaperList;
                     this.current_page = result.current_page;
-                    callback(result.dataCount, result.sum_page_count)
+                    callback(result.dataCount)
                 },
                 error: ()=>{
                     console.log("拉取试卷信息失败");
