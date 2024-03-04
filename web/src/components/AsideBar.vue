@@ -4,8 +4,7 @@
     
     <el-divider class="el-divider"></el-divider>
 
-    <el-menu router class="aside-bar" default-active="/enterprise/allproblems/" active-text-color="rgb(64,158,255)"> 
-      <!-- 上面这一行的background-color是鼠标时的卡片悬浮的颜色，css里的是背景色 -->
+    <el-menu router class="aside-bar" default-active="/enterprise/allproblems/" active-text-color="#409eff"> 
       <el-menu-item index="/enterprise/allproblems/" class="el-menu-item">
         <el-icon><Files /></el-icon>
         <span>试题库</span>
@@ -58,18 +57,17 @@
 
 <script lang="ts" setup>
 import { Files, CirclePlus, Search, Calendar, Paperclip } from '@element-plus/icons-vue'
-import "@/css/asideBarStyle.css";
 import { useRouter } from 'vue-router';
 const router = useRouter();
 </script>
 
 <style scoped>
 .aside-bar{
-  background-color: var(--aside-bar-color);
+  background-color: #fbfbfb;
   border: 0;
 }
 .text-div{
-  background-color: var(--aside-bar-color);
+  background-color: #fbfbfb;
   display: flex; /* 本行让span占满了父组件 */
   justify-content: center; /* 水平居中 */
   align-items: center; /* 垂直居中 */
@@ -86,6 +84,6 @@ const router = useRouter();
 }
 .el-menu-item:hover, .el-sub-menu:deep(.el-sub-menu__title):hover, .el-sub-menu:deep(.el-menu){
   background-color: transparent;
-  color: rgb(64,158,255)
+  color: #409eff;
 }
 </style>

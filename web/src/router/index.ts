@@ -86,7 +86,21 @@ const router = createRouter({
             path: '/candidate',
             name: 'candidate',
             component: () => import('@/views/candidate/HomeCandidateView.vue'),
-            meta: { requestAuth: true, holder: 'candidate'}
+            meta: { requestAuth: true, holder: 'candidate'},
+            children: [
+                {
+                    path: 'exams',
+                    name: 'exams',
+                    component: () => import('@/views/candidate/ExamView.vue'),
+                    meta: { requestAuth: true, holder: 'candidate'},
+                },
+                {
+                    path: 'score',
+                    name: 'score',
+                    component: () => import('@/views/candidate/ScoreView.vue'),
+                    meta: { requestAuth: true, holder: 'candidate'},
+                }
+            ]
         },
         {
             path: '/problem/detail',
@@ -110,7 +124,7 @@ router.beforeEach(async(to, from, next)=>{
         if(userStore.token){
             await userStore.getUserInfo();
             if(userStore.status === 'enterprise')   next({name: 'allproblems'});
-            else if(userStore.status === 'candidate')   next({name: 'candidate'});
+            else if(userStore.status === 'candidate')   next({name: 'exams'});
             else    next({name: 'notfound'});
         }
         else    next();

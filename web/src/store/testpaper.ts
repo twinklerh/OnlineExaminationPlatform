@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import $ from 'jquery';
 import { useUserStore } from "./user";
+import { ElMessage } from "element-plus";
 
 export interface TestpaperInterface{
     title: string,
@@ -57,7 +58,7 @@ export const useTestpaperStore = defineStore('testpaper', {
                     callback(result.dataCount)
                 },
                 error: ()=>{
-                    console.log("拉取试卷信息失败");
+                    ElMessage.error("拉取试卷信息失败");
                 }
             })
         }

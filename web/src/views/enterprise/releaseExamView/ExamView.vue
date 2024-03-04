@@ -29,7 +29,6 @@ function releaseExam(item:ExamInterface){
 }
 
 function changePage(pageNum:number){
-    console.log(pageNum)
     examStore.getAllExam(pageNum, (myDataCount)=>{
         dataCount.value = myDataCount; 
     });

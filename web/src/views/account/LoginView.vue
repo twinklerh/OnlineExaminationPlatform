@@ -2,7 +2,9 @@
     <div>
       <el-container class="el-container" >
         <el-aside class="el-aside">
-            <div class="text-div">在线应试平台</div>
+            <div class="text-div">
+                <img src="@/assets/logo.png" style="height:50px; width:auto;">
+                &nbsp;在线应试平台</div>
         </el-aside>
         <el-main>
           <div class="background">
@@ -50,7 +52,9 @@ function login(){
   font-size: 28px;
   letter-spacing: 7px;
   font-weight: lighter;
-  color: lightcyan
+  color: lightcyan;
+  display: flex;
+  align-items: center;
 }
 .el-container{
   height: 800px;

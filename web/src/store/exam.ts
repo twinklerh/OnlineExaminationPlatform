@@ -34,7 +34,6 @@ export const useExamStore = defineStore('exam',{
                 success: (resp:string)=>{
                     const result = JSON.parse(resp);
                     this.examList = JSON.parse(result.examList);
-                    console.log(result.examList);
                     if(result.error_message != 'success')    {
                         ElMessage.error("获取数据失败")
                         return;
@@ -47,7 +46,6 @@ export const useExamStore = defineStore('exam',{
             })
         },
         releaseExam(examId:number, callback : ()=>void){
-            console.log(examId)
             $.ajax({
                 url: 'http://127.0.0.1:3000/exam/release/',
                 type: 'post',

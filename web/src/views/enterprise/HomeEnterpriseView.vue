@@ -42,7 +42,7 @@ const userStore = useUserStore();
     position: fixed;
     width: 260px;
     height: 1080px;
-    background-color: var(--aside-bar-color);
+    background-color: #fbfbfb;
 }
 .el-main{
     margin-left: 280px;
@@ -69,7 +69,7 @@ const userStore = useUserStore();
     justify-content: right;
     align-items: center;
     height: 55px;
-    background-color: rgb(251,251,251);
+    background-color: #fbfbfb;
 }
 .el-avatar{
     margin-top: 5px;
