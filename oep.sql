@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 02/03/2024 00:54:16
+ Date: 03/03/2024 17:41:40
 */
 
 SET NAMES utf8mb4;
@@ -32,6 +32,8 @@ CREATE TABLE `account`  (
 -- Records of account
 -- ----------------------------
 INSERT INTO `account` VALUES ('hy', '$2a$10$63CH4tzDZ0MQ54y6lAigaupnwvEXVyGYYLq2QUaRjjNYICIMbdkdS', 'enterprise');
+INSERT INTO `account` VALUES ('twinkle', '$2a$10$NpNX5uSXMNmcbQ/K00zgZOBXIT1xW1jS7rcZMV6YKHZ9AxdO.jNme', 'candidate');
+INSERT INTO `account` VALUES ('uy', '$2a$10$S5/PusGi9QJ4fdoH340ld.J1gmj9D2q9c.AC.EBbc4fWs4RjQa2va', 'candidate');
 
 -- ----------------------------
 -- Table structure for candidate
@@ -49,11 +51,13 @@ CREATE TABLE `candidate`  (
   PRIMARY KEY (`candidate_id`) USING BTREE,
   INDEX `candidate_account_account_id_fk`(`account_id` ASC) USING BTREE,
   CONSTRAINT `candidate_account_account_id_fk` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of candidate
 -- ----------------------------
+INSERT INTO `candidate` VALUES (3, '123', NULL, '\0', NULL, NULL, NULL, 'twinkle');
+INSERT INTO `candidate` VALUES (4, '123', NULL, '\0', NULL, NULL, NULL, 'uy');
 
 -- ----------------------------
 -- Table structure for enterprise
@@ -87,6 +91,7 @@ CREATE TABLE `exam`  (
   `begin_time` datetime NOT NULL,
   `end_time` datetime NOT NULL,
   `note` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `announced` tinyint(1) NOT NULL DEFAULT 0,
   `testpaper_title` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `enterprise_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`exam_id`) USING BTREE,
@@ -94,13 +99,31 @@ CREATE TABLE `exam`  (
   INDEX `exam_testpaper_title_fk`(`testpaper_title` ASC) USING BTREE,
   CONSTRAINT `exam_enterprise_name_fk` FOREIGN KEY (`enterprise_name`) REFERENCES `enterprise` (`name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `exam_testpaper_title_fk` FOREIGN KEY (`testpaper_title`) REFERENCES `testpaper` (`title`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 22 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam
 -- ----------------------------
-INSERT INTO `exam` VALUES (1, '2024-03-02 08:00:00', '2024-03-02 10:00:00', '无', 'FDS', 'hy');
-INSERT INTO `exam` VALUES (2, '2024-03-08 08:00:00', '2024-03-08 12:00:00', '', '第九次大联考', 'hy');
+INSERT INTO `exam` VALUES (1, '2024-03-02 08:00:00', '2024-03-02 10:00:00', '无', 1, 'FDS', 'hy');
+INSERT INTO `exam` VALUES (2, '2024-03-08 08:00:00', '2024-03-08 12:00:00', '', 1, '第九次大联考', 'hy');
+INSERT INTO `exam` VALUES (3, '2024-03-08 08:00:00', '2024-03-08 10:00:00', '', 1, '第一次大联考', 'hy');
+INSERT INTO `exam` VALUES (4, '2024-03-03 18:00:00', '2024-03-03 20:00:00', '', 0, 'po', 'hy');
+INSERT INTO `exam` VALUES (5, '2024-02-16 00:00:00', '2024-04-10 00:00:00', '', 1, '965675', 'hy');
+INSERT INTO `exam` VALUES (6, '2024-02-16 00:00:00', '2024-04-12 00:00:00', '', 0, '12', 'hy');
+INSERT INTO `exam` VALUES (7, '2024-02-16 00:00:00', '2024-04-25 00:00:00', '', 1, '87', 'hy');
+INSERT INTO `exam` VALUES (8, '2024-02-16 00:00:00', '2024-04-25 00:00:00', '', 1, 'FDS', 'hy');
+INSERT INTO `exam` VALUES (9, '2024-03-16 00:00:00', '2024-03-21 00:00:00', '', 1, 'oic', 'hy');
+INSERT INTO `exam` VALUES (11, '2024-03-03 00:00:00', '2024-03-12 00:00:00', '', 0, '09', 'hy');
+INSERT INTO `exam` VALUES (12, '2024-03-03 00:00:00', '2024-03-12 00:00:00', '', 1, 'FDS', 'hy');
+INSERT INTO `exam` VALUES (13, '2024-03-03 00:00:00', '2024-03-12 00:00:00', '', 1, 'oic', 'hy');
+INSERT INTO `exam` VALUES (14, '2024-03-13 00:00:00', '2024-02-27 00:00:00', '', 1, '12', 'hy');
+INSERT INTO `exam` VALUES (15, '2024-03-07 00:00:00', '2024-03-14 00:00:00', '', 1, '965675', 'hy');
+INSERT INTO `exam` VALUES (16, '2024-03-02 00:00:00', '2024-03-10 00:00:00', '', 1, '87', 'hy');
+INSERT INTO `exam` VALUES (17, '2024-03-04 00:00:00', '2024-03-04 00:00:00', '', 0, 'FDS', 'hy');
+INSERT INTO `exam` VALUES (18, '2024-03-04 00:00:00', '2024-03-04 00:00:00', '', 1, '87', 'hy');
+INSERT INTO `exam` VALUES (19, '2024-03-04 00:00:00', '2024-03-04 00:00:00', '', 1, '12', 'hy');
+INSERT INTO `exam` VALUES (20, '2024-03-04 00:00:00', '2024-03-04 00:00:00', '', 1, '965675', 'hy');
+INSERT INTO `exam` VALUES (21, '2024-03-04 00:00:00', '2024-03-04 00:00:00', '', 1, 'hg', 'hy');
 
 -- ----------------------------
 -- Table structure for group

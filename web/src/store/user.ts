@@ -25,7 +25,6 @@ export const useUserStore = defineStore('user',{
                         localStorage.setItem('jwt_token', resp.token)
                         this.token = resp.token;
                         this.status = resp.status;
-                        console.log(resp)
                     }
                     callback(resp.error_message)
                 },
@@ -45,9 +44,14 @@ export const useUserStore = defineStore('user',{
                     const resp = JSON.parse(ru);
                     this.status = resp.status;
                     this.username = resp.name;
-                    if(typeof callback !== 'undefined') callback();
+                    if(typeof callback !== 'undefined' && resp.error_message==='success') callback();
                 }
             })
+        },
+        logout(){
+            localStorage.setItem('jwt_token','');
+            this.token = "", this.status = '', this.username = '';
+            location.reload();
         }
     },
     getters: {

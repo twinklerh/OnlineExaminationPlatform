@@ -10,7 +10,7 @@
                         <template #dropdown>
                             <el-dropdown-menu>
                                 <el-dropdown-item>企业资料</el-dropdown-item>
-                                <el-dropdown-item @click="logout">退出登录</el-dropdown-item>
+                                <el-dropdown-item @click="userStore.logout">退出登录</el-dropdown-item>
                             </el-dropdown-menu>
                         </template>
                     </el-dropdown>
@@ -24,17 +24,11 @@
 <script lang="ts" setup>
 import AsideBar from '@/components/AsideBar.vue';
 import { useUserStore } from '@/store/user';
-import { useRoute, useRouter } from 'vue-router';
+import { useRoute } from 'vue-router';
 
 const route = useRoute()
-const router = useRouter();
 const userStore = useUserStore();
 
-function logout(){
-    localStorage.setItem('jwt_token','');
-    userStore.token = "";
-    router.push({ name:'login' });
-}
 
 </script>
 

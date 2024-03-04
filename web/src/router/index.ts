@@ -8,6 +8,10 @@ const router = createRouter({
     history: createWebHistory(),
     routes: [
         {
+            path: '/:catchAll(.*)',
+            redirect: '/notfound/',
+        },
+        {
             path: '/',
             name: 'root',
             redirect: '/login',
@@ -32,6 +36,7 @@ const router = createRouter({
             path: '/enterprise',
             name: 'enterprise',
             component: () => import('@/views/enterprise/HomeEnterpriseView.vue'),
+            meta:{ requestAuth: true, holder: 'enterprise'},
             children: [
                 {
                     path: 'allproblems',
@@ -88,17 +93,41 @@ const router = createRouter({
             name: 'problemdetail',
             component: ProblemDetailView,
             meta: { requestAuth: true, holder: 'enterprise'}
+        },
+        {
+            path: '/notfound/',
+            name: 'notfound',
+            component: () => import('@/views/account/NotFoundView.vue'),
+            meta: { requestAuth: false }
         }
     ]
 });
 router.beforeEach(async(to, from, next)=>{
     const userStore = useUserStore();
     userStore.token = localStorage.getItem("jwt_token") as string;
-    if(to.meta.requestAuth) {
-        await userStore.getUserInfo();
-        if(to.meta.holder === userStore.status) next();
-        else    router.go(-1);
+
+    if(to.name === 'login') {
+        if(userStore.token){
+            await userStore.getUserInfo();
+            if(userStore.status === 'enterprise')   next({name: 'allproblems'});
+            else if(userStore.status === 'candidate')   next({name: 'candidate'});
+            else    next({name: 'notfound'});
+        }
+        else    next();
     }
-    else next();
+    else {
+        if(to.meta.requestAuth) {
+            if(userStore.token){
+                await userStore.getUserInfo();
+                if(userStore.status === to.meta.holder)   next();
+                else    next({name: 'notfound'});
+            }
+            else next({name: 'login'});
+        }
+        else {
+            next();
+        }        
+    }
+
 })
 export default router
