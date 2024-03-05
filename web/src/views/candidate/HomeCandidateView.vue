@@ -1,33 +1,35 @@
 <template>
-  <el-menu router class="el-menu" active-text-color="#748199" mode="horizontal" default-active="/candidate/exams">
-    <span class="title-span" @click="clickHome()">
+  <el-menu router class="el-menu" active-text-color="#748199" mode="horizontal" :default-active="route.name">
+    <div class="title-span" @click=" () => { router.push({name: 'exams'}) } ">
       <img src="@/assets/logo.png" style="height:30px; width:auto; ">  &nbsp;&nbsp;在线应试平台
-    </span>
-    <el-menu-item index="/candidate/exams" class="el-menu-item">我的考试</el-menu-item>
-    <el-menu-item index="/candidate/score" class="el-menu-item">我的成绩</el-menu-item>
+    </div>
+    <el-menu-item index="exams" class="el-menu-item">我的考试</el-menu-item>
+    <el-menu-item index="score" class="el-menu-item">我的成绩</el-menu-item>
     <el-dropdown class="el-dropdown el-col-di7" trigger="click">
       <img class="el-avatar" size="30" src="@/assets/defaultHeadImg.png" />
       <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item>Action 1</el-dropdown-item>
+        <el-dropdown-item>个人信息</el-dropdown-item>
         <el-dropdown-item @click="userStore.logout()" divided>退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </template>
     </el-dropdown>
   </el-menu>
+  <el-card style="width: 1080px; height: 480px; margin:10px auto;"> <router-view /> </el-card>
 </template>
 
 <script lang="ts" setup>
 import { useUserStore } from '@/store/user';
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 const userStore = useUserStore();
 const router = useRouter();
-const clickHome = ()=>{router.push({name:'exams'}); location.reload(); }
+const route = useRoute();
 </script>
 
 <style scoped>
 .el-menu{
   background-color: #e0e8f6;
+  height: 56px;
 }
 .title-span{
   display: flex;

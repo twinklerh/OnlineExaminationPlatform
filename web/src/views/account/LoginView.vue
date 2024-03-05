@@ -40,7 +40,7 @@ function login(){
         error_message.value = msg;
         if(error_message.value != 'success' || userStore.token === '')  return;
         if(userStore.status === 'enterprise') router.push({name: 'allproblems'});
-        else if(userStore.status === 'candidate')   { router.push({name: 'candidate'});}
+        else if(userStore.status === 'candidate')   { router.push({name: 'exams'});}
     });
 }
 </script>

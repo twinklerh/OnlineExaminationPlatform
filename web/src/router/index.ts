@@ -58,21 +58,21 @@ const router = createRouter({
                 },
                 {
                     path: 'maketestpaper',
-                    name: 'maketestepaper',
+                    name: 'maketestpaper',
                     component: () => import('@/views/enterprise/maketestpaperView/MakeTestPaperView.vue'),
                     meta:{ title: '组卷', requestAuth: true, holder: 'enterprise'}
+                },
+                {
+                    path: 'addexam',
+                    name: 'addexam',
+                    component: () => import('@/views/enterprise/releaseExamView/AddExamView.vue'),
+                    meta:{ title: '发布考试', requestAuth: true, holder: 'enterprise'}              
                 },
                 {
                     path: 'release',
                     name: 'release',
                     component: () => import('@/views/enterprise/releaseExamView/ReleaseExamView.vue'),
                     meta:{ title: '发布考试', requestAuth: true, holder: 'enterprise'}
-                },
-                {
-                    path: 'exam',
-                    name: 'exam',
-                    component: () => import('@/views/enterprise/releaseExamView/ExamView.vue'),
-                    meta:{ title: '发布考试', requestAuth: true, holder: 'enterprise'}              
                 },
                 {
                     path: 'grade',

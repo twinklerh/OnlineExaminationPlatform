@@ -4,8 +4,8 @@
     
     <el-divider class="el-divider"></el-divider>
 
-    <el-menu router class="aside-bar" default-active="/enterprise/allproblems/" active-text-color="#409eff"> 
-      <el-menu-item index="/enterprise/allproblems/" class="el-menu-item">
+    <el-menu router class="aside-bar" :default-active="route.name" active-text-color="#409eff"> 
+      <el-menu-item index="allproblems" class="el-menu-item">
         <el-icon><Files /></el-icon>
         <span>试题库</span>
       </el-menu-item>
@@ -16,16 +16,16 @@
             <span>试题录入</span>
           </span>
         </template>
-        <el-menu-item class="el-menu-item" index="/enterprise/addobjproblem">
+        <el-menu-item class="el-menu-item" index="addobjproblem">
           <el-icon><CirclePlus /></el-icon>
           <span>客观题</span>
         </el-menu-item>
-        <el-menu-item class="el-menu-item" index="/enterprise/addsubproblem">
+        <el-menu-item class="el-menu-item" index="addsubproblem">
           <el-icon><CirclePlus /></el-icon>
           <span>主观题</span>
         </el-menu-item>
       </el-sub-menu>
-      <el-menu-item index="/enterprise/maketestpaper" class="el-menu-item">
+      <el-menu-item class="el-menu-item" index="maketestpaper">
         <el-icon><Paperclip /></el-icon>
         <span>组卷</span>
       </el-menu-item>
@@ -37,17 +37,17 @@
             <span>考试中心</span>
           </span>
         </template>
-        <el-menu-item index="/enterprise/release" class="el-menu-item">
+        <el-menu-item index="addexam" class="el-menu-item">
           <el-icon><Calendar /></el-icon>
           <span>新建考试</span>
         </el-menu-item>
-        <el-menu-item index="/enterprise/exam" class="el-menu-item">
+        <el-menu-item index="release" class="el-menu-item">
           <el-icon><Calendar /></el-icon>
           <span>发布考试</span>
         </el-menu-item>
       </el-sub-menu>
 
-      <el-menu-item index="/enterprise/grade" class="el-menu-item">
+      <el-menu-item index="grade" class="el-menu-item">
         <el-icon><Search /></el-icon>
         <span>成绩查询</span>
       </el-menu-item>
@@ -57,7 +57,8 @@
 
 <script lang="ts" setup>
 import { Files, CirclePlus, Search, Calendar, Paperclip } from '@element-plus/icons-vue'
-import { useRouter } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
+const route = useRoute();
 const router = useRouter();
 </script>
 

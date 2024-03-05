@@ -1,124 +1,60 @@
 <template>
-    <el-row style="background-color: white;">
-        <el-col :offset="1" :span="11">
-            <el-card shadow="never" style="width: 100%; margin-top:25px; margin-bottom:25px; height:500px;">
-                应试开始时间：<el-date-picker v-model="beginDateTime" type="datetime" placeholder="Select date and time"/><br><br><br>
-                应试结束时间：<el-date-picker v-model="endDateTime" type="datetime" placeholder="Select date and time"/><br><br>
-                试&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷：<el-input class="el-input-pure" v-model="testPaperTitle" disabled/><br>
-                备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：<el-input class="el-input-pure" v-model="note"/><br>
-                <el-button type="primary" @click="submitExamData">提交数据</el-button>
-            </el-card>
-        </el-col>
-        <el-col :offset="1" :span="10">
-            <el-card style="margin-top:25px;" shadow="never">
-                <span style="font-size:20px">试卷信息：</span>
-                <el-table :data="testPaperStore.testpaperlist" stripe height="400px">
-                    <el-table-column prop="id" label="序号" width="60px" />
-                    <el-table-column prop="title" label="标题" />
-                    <el-table-column width="112">
-                        <template #default="scope">
-                            <el-button type="primary" @click="lookupTestpaper(scope.row)">查看试卷</el-button>
-                        </template>
-                    </el-table-column>
-                    <el-table-column width="112">
-                        <template #default="scope">
-                            <el-button :type="type[scope.row.id]" @click="selectTestPaper(scope.row.id, scope.row.title)">{{ btnMsg[scope.row.id] }}</el-button>
-                        </template>
-                    </el-table-column>
-                </el-table>
-                <el-pagination @current-change="changePage" background layout="prev, pager, next" :total="pageData.DataCount" />
-            </el-card>
-        </el-col>
-    </el-row>
+    <div style="display: flex; justify-content: center;">
+        <el-card class="el-card-out" shadow="never">
+            <el-row style="display: flex; justify-content: left; align-items: center; margin-bottom: 20px;">
+                <el-card class="el-card-inner" v-for="(item,index) in examStore.examList" :key="index">
+                    <span>{{ item.testpaperTitle }}</span><br>
+                    <br><span class="span-pure-text">开始时间：</span><br><span style="color: red;">{{ item.beginTime }}</span>
+                    <br><span class="span-pure-text">结束时间：</span><br><span style="color: red;">{{ item.endTime }}</span>
+                    <br><el-button v-if="item.announced==false" type="primary" size="small" class="announced-msg" @click="releaseExam(item)">发布</el-button>
+                    <div v-else class="announced-msg" style="font-size: 14px;">已发布</div>
+                </el-card>
+            </el-row>
+            <el-pagination @current-change="changePage" :page-size="6" small background layout="prev, pager, next" :total="dataCount"/>
+        </el-card>
+    </div>
 </template>
 
 <script lang="ts" setup>
-import { useTestpaperStore } from '@/store/testpaper'
+import { ExamInterface, useExamStore } from '@/store/exam';
 import { ref } from 'vue';
-import $ from 'jquery'
-import { useUserStore } from '@/store/user';
-import { ElMessage } from 'element-plus';
-const testPaperStore = useTestpaperStore();
-const note = ref('');
-const testPaperTitle = ref('请在左侧选择一张试卷');
-const btnMsg = ref<string[]>([]);
-const type = ref<string[]>([]);
-const beginDateTime = ref('');
-const endDateTime = ref('')
-const pageData = ref({DataCount: 1, currentPage:1})
-let lastSelectTestPaper = -1;
 
-function formDate(){
-    testPaperStore.testpaperlist.forEach((item)=>{  // eslint-disable-next-line
-        let idx = (item as any).id;
-        type.value[idx] = 'primary', btnMsg.value[idx] = '选择试卷';
+const examStore = useExamStore();
+const dataCount = ref(0)
+
+function releaseExam(item:ExamInterface){
+    examStore.releaseExam(item.examId, ()=>{
+        item.announced = true;
     })
-}
-
-function selectTestPaper(id:number,title:string){
-    testPaperTitle.value = title;
-    if(btnMsg.value[id] === '取消选择'){
-        btnMsg.value[id] = '选择试卷', lastSelectTestPaper = -1, type.value[id] = 'primary';
-        return;
-    }
-    if(lastSelectTestPaper === -1) {
-        lastSelectTestPaper = id;
-        btnMsg.value[id] = '取消选择', type.value[id] = 'warning';
-    }
-    else{
-        btnMsg.value[lastSelectTestPaper] = '选择试卷', type.value[lastSelectTestPaper] = 'primary';
-        btnMsg.value[id]='取消选择', type.value[id]='warning';
-        lastSelectTestPaper = id;
-    }
 }
 
 function changePage(pageNum:number){
-    testPaperStore.getTestPaper(pageNum,(dataCount)=>{
-        pageData.value.DataCount = dataCount, pageData.value.currentPage = pageNum;
-        formDate();
+    examStore.getAllExam(pageNum, (myDataCount)=>{
+        dataCount.value = myDataCount; 
     });
 }
 
-changePage(1);
-formDate();
+changePage(1)
 
-function submitExamData(){
-    $.ajax({
-        url: 'http://127.0.0.1:3000/exam/add/',
-        type: 'post',
-        headers: {
-            Authorization: 'Bearer ' + useUserStore().token,
-        },
-        data: {
-            beginDateTime: beginDateTime.value,
-            endDateTime: endDateTime.value,
-            note: note.value,
-            testPaperTitle: testPaperTitle.value
-        },
-        success: (resp:string)=>{
-            const result = JSON.parse(resp);
-            if(result.error_message==='success'){
-                ElMessage({message: "成功添加该场应试", type: 'success'});
-                testPaperTitle.value = '请在左侧选择一张试卷', note.value = '';
-            }
-            else    ElMessage.error(result.error_message);
-        },
-        error: ()=>{
-            console.log("error");
-        }
-
-    })
-}
-// eslint-disable-next-line
-function lookupTestpaper(obj:any){
-    console.log(obj)
-}
 </script>
 
 <style scoped>
-.el-input-pure{
-    width: 60%;
-    padding-top: 20px;
-    padding-bottom: 20px;
+.el-card-inner{
+    width: 30%;
+    height: 200px;
+    margin-right: 15px;
+    margin-top:10px;
+}
+.el-card-out{
+    width:100%;
+    height:520px;
+    margin-top:10px;
+}
+.announced-msg {
+    margin-left:70%;
+    margin-top:10px;
+}
+.span-pure-text{
+    letter-spacing: 2px;
 }
 </style>
