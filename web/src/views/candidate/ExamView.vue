@@ -3,12 +3,30 @@
         <el-card class="el-col-item" v-for="(item,index) in list" :key="index">{{ item }}
         </el-card>
     </div>
-    <el-button type="success" style="position: absolute; margin-top:3px; margin-left: 45px;">邀请码</el-button>
+    <el-button type="success" @click="handleAddExam" style="position: absolute; margin-top:3px; margin-left: 45px;">邀请码</el-button>
     <el-button type="primary" style="margin-left: 720px; margin-top:9px"></el-button>
 </template>
 
 <script lang="ts" setup>
+import { useExamStore } from '@/store/exam';
+import { ElMessage, ElMessageBox } from 'element-plus';
+
+const examStore = useExamStore();
 const list = [1,2,3];
+
+function handleAddExam(){
+    ElMessageBox.prompt('输入应试邀请码：', '应试邀请', {
+        confirmButtonText: 'OK',
+        cancelButtonText: 'Cancel',
+    }).then(({value})=>{
+        examStore.joinExam(value, ()=>{
+            ElMessage({type: 'success', message: '成功加入一场应试'});
+        })
+    }).catch(()=>{
+        ElMessage({type: 'info',message: 'Input canceled',})
+    })
+}
+
 </script>
 
 <style scoped>

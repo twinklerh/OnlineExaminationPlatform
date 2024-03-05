@@ -1,6 +1,7 @@
 <template>
     <div style="display: flex; justify-content: center;">
         <el-card class="el-card-out" shadow="never">
+            <span v-if="examStore.examList.length === 0" style="font-size: 25px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无数据！</span>
             <el-row style="display: flex; justify-content: left; align-items: center; margin-bottom: 20px;">
                 <el-card class="el-card-inner" v-for="(item,index) in examStore.examList" :key="index">
                     <span>{{ item.testpaperTitle }}</span><br>
@@ -17,20 +18,33 @@
 
 <script lang="ts" setup>
 import { ExamInterface, useExamStore } from '@/store/exam';
+import { ElMessage, ElMessageBox } from 'element-plus';
 import { ref } from 'vue';
 
 const examStore = useExamStore();
 const dataCount = ref(0)
 
 function releaseExam(item:ExamInterface){
-    examStore.releaseExam(item.examId, ()=>{
+    examStore.releaseExam(item.examId, (s)=>{
+        const s0 = "您选择的应试已成功发布，下面是该场应试的邀请码，请妥善保管并通知相关人员及时参加应试。\n";
+        ElMessageBox.confirm(s0 + s, '发布成功' ,{
+            confirmButtonText: '复制到剪切板',
+            cancelButtonText: '取消',
+            type: 'success'
+        }).then(()=>{
+            navigator.clipboard.writeText(s).then(()=>{
+                ElMessage({type: 'success', message: '成功复制到剪切板'});
+            }).catch(()=>{ ElMessage.error("未知错误"); })
+        }).catch(()=>{
+            ElMessage({type: 'warning', message: '取消'});
+        })
         item.announced = true;
     })
 }
 
 function changePage(pageNum:number){
     examStore.getAllExam(pageNum, (myDataCount)=>{
-        dataCount.value = myDataCount; 
+        dataCount.value = myDataCount;
     });
 }
 

@@ -15,11 +15,10 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 @Service
 public class AddExamServiceImpl implements AddExamService {
@@ -40,10 +39,32 @@ public class AddExamServiceImpl implements AddExamService {
         Date beginDateTime = DateTimeFormat.dateTimeFormat(map.get("beginDateTime"));
         Date endDateTime = DateTimeFormat.dateTimeFormat(map.get("endDateTime"));
         String note = map.get("note");
-
-        Exam exam = new Exam(null, beginDateTime, endDateTime, note, false, testPaperTitle, enterprise_name);
+        String inviteCode = getInviteCode();
+        Exam exam = new Exam(null, beginDateTime, endDateTime, note, false, inviteCode, testPaperTitle, enterprise_name);
         examMapper.insert(exam);
         returnMap.put("error_message", "success");
         return WriteValue.writeValueAsString(returnMap);
     }
+
+    private static String getInviteCode() {
+        StringBuilder s = new StringBuilder();
+        Random random = new Random();
+        int lastNumber = random.nextInt(126);
+        int randomNum;
+        for(int i = 0; i < 15; i++){
+            randomNum = random.nextInt(126);
+            System.out.println(randomNum);
+            if((lastNumber+1)%3 == 0 && ((randomNum >= 'A' && randomNum <= 'Z') || (randomNum >= 'a' && randomNum <= 'z')) ){
+                s.append((char) randomNum);
+            } else {
+                s.append(String.valueOf(randomNum));
+            }
+            lastNumber = randomNum;
+            if(s.length() >= 26)    break;
+        }
+        return s.toString();
+    }
+
 }
+
+

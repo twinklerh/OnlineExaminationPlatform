@@ -45,7 +45,7 @@ export const useExamStore = defineStore('exam',{
                 }
             })
         },
-        releaseExam(examId:number, callback : ()=>void){
+        releaseExam(examId:number, callback : (inviteCode:string)=>void){
             $.ajax({
                 url: 'http://127.0.0.1:3000/exam/release/',
                 type: 'post',
@@ -58,12 +58,28 @@ export const useExamStore = defineStore('exam',{
                 success: (resp:string)=>{
                     const result = JSON.parse(resp);
                     if(result.error_message === "success"){
-                        callback();
-                        ElMessage({type: "success", message: result.error_message});
+                        callback(result.inviteCode);
                     }
                     else    ElMessage.error("发布失败");
                 },
                 error: ()=>{ ElMessage.error("失败"); }
+            })
+        },
+        joinExam(inviteCode:string, callback:()=>void){
+            $.ajax({
+                url: 'http://127.0.0.1:3000/candidate/join/exam/',
+                type: 'post',
+                headers: {
+                    Authorization: 'Bearer ' + useUserStore().token,
+                },
+                data: {
+                    inviteCode: inviteCode,
+                },
+                success: (result:string)=>{
+                    const resp = JSON.parse(result);
+                    if(resp.error_message === 'success')    callback();
+                    else    ElMessage.error(resp.error_message);
+                },
             })
         }
     }

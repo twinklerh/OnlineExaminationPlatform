@@ -47,6 +47,7 @@ public class UpdateExamServiceImpl implements UpdateExamService {
         updateWrapper.eq("exam_id", examId);
         updateWrapper.set("announced", true);
         examMapper.update(updateWrapper);
+        respMap.put("inviteCode", exam.getInviteCode());
         respMap.put("error_message", "success");
         return WriteValue.writeValueAsString(respMap);
     }

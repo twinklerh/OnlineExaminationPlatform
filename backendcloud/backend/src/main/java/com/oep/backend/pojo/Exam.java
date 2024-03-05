@@ -20,6 +20,7 @@ public class Exam {
     private Date endTime;
     private String note;
     private boolean announced;
+    private String inviteCode;
     private String testpaperTitle;
     private String enterpriseName;
 }
