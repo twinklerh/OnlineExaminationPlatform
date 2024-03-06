@@ -21,6 +21,7 @@ public class GetAProblemServiceImpl extends ClassProblem implements GetAProblemS
         int enterpriseId = super.authenticateGetEnterpriseId();
         List<Integer> problemIdList = super.getEnterpriseAllProblemId(enterpriseId);
         Integer problem_id = Integer.parseInt(map.get("problem_id"));
+        System.out.println("24 " + problem_id);
         if(!problemIdList.contains(problem_id))  return "非法访问";
         QueryWrapper<Problem> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("id", problem_id);

@@ -99,14 +99,20 @@ const router = createRouter({
                     name: 'score',
                     component: () => import('@/views/candidate/ScoreView.vue'),
                     meta: { requestAuth: true, holder: 'candidate'},
-                }
+                },
             ]
         },
         {
-            path: '/problem/detail',
+            path: '/problem/detail/:problem_id',
             name: 'problemdetail',
             component: ProblemDetailView,
             meta: { requestAuth: true, holder: 'enterprise'}
+        },
+        {
+            path: '/examination',
+            name: 'examination',
+            component: () => import('@/views/candidate/ExaminationView.vue'),
+            meta: { requestAuth: true, holder: 'candidate'},
         },
         {
             path: '/notfound/',

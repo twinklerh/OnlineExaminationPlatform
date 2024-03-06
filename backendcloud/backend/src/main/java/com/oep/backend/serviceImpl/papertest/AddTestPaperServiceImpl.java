@@ -1,11 +1,14 @@
 package com.oep.backend.serviceImpl.papertest;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.oep.backend.mapper.TestpaperMapper;
 import com.oep.backend.pojo.Account;
 import com.oep.backend.pojo.Testpaper;
+import com.oep.backend.utils.WriteValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.Map;
 
 @Service
@@ -21,9 +24,20 @@ public class AddTestPaperServiceImpl extends ClassTestPaper implements com.oep.b
         String note = map.get("note");
         Integer problemCount = Integer.valueOf(map.get("problemCount"));
         String problemString = map.get("problemString");
+        title = '{' + enterprise_name + '}' +title;
 
+        Map<String, String> respMap = new HashMap<>();
+
+        QueryWrapper<Testpaper> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("title", title);
+        Testpaper t = testpaperMapper.selectOne(queryWrapper);
+        if(t!=null) {
+            respMap.put("error_message", "试卷名存在重复");
+            return WriteValue.writeValueAsString(respMap);
+        }
         Testpaper testpaper =  new Testpaper(null, title, note, problemCount, problemString, enterprise_name);
         testpaperMapper.insert(testpaper);
-        return "success";
+        respMap.put("error_message", "success");
+        return WriteValue.writeValueAsString(respMap);
     }
 }

@@ -32,7 +32,7 @@ import { ref } from 'vue';
 
 const userStore = useUserStore();
 const route = useRoute();
-const problem_id = route.query.id;
+const problem_id = route.params.problem_id;
 interface problem_detail {
     id: number, title: string, description: string, difficulty: string, 
     checkBy: string, type: '', accurateTimes: number, finishedTimes: number, rightAnswer: string,
@@ -64,6 +64,7 @@ $.ajax({
 
     },
     error: ()=>{
+        console.log(67, problem_id);
         alert("失败");
     }
 })

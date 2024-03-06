@@ -35,6 +35,11 @@ public class GetMyExamServiceImpl extends ClassCandidateExam implements GetMyExa
         Integer candidateId = super.getCandidate(account).getCandidateId();
         List<Integer> examIdList = getMyExamIdList(candidateId);
 
+        if(examIdList.isEmpty())    {
+            respMap.put("error_message", "数据为空");
+            return WriteValue.writeValueAsString(respMap);
+        }
+
         IPage<Exam> iPage = new Page<>(currentPage, 6);
         QueryWrapper<Exam> queryWrapper = new QueryWrapper<>();
         queryWrapper.in("exam_id",examIdList);

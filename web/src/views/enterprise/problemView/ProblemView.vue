@@ -57,8 +57,8 @@ function selectProblem(){
 }
 
 function handleButtonClick(row: ProblemInterface){
-    const url = router.resolve({ name: 'problemdetail', query: { id: row.id },}).href;
-    window.open(url, '_blank');
+    const url = router.resolve({name: 'problemdetail', params: { problem_id:row.id }});
+    window.open(url.href, url);
 }
 
 function handlePrimaryDelete(problem_id:number){

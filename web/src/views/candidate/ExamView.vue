@@ -1,11 +1,12 @@
 <template>
     <div style="display: flex; justify-content: left;  flex-flow: wrap; padding: 0px 20px;">    <!--一行排不下，flex-flow实现自动换行-->
+        <h2 v-if="dataCount===0">数据为空</h2>
         <el-card class="el-card-item" v-for="(item,index) in examStore.examList" :key="index">
             <span>{{ item.testpaperTitle }}</span><br><br>
             <span>开始时间：{{ item.beginTime }}</span><br>
             <span>结束时间：{{ item.endTime }}</span>
             <div style="float: right; margin-top: 10px;">
-                <el-button type="primary" :disabled="btn[item.examId]">{{ btnMsg[item.examId] }}</el-button>                
+                <el-button @click="beginExam(item.testpaperTitle)" type="primary" :disabled="btn[item.examId]">{{ btnMsg[item.examId] }}</el-button>                
             </div>
         </el-card>
     </div>
@@ -17,7 +18,9 @@
 import { useExamStore } from '@/store/exam';
 import { ElMessage, ElMessageBox } from 'element-plus';
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const examStore = useExamStore();
 const btn = ref<boolean[]>([]);
 const btnMsg = ref<string[]>([]);
@@ -54,6 +57,11 @@ function init(){
         else if(new Date(item.beginTime) < current_date && current_date < new Date(item.endTime))    btnMsg.value[item.examId] = '开始考试', btn.value[item.examId] = false;
         else btnMsg.value[item.examId] = '时间已过', btn.value[item.examId] = true;
     })
+}
+
+function beginExam(testpaperTitle:string) {
+    const url = router.resolve({name: 'examination', query:{ title: encodeURIComponent(testpaperTitle) }}).href;
+    window.open(url);
 }
 
 </script>

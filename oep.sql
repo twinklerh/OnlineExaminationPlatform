@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 05/03/2024 23:56:12
+ Date: 07/03/2024 01:55:03
 */
 
 SET NAMES utf8mb4;
@@ -64,7 +64,7 @@ INSERT INTO `candidate` VALUES (4, '123', NULL, '\0', NULL, NULL, NULL, 'uy');
 -- ----------------------------
 DROP TABLE IF EXISTS `candidate_exam`;
 CREATE TABLE `candidate_exam`  (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `candidate_id` int NOT NULL,
   `exam_id` int NOT NULL,
   `score` float NULL DEFAULT NULL,
@@ -75,7 +75,7 @@ CREATE TABLE `candidate_exam`  (
   INDEX `candidate_exam_exam_exam_id_fk`(`exam_id` ASC) USING BTREE,
   CONSTRAINT `candidate_exam_candidate_candidate_id_fk` FOREIGN KEY (`candidate_id`) REFERENCES `candidate` (`candidate_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `candidate_exam_exam_exam_id_fk` FOREIGN KEY (`exam_id`) REFERENCES `exam` (`exam_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of candidate_exam
@@ -115,19 +115,18 @@ CREATE TABLE `exam`  (
   `note` varchar(1024) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `announced` tinyint(1) NOT NULL DEFAULT 0,
   `invite_code` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `testpaper_title` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `testpaper_title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `enterprise_name` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`exam_id`) USING BTREE,
   INDEX `exam_enterprise_name_fk`(`enterprise_name` ASC) USING BTREE,
   INDEX `exam_testpaper_title_fk`(`testpaper_title` ASC) USING BTREE,
   CONSTRAINT `exam_enterprise_name_fk` FOREIGN KEY (`enterprise_name`) REFERENCES `enterprise` (`name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `exam_testpaper_title_fk` FOREIGN KEY (`testpaper_title`) REFERENCES `testpaper` (`title`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 23 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam
 -- ----------------------------
-INSERT INTO `exam` VALUES (22, '2024-03-06 08:00:00', '2024-03-08 10:00:00', '', 1, '691069416116N36893247J12472', '第一次大联考', 'hy');
 
 -- ----------------------------
 -- Table structure for group
@@ -203,17 +202,17 @@ INSERT INTO `problem` VALUES (60, 'yuwen', 'w', '简单', '自动批改', '7', '
 DROP TABLE IF EXISTS `testpaper`;
 CREATE TABLE `testpaper`  (
   `id` int NOT NULL AUTO_INCREMENT,
-  `title` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `note` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `problem_count` int NULL DEFAULT NULL,
   `problems` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `enterprise_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
-  UNIQUE INDEX `testpaper_pk`(`title` ASC) USING BTREE,
   INDEX `testpaper_enterprise_name_fk`(`enterprise_name` ASC) USING BTREE,
   INDEX `testpaper_title_index`(`title` ASC) USING BTREE,
+  UNIQUE INDEX `testpaper_pk`(`title` ASC) USING BTREE,
   CONSTRAINT `testpaper_enterprise_name_fk` FOREIGN KEY (`enterprise_name`) REFERENCES `enterprise` (`name`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 31 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of testpaper

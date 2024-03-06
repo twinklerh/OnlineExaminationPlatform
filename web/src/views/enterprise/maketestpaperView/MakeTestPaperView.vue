@@ -111,7 +111,8 @@ function submit(){
         problemsString = problemsString + JSON.stringify(obj);
     })
     testpaperStore.submitTestPaper(paper, problemsString, (msg)=>{
-        if(msg === 'success'){
+        const resp = JSON.parse(msg);
+        if(resp.error_message === 'success'){
             paper.problemCount = activeNumber.value = 0;
             ElMessage({message: msg, type: 'success'});
             paper.memo = paper.title = '';
@@ -119,7 +120,7 @@ function submit(){
             init();
             beforeSubmitData.value = [];
         }
-        else    ElMessage.error(msg)
+        else    ElMessage.error(resp.error_message);
     });
 }
 </script>

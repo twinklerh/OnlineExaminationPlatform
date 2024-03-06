@@ -97,7 +97,6 @@ export const useExamStore = defineStore('exam',{
                     const resp = JSON.parse(result);
                     if(resp.error_message === 'success') {
                         this.examList = JSON.parse(resp.myExamList);
-                        console.log(100,this.examList);
                         callback(parseInt(resp.dataCount));
                     }
                 },
