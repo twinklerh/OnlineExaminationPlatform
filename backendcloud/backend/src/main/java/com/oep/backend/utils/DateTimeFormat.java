@@ -26,8 +26,6 @@ public class DateTimeFormat {
             // 构建 yyyy-MM-dd HH:mm:ss 格式的字符串
             String formattedDateTime = year + "-" + monthToNumber(month) + "-" + day + " " + hour + ":" + minute + ":" + second;
 
-            System.out.println("转换后的日期时间字符串: " + formattedDateTime);
-
             // 使用 LocalDateTime 解析格式化的日期时间字符串
             LocalDateTime localDateTime = LocalDateTime.parse(formattedDateTime, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
 
@@ -36,7 +34,6 @@ public class DateTimeFormat {
             // 将 ZonedDateTime 转换为 Date 对象并返回
             return Date.from(zonedDateTime.toInstant());
         } else {
-            System.out.println("日期时间字符串格式不匹配。");
             return null;
         }
     }

@@ -4,7 +4,7 @@
             <el-card shadow="never" style="width: 100%; margin-top:25px; margin-bottom:25px; height:500px;">
                 应试开始时间：<el-date-picker v-model="beginDateTime" type="datetime" placeholder="Select date and time"/><br><br><br>
                 应试结束时间：<el-date-picker v-model="endDateTime" type="datetime" placeholder="Select date and time"/><br><br>
-                试&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷：<el-input class="el-input-pure" v-model="testPaperTitle" disabled/><br>
+                试&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷：<el-input class="el-input-pure" v-model="testPaperTitle" placeholder="请在右边选择一张试卷" disabled/><br>
                 备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：<el-input class="el-input-pure" v-model="note"/><br>
                 <el-button type="primary" @click="submitExamData">提交数据</el-button>
             </el-card>
@@ -40,7 +40,7 @@ import { useUserStore } from '@/store/user';
 import { ElMessage } from 'element-plus';
 const testPaperStore = useTestpaperStore();
 const note = ref('');
-const testPaperTitle = ref('请在左侧选择一张试卷');
+const testPaperTitle = ref('');
 const btnMsg = ref<string[]>([]);
 const type = ref<string[]>([]);
 const beginDateTime = ref('');

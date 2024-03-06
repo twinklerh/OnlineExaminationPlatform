@@ -10,7 +10,8 @@ export interface ExamInterface{
     note: string,
     testpaperTitle: string,
     state: string,
-    announced: boolean
+    announced: boolean,
+    inviteCode: string,
 }
 
 
@@ -60,7 +61,7 @@ export const useExamStore = defineStore('exam',{
                     if(result.error_message === "success"){
                         callback(result.inviteCode);
                     }
-                    else    ElMessage.error("发布失败");
+                    else    ElMessage.error(result.error_message);
                 },
                 error: ()=>{ ElMessage.error("失败"); }
             })
@@ -80,6 +81,27 @@ export const useExamStore = defineStore('exam',{
                     if(resp.error_message === 'success')    callback();
                     else    ElMessage.error(resp.error_message);
                 },
+            })
+        },
+        getMyJoinedExam(current_page:number, callback:(dataCount:number)=>void){
+            $.ajax({
+                url: 'http://127.0.0.1:3000/candidate/get/myexam/',
+                type: 'get',
+                headers: {
+                    Authorization: "Bearer " + useUserStore().token,
+                },
+                data: {
+                    currentPage: current_page,
+                },
+                success: (result:string) =>{
+                    const resp = JSON.parse(result);
+                    if(resp.error_message === 'success') {
+                        this.examList = JSON.parse(resp.myExamList);
+                        console.log(100,this.examList);
+                        callback(parseInt(resp.dataCount));
+                    }
+                },
+                error: ()=>{ElMessage.error("失败");}
             })
         }
     }

@@ -1,40 +1,73 @@
 <template>
     <div style="display: flex; justify-content: left;  flex-flow: wrap; padding: 0px 20px;">    <!--一行排不下，flex-flow实现自动换行-->
-        <el-card class="el-col-item" v-for="(item,index) in list" :key="index">{{ item }}
+        <el-card class="el-card-item" v-for="(item,index) in examStore.examList" :key="index">
+            <span>{{ item.testpaperTitle }}</span><br><br>
+            <span>开始时间：{{ item.beginTime }}</span><br>
+            <span>结束时间：{{ item.endTime }}</span>
+            <div style="float: right; margin-top: 10px;">
+                <el-button type="primary" :disabled="btn[item.examId]">{{ btnMsg[item.examId] }}</el-button>                
+            </div>
         </el-card>
     </div>
     <el-button type="success" @click="handleAddExam" style="position: absolute; margin-top:3px; margin-left: 45px;">邀请码</el-button>
-    <el-button type="primary" style="margin-left: 720px; margin-top:9px"></el-button>
+    <el-pagination class="el-pagination" @current-change="changePage" :pager-count="5" :page-size="6" background layout="prev, pager, next" :total="dataCount" />
 </template>
 
 <script lang="ts" setup>
 import { useExamStore } from '@/store/exam';
 import { ElMessage, ElMessageBox } from 'element-plus';
+import { ref } from 'vue';
 
 const examStore = useExamStore();
-const list = [1,2,3];
+const btn = ref<boolean[]>([]);
+const btnMsg = ref<string[]>([]);
 
+const dataCount = ref<number>(0);
+let currentPage = 1;
+function changePage(pageNum:number) {
+    examStore.getMyJoinedExam(pageNum, (num)=>{
+        init();
+        currentPage = pageNum;
+        dataCount.value = num;
+    });
+}
+changePage(1);
 function handleAddExam(){
     ElMessageBox.prompt('输入应试邀请码：', '应试邀请', {
         confirmButtonText: 'OK',
         cancelButtonText: 'Cancel',
     }).then(({value})=>{
+        if(!value)  return;
         examStore.joinExam(value, ()=>{
+            changePage(currentPage)
             ElMessage({type: 'success', message: '成功加入一场应试'});
         })
     }).catch(()=>{
-        ElMessage({type: 'info',message: 'Input canceled',})
+        ElMessage({type: 'info',message: '取消',})
+    })
+}
+
+function init(){
+    examStore.examList.forEach((item)=>{
+        let current_date = new Date();
+        if(current_date < new Date(item.beginTime))   btnMsg.value[item.examId] = '时间未到', btn.value[item.examId] = true;
+        else if(new Date(item.beginTime) < current_date && current_date < new Date(item.endTime))    btnMsg.value[item.examId] = '开始考试', btn.value[item.examId] = false;
+        else btnMsg.value[item.examId] = '时间已过', btn.value[item.examId] = true;
     })
 }
 
 </script>
 
 <style scoped>
-.el-col-item{
-    background-color: red;
+.el-card-item{
+    background-color: #F0F8FF;
     margin: 5px 15px;
     height: 190px;
     width: 290px;
     border-radius: 12px;
+}
+.el-pagination{
+    position: absolute;
+    margin-left: 700px;
 }
 </style>
