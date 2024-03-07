@@ -17,7 +17,7 @@ export const useTestpaperStore = defineStore('testpaper', {
         }
     },
     actions: {
-        submitTestPaper(testpaper:TestpaperInterface, problemString:string, callback:(msg:string)=> void){
+        submitTestPaper(testpaper:TestpaperInterface, problemString:string, isNeedAppendix:boolean, callback:(msg:string)=> void){
             $.ajax({
                 url: 'http://localhost:3000/testpaper/addtestpaper/',
                 type: 'post',
@@ -31,10 +31,12 @@ export const useTestpaperStore = defineStore('testpaper', {
                     title: testpaper.title,
                     note: testpaper.memo,
                     problemCount: testpaper.problemCount,
-                    problemString: problemString
+                    problemString: problemString,
+                    isNeedAppendix: isNeedAppendix
                 },
-                success: (resp:string)=>{
-                    callback(resp);
+                success: (result:string)=>{
+                    const resp = JSON.parse(result)
+                    callback(resp.error_message);
                 },
                 error:(resp:string)=>{
                     callback(resp);
@@ -55,12 +57,21 @@ export const useTestpaperStore = defineStore('testpaper', {
                     const result = JSON.parse(resp);
                     this.testpaperlist = result.testpaperList;
                     this.current_page = result.current_page;
+                    this.fixTestPaperMsg();
                     callback(result.dataCount)
                 },
                 error: ()=>{
                     ElMessage.error("拉取试卷信息失败");
                 }
             })
+        },
+        fixTestPaperMsg(){
+            this.testpaperlist.forEach((item) => {
+                const index = item.title.indexOf('}');
+                if (index !== -1) {
+                    item.title = item.title.slice(index + 1); // 保留'}'符号后的字符
+                }
+            });  
         }
     },
     getters: {

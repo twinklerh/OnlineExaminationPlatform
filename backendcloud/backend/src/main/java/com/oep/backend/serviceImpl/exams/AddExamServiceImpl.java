@@ -51,6 +51,7 @@ public class AddExamServiceImpl implements AddExamService {
         String note = map.get("note");
         String inviteCode = getInviteCode();
         Exam exam = new Exam(null, beginDateTime, endDateTime, note, false, inviteCode, testPaperTitle, enterprise_name);
+        System.out.println(exam);
         examMapper.insert(exam);
         returnMap.put("error_message", "success");
         return WriteValue.writeValueAsString(returnMap);

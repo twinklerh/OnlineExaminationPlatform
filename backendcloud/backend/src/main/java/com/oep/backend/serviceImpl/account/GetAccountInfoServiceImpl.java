@@ -36,12 +36,12 @@ public class GetAccountInfoServiceImpl implements GetAccountInfoService {
             QueryWrapper<Enterprise> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("account_id", account.getAccountId());
             Enterprise enterprise = enterpriseMapper.selectOne(queryWrapper);
-            if(enterprise!=null) map.put("enterprise_name", enterprise.getName());
+            if(enterprise!=null) map.put("username", enterprise.getName());
         }   else if ("candidate".equals(account.getStatus())) {
             QueryWrapper<Candidate> queryWrapper = new QueryWrapper<>();
             queryWrapper.eq("account_id", account.getAccountId());
             Candidate candidate = candidateMapper.selectOne(queryWrapper);
-            if(candidate!=null) map.put("candidate_name", candidate.getFullname());
+            if(candidate!=null) map.put("username", candidate.getFullname());
         }
         String dateTime = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         System.out.println(dateTime + ": userId "+account.getAccountId()+" login or get info by token.");

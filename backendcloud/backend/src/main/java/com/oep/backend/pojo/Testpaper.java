@@ -16,6 +16,7 @@ public class Testpaper {
     private String title;
     private String note;
     private Integer problemCount;
+    private Boolean isNeedAppendix;
     private String problems;
     private String enterpriseName;
 }

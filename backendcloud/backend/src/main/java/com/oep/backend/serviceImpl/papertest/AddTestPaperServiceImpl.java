@@ -24,6 +24,8 @@ public class AddTestPaperServiceImpl extends ClassTestPaper implements com.oep.b
         String note = map.get("note");
         Integer problemCount = Integer.valueOf(map.get("problemCount"));
         String problemString = map.get("problemString");
+        Boolean isNeedAppendix = Boolean.valueOf(map.get("isNeedAppendix"));
+
         title = '{' + enterprise_name + '}' +title;
 
         Map<String, String> respMap = new HashMap<>();
@@ -35,7 +37,7 @@ public class AddTestPaperServiceImpl extends ClassTestPaper implements com.oep.b
             respMap.put("error_message", "试卷名存在重复");
             return WriteValue.writeValueAsString(respMap);
         }
-        Testpaper testpaper =  new Testpaper(null, title, note, problemCount, problemString, enterprise_name);
+        Testpaper testpaper =  new Testpaper(null, title, note, problemCount, isNeedAppendix, problemString, enterprise_name);
         testpaperMapper.insert(testpaper);
         respMap.put("error_message", "success");
         return WriteValue.writeValueAsString(respMap);

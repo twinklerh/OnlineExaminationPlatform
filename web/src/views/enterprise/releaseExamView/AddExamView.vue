@@ -6,6 +6,7 @@
                 应试结束时间：<el-date-picker v-model="endDateTime" type="datetime" placeholder="Select date and time"/><br><br>
                 试&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;卷：<el-input class="el-input-pure" v-model="testPaperTitle" placeholder="请在右边选择一张试卷" disabled/><br>
                 备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：<el-input class="el-input-pure" v-model="note"/><br>
+
                 <el-button type="primary" @click="submitExamData">提交数据</el-button>
             </el-card>
         </el-col>
@@ -45,7 +46,7 @@ const btnMsg = ref<string[]>([]);
 const type = ref<string[]>([]);
 const beginDateTime = ref('');
 const endDateTime = ref('')
-const pageData = ref({DataCount: 1, currentPage:1})
+const pageData = ref({DataCount: 1, currentPage:1});
 let lastSelectTestPaper = -1;
 
 function formDate(){
@@ -93,7 +94,7 @@ function submitExamData(){
             beginDateTime: beginDateTime.value,
             endDateTime: endDateTime.value,
             note: note.value,
-            testPaperTitle: testPaperTitle.value
+            testPaperTitle: '{' + useUserStore().username +  '}' + testPaperTitle.value
         },
         success: (resp:string)=>{
             const result = JSON.parse(resp);

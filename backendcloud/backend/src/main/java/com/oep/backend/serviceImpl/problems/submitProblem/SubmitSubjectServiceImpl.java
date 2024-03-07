@@ -43,7 +43,6 @@ public class SubmitSubjectServiceImpl implements SubmitSubjectService {
         String difficulty = map.get("radioSelectRank");
         String checkBy = map.get("checkSelect");
         String rightAnswer = map.get("rightAnswer");
-        String appendix_name = map.get("appendix");
 
         if("".equals(description)) {
             returnHashMap.put("error_message", "题目描述不能为空！");
@@ -51,7 +50,7 @@ public class SubmitSubjectServiceImpl implements SubmitSubjectService {
         }
 
         try{
-            Problem problem = new Problem(null,title,description,difficulty,checkBy,rightAnswer,appendix_name,"综合",0,0);
+            Problem problem = new Problem(null,title,description,difficulty,checkBy,rightAnswer, null,"综合",0,0);
             int resp = problemMapper.insert(problem);
             QueryWrapper<Group> groupQueryWrapper = new QueryWrapper<>();
             groupQueryWrapper.eq("group_name", groupSelect);

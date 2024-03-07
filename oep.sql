@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 07/03/2024 01:55:03
+ Date: 07/03/2024 19:33:39
 */
 
 SET NAMES utf8mb4;
@@ -75,11 +75,12 @@ CREATE TABLE `candidate_exam`  (
   INDEX `candidate_exam_exam_exam_id_fk`(`exam_id` ASC) USING BTREE,
   CONSTRAINT `candidate_exam_candidate_candidate_id_fk` FOREIGN KEY (`candidate_id`) REFERENCES `candidate` (`candidate_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `candidate_exam_exam_exam_id_fk` FOREIGN KEY (`exam_id`) REFERENCES `exam` (`exam_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of candidate_exam
 -- ----------------------------
+INSERT INTO `candidate_exam` VALUES (13, 4, 40, -1, '');
 
 -- ----------------------------
 -- Table structure for enterprise
@@ -122,11 +123,12 @@ CREATE TABLE `exam`  (
   INDEX `exam_testpaper_title_fk`(`testpaper_title` ASC) USING BTREE,
   CONSTRAINT `exam_enterprise_name_fk` FOREIGN KEY (`enterprise_name`) REFERENCES `enterprise` (`name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `exam_testpaper_title_fk` FOREIGN KEY (`testpaper_title`) REFERENCES `testpaper` (`title`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam
 -- ----------------------------
+INSERT INTO `exam` VALUES (40, '2024-03-07 19:28:06', '2024-03-08 00:00:00', '', 1, '22306453j10011753u967067123', '{hy}第一次测试', 'hy');
 
 -- ----------------------------
 -- Table structure for group
@@ -140,12 +142,13 @@ CREATE TABLE `group`  (
   UNIQUE INDEX `groups_pk`(`group_name` ASC) USING BTREE,
   INDEX `enterprise_id`(`enterprise_id` ASC) USING BTREE,
   CONSTRAINT `enterprise_id` FOREIGN KEY (`enterprise_id`) REFERENCES `enterprise` (`enterprise_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 19 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of group
 -- ----------------------------
-INSERT INTO `group` VALUES (1, '默认分组', 1);
+INSERT INTO `group` VALUES (19, '默认分组', 1);
+INSERT INTO `group` VALUES (20, '计算机组成原理', 1);
 
 -- ----------------------------
 -- Table structure for group_problem
@@ -163,11 +166,13 @@ CREATE TABLE `group_problem`  (
 -- ----------------------------
 -- Records of group_problem
 -- ----------------------------
-INSERT INTO `group_problem` VALUES (1, 55);
-INSERT INTO `group_problem` VALUES (1, 57);
-INSERT INTO `group_problem` VALUES (1, 58);
-INSERT INTO `group_problem` VALUES (1, 59);
-INSERT INTO `group_problem` VALUES (1, 60);
+INSERT INTO `group_problem` VALUES (19, 77);
+INSERT INTO `group_problem` VALUES (19, 80);
+INSERT INTO `group_problem` VALUES (19, 81);
+INSERT INTO `group_problem` VALUES (20, 72);
+INSERT INTO `group_problem` VALUES (20, 73);
+INSERT INTO `group_problem` VALUES (20, 78);
+INSERT INTO `group_problem` VALUES (20, 79);
 
 -- ----------------------------
 -- Table structure for problem
@@ -185,16 +190,18 @@ CREATE TABLE `problem`  (
   `accurate_times` int NOT NULL DEFAULT 0,
   `finished_times` int NOT NULL DEFAULT 0,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 61 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 82 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of problem
 -- ----------------------------
-INSERT INTO `problem` VALUES (55, '1', '1', '未设置', '自动批改', 'true', '', '判断', 0, 0);
-INSERT INTO `problem` VALUES (57, '3', '3', '简单', '自动批改', '3', '', '填空', 0, 0);
-INSERT INTO `problem` VALUES (58, '英语', 'sss', '简单', '自动批改', '6', '', '综合', 0, 0);
-INSERT INTO `problem` VALUES (59, '英语', 'sss', '简单', '人工批改', '9', '', '综合', 0, 0);
-INSERT INTO `problem` VALUES (60, 'yuwen', 'w', '简单', '自动批改', '7', '', '综合', 0, 0);
+INSERT INTO `problem` VALUES (72, '系统总线', '系统总线用来连接（ ）', '简单', '自动批改', 'C', '[null,\"寄存器和运算器部件\",\"运算器和控制器部件\",\"CPU、主存和外设部件\",\"接口和外部设备\"]', '选择', 0, 0);
+INSERT INTO `problem` VALUES (73, '间址寻址', '间址寻址第一次访问内存所得到的信息经系统总线的（ ）传送到CPU。', '简单', '自动批改', 'A', '[null,\"数据总线\",\"地址总线\",\"控制总线\",\"总线控制器\"]', '选择', 0, 0);
+INSERT INTO `problem` VALUES (77, '系统总线中地址线的功能', '系统总线中地址线的功能是（ ）', '未设置', '自动批改', 'D', '[null,\"选择主存单元地址\",\"选择进行信息传输的设备\",\"选择外存地址\",\"指定主存和I/O设备接口电路的地址\"]', '选择', 0, 0);
+INSERT INTO `problem` VALUES (78, '数据传输的计算', '传输一幅分辨率为640*480像素、颜色数量为65536的照片（采用无压缩方式），设有效数据传输率为56kb/s，大约需要的时间是（）', '简单', '自动批改', 'D', '[null,\"34.82s\",\"43.86s\",\"85.71s\",\"87.77s\"]', '选择', 0, 0);
+INSERT INTO `problem` VALUES (79, '微机中控制总线上完成传输的信号', '微机中控制总线上完成传输的信号有（）\na.存储器和I/O设备的地址码\nb.所有存储器和I/O设备的时序信号与控制信号\nc.来自I/O设备和存储器的响应信号', '未设置', '自动批改', 'B', '[null,\"仅a\",\"b和c\",\"仅b\",\"a、b、c\"]', '选择', 0, 0);
+INSERT INTO `problem` VALUES (80, 'MVC、MVVM模型', '什么是 MVVM、MVC 模型？', '简单', '人工批改', '', '', '综合', 0, 0);
+INSERT INTO `problem` VALUES (81, 'vue的生命周期', 'vue 的生命周期有哪些？', '简单', '人工批改', '', '', '综合', 0, 0);
 
 -- ----------------------------
 -- Table structure for testpaper
@@ -205,30 +212,20 @@ CREATE TABLE `testpaper`  (
   `title` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `note` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `problem_count` int NULL DEFAULT NULL,
+  `is_need_appendix` tinyint(1) NOT NULL DEFAULT 0,
   `problems` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `enterprise_name` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `testpaper_pk`(`title` ASC) USING BTREE,
   INDEX `testpaper_enterprise_name_fk`(`enterprise_name` ASC) USING BTREE,
   INDEX `testpaper_title_index`(`title` ASC) USING BTREE,
-  UNIQUE INDEX `testpaper_pk`(`title` ASC) USING BTREE,
   CONSTRAINT `testpaper_enterprise_name_fk` FOREIGN KEY (`enterprise_name`) REFERENCES `enterprise` (`name`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 32 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of testpaper
 -- ----------------------------
-INSERT INTO `testpaper` VALUES (1, '32', '32', 2, '{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
-INSERT INTO `testpaper` VALUES (2, 'po', 'op', 2, '{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
-INSERT INTO `testpaper` VALUES (20, 'y', 't', 2, '{\"problemId\":55,\"description\":\"1\",\"rightAnswer\":\"true\",\"checkBy\":\"自动批改\",\"type\":\"判断\"}{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
-INSERT INTO `testpaper` VALUES (21, '第九次大联考', 'hhh', 2, '{\"problemId\":55,\"description\":\"1\",\"rightAnswer\":\"true\",\"checkBy\":\"自动批改\",\"type\":\"判断\"}{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
-INSERT INTO `testpaper` VALUES (22, '第一次大联考', '666', 2, '{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":59,\"description\":\"sss\",\"rightAnswer\":\"9\",\"checkBy\":\"人工批改\",\"type\":\"综合\"}', 'hy');
-INSERT INTO `testpaper` VALUES (23, 'iu', 'iu', 2, '{\"problemId\":55,\"description\":\"1\",\"rightAnswer\":\"true\",\"checkBy\":\"自动批改\",\"type\":\"判断\"}{\"problemId\":59,\"description\":\"sss\",\"rightAnswer\":\"9\",\"checkBy\":\"人工批改\",\"type\":\"综合\"}', 'hy');
-INSERT INTO `testpaper` VALUES (24, 'oic', 'OI', 2, '{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
-INSERT INTO `testpaper` VALUES (25, 'FDS', 'HGF', 2, '{\"problemId\":57,\"description\":\"3\",\"rightAnswer\":\"3\",\"checkBy\":\"自动批改\",\"type\":\"填空\"}{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
-INSERT INTO `testpaper` VALUES (26, '87', '87', 1, '{\"problemId\":55,\"description\":\"1\",\"rightAnswer\":\"true\",\"checkBy\":\"自动批改\",\"type\":\"判断\"}', 'hy');
-INSERT INTO `testpaper` VALUES (27, '09', '90', 1, '{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
-INSERT INTO `testpaper` VALUES (28, '12', '12', 2, '{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":59,\"description\":\"sss\",\"rightAnswer\":\"9\",\"checkBy\":\"人工批改\",\"type\":\"综合\"}', 'hy');
-INSERT INTO `testpaper` VALUES (29, '965675', '63', 2, '{\"problemId\":60,\"description\":\"w\",\"rightAnswer\":\"7\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}{\"problemId\":58,\"description\":\"sss\",\"rightAnswer\":\"6\",\"checkBy\":\"自动批改\",\"type\":\"综合\"}', 'hy');
-INSERT INTO `testpaper` VALUES (30, 'hg', 'hg', 1, '{\"problemId\":55,\"description\":\"1\",\"rightAnswer\":\"true\",\"checkBy\":\"自动批改\",\"type\":\"判断\"}', 'hy');
+INSERT INTO `testpaper` VALUES (32, '{hy}第一次测试', '', 7, 0, '{\"problemId\":80,\"description\":\"什么是 MVVM、MVC 模型？\",\"rightAnswer\":\"\",\"checkBy\":\"人工批改\",\"type\":\"综合\"}{\"problemId\":81,\"description\":\"vue 的生命周期有哪些？\",\"rightAnswer\":\"\",\"checkBy\":\"人工批改\",\"type\":\"综合\"}{\"problemId\":79,\"description\":\"微机中控制总线上完成传输的信号有（）\\na.存储器和I/O设备的地址码\\nb.所有存储器和I/O设备的时序信号与控制信号\\nc.来自I/O设备和存储器的响应信号\",\"rightAnswer\":\"B\",\"checkBy\":\"自动批改\",\"type\":\"选择\"}{\"problemId\":78,\"description\":\"传输一幅分辨率为640*480像素、颜色数量为65536的照片（采用无压缩方式），设有效数据传输率为56kb/s，大约需要的时间是（）\",\"rightAnswer\":\"D\",\"checkBy\":\"自动批改\",\"type\":\"选择\"}{\"problemId\":72,\"description\":\"系统总线用来连接（ ）\",\"rightAnswer\":\"C\",\"checkBy\":\"自动批改\",\"type\":\"选择\"}{\"problemId\":77,\"description\":\"系统总线中地址线的功能是（ ）\",\"rightAnswer\":\"D\",\"checkBy\":\"自动批改\",\"type\":\"选择\"}{\"problemId\":73,\"description\":\"间址寻址第一次访问内存所得到的信息经系统总线的（ ）传送到CPU。\",\"rightAnswer\":\"A\",\"checkBy\":\"自动批改\",\"type\":\"选择\"}', 'hy');
+INSERT INTO `testpaper` VALUES (33, '{hy}第二次测试', '无', 2, 0, '{\"problemId\":80,\"description\":\"什么是 MVVM、MVC 模型？\",\"rightAnswer\":\"\",\"checkBy\":\"人工批改\",\"type\":\"综合\"}{\"problemId\":73,\"description\":\"间址寻址第一次访问内存所得到的信息经系统总线的（ ）传送到CPU。\",\"rightAnswer\":\"A\",\"checkBy\":\"自动批改\",\"type\":\"选择\"}', 'hy');
 
 SET FOREIGN_KEY_CHECKS = 1;

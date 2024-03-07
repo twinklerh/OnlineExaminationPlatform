@@ -25,6 +25,7 @@ export const useUserStore = defineStore('user',{
                         localStorage.setItem('jwt_token', resp.token)
                         this.token = resp.token;
                         this.status = resp.status;
+                        this.username = resp.username;
                     }
                     callback(resp.error_message)
                 },
@@ -43,7 +44,7 @@ export const useUserStore = defineStore('user',{
                 success: (ru:string)=>{
                     const resp = JSON.parse(ru);
                     this.status = resp.status;
-                    this.username = resp.name;
+                    this.username = resp.username;
                     if(typeof callback !== 'undefined' && resp.error_message==='success') callback();
                 }
             })

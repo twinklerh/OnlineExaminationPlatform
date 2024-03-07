@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -34,9 +35,13 @@ public class ClassProblem {
         return enterpriseMapper.selectOne(enterpriseQueryWrapper).getEnterpriseId();
     }
     public List<Integer> getEnterpriseAllProblemId(int enterpriseId) {
+        List<Integer> respList = new LinkedList<>();
+
         QueryWrapper<Group>groupQueryWrapper = new QueryWrapper<>();
         groupQueryWrapper.eq("enterprise_id", enterpriseId);
         List<Integer> groupIdList = groupMapper.selectList(groupQueryWrapper).stream().map(Group::getId).toList();
+
+        if(groupIdList.isEmpty())   return respList;
 
         QueryWrapper<GroupProblem> groupProblemQueryWrapper = new QueryWrapper<>();
         groupProblemQueryWrapper.in("group_id", groupIdList);

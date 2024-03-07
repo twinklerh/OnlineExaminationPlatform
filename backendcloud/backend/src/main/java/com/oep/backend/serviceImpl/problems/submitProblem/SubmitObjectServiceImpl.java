@@ -41,18 +41,15 @@ public class SubmitObjectServiceImpl implements SubmitObjectService {
 
         String problemType = map.get("problemType");
         String title = map.get("title");
-        String groupSelect = map.get("groupSelect");
+        String groupSelect = map.get("groupSelect");    //  分组
         String description = map.get("description");
         String rightAnswer = map.get("rightAnswer");
         String difficulty = map.get("radioSelectRank");
         String checkBy = map.get("checkSelect");
-        String appendix_name =map.get("selectAnswer");
+        String appendix_name =map.get("appendix");
 
-        if("select".equals(problemType))  problemType = "选择";
-        else if ("judge".equals(problemType))   problemType = "判断";
-        else if ("filling".equals(problemType)) problemType = "填空";
-
-        if(!"选择".equals(problemType))    appendix_name = "";
+        Map<String, String> ee = produceErrorMessage(title, description, rightAnswer);
+        if(!"success".equals(ee.get("error_message")))  return WriteValue.writeValueAsString(ee);
 
         try{
             Problem problem = new Problem(null,title,description,difficulty,checkBy,rightAnswer,appendix_name,problemType,0,0);
@@ -73,6 +70,24 @@ public class SubmitObjectServiceImpl implements SubmitObjectService {
         }
         returnHashMap.put("error_message", "success");
         return WriteValue.writeValueAsString(returnHashMap);
+    }
+
+    private Map<String,String> produceErrorMessage(String title, String description, String rightAnswer){
+        Map<String,String> respMap = new HashMap<>();
+        if("".equals(title))    {
+            respMap.put("error_message", "标题不能为空");
+            return respMap;
+        }
+        if("".equals(description))  {
+            respMap.put("error_message", "试题描述不能为空");
+            return respMap;
+        }
+        if("".equals(rightAnswer))  {
+            respMap.put("error_message", "请规定正确选项");
+            return respMap;
+        }
+        respMap.put("error_message", "success");
+        return respMap;
     }
 
 }

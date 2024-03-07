@@ -39,6 +39,7 @@ export const useExamStore = defineStore('exam',{
                         ElMessage.error("获取数据失败")
                         return;
                     }
+                    this.fixTestPaperMsg();
                     callback(parseInt(result.dataCount));
                 },
                 error: () => {
@@ -97,11 +98,20 @@ export const useExamStore = defineStore('exam',{
                     const resp = JSON.parse(result);
                     if(resp.error_message === 'success') {
                         this.examList = JSON.parse(resp.myExamList);
+                        this.fixTestPaperMsg();
                         callback(parseInt(resp.dataCount));
                     }
                 },
                 error: ()=>{ElMessage.error("失败");}
             })
+        },
+        fixTestPaperMsg(){
+            this.examList.forEach((item) => {
+                const index = item.testpaperTitle.indexOf('}');
+                if (index !== -1) {
+                    item.testpaperTitle = item.testpaperTitle.slice(index + 1); // 保留'}'符号后的字符
+                }
+            });  
         }
     }
 })

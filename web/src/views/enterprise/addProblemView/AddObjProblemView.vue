@@ -5,9 +5,9 @@
             <el-col :span="2" class="el-col-text-pure">试题类型：</el-col>
             <el-col :span="6">
                 <el-select class="el-select" v-model="problemType">
-                    <el-option label="选择" value="select" />
-                    <el-option label="判断" value="judge" />
-                    <el-option label="填空" value="filling" />
+                    <el-option label="选择" value="选择" />
+                    <el-option label="判断" value="判断" />
+                    <el-option label="填空" value="填空" />
                 </el-select>
             </el-col>
         </el-row>
@@ -40,7 +40,7 @@
         </el-row>
         
         <br>
-        <el-row v-if="problemType==='select'">
+        <el-row v-if="problemType==='选择'">
             <el-col :span="2" class="el-col-text-pure">选项个数：</el-col>
             <el-select class="el-select" v-model="select_count">
                 <el-option v-for="index in number" :key="index" :label="index" :value="index"  />
@@ -51,7 +51,7 @@
                 <el-option v-for="index in select_count" :key="index" :label="String.fromCharCode(index+64)" :value="String.fromCharCode(index+64)"  />
             </el-select>
         </el-row>
-        <el-row v-if="problemType==='judge'">
+        <el-row v-if="problemType==='判断'">
             <el-col :span="2" class="el-col-text-pure">正确答案：</el-col>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <el-radio-group v-model="right_select">
@@ -59,7 +59,7 @@
                 <el-radio label="false">×</el-radio>
             </el-radio-group>
         </el-row>
-        <el-row v-if="problemType==='filling'">
+        <el-row v-if="problemType==='填空'">
             <el-col :span="2" class="el-col-text-pure">正确答案：</el-col>
             <el-col :span="8">
                 <el-input v-model="right_select" placeholder="答案" clearable />
@@ -92,7 +92,7 @@
         </el-row>
 
         <br>
-        <el-row v-if="problemType==='select'">
+        <el-row v-if="problemType==='选择'">
             <el-col :span="2" style="display: flex; justify-content: right; margin-top: 3px;">选&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;项：</el-col>
             <el-col :span="22">
                 <el-input v-for="index in select_count" :key="index" v-model="selectAnswer[index]" :placeholder="String.fromCharCode(64+index)" style="width: 180px; margin-right: 12px; margin-bottom: 5px;" clearable/>
@@ -119,7 +119,7 @@ const groupStore = useGroupStore();
 
 const number = 8;
 
-const problemType = ref('judge');
+const problemType = ref('选择');
 const title = ref('');
 const groupSelect = ref('默认分组');
 const select_count = ref(4);
@@ -152,14 +152,16 @@ function submit(){
             'rightAnswer': right_select.value,
             'radioSelectRank': radioSelectRank.value,
             'checkSelect': checkSelect,
-            'appendix': selectAnswer.value
+            'appendix': JSON.stringify(selectAnswer.value)
         },
-        success: (resp:string)=>{
-            if(JSON.parse(resp).error_message === 'success'){
+        success: (result:string)=>{
+            const resp = JSON.parse(result);
+            if(resp.error_message === 'success'){
                 title.value = description.value = '';
-                ElMessage({message: "成功添加一个试题", type: 'success',})
+                ElMessage({message: "成功添加一个试题", type: 'success'})
                 selectAnswer.value = [];
             }
+            else ElMessage.error(resp.error_message);
         },
         error(){
             ElMessage.error("添加失败");

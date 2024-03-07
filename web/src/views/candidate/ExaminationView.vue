@@ -12,6 +12,7 @@
 import { useRoute } from 'vue-router';
 const route = useRoute();
 const testpaperTitle = decodeURIComponent(route.query.title as string);
+console.log(testpaperTitle)
 </script>
 
 <style scoped>

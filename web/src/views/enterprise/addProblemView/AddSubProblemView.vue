@@ -60,18 +60,6 @@
                 <el-input v-model="rightAnswer" :autosize="{ minRows: 4, maxRows: 100 }" type="textarea" placeholder="正确答案" />
             </el-col>
         </el-row>
-
-        <el-row v-if="checkSelect==='human'">
-            <el-col :span="2" class="el-col-text-pure">附&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件：</el-col>
-            <el-col :span="13">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <el-radio-group v-model="appendix">
-                    <el-radio label="false">无需附件</el-radio>
-                    <el-radio label="true">可选附件</el-radio>
-                </el-radio-group>
-                <span v-if="appendix==='true'" style="color:rgb(163, 163, 0); font-size: 13px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*单个附件大小不得超过10MB</span>
-            </el-col>
-        </el-row>
         <div style="margin-left: 770px; margin-top: 20px;">
             <el-button type="primary" @click="submit">提交</el-button>
         </div>
