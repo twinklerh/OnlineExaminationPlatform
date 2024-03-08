@@ -2,7 +2,7 @@
     <div style="display: flex; justify-content: left;  flex-flow: wrap; padding: 0px 20px;">    <!--一行排不下，flex-flow实现自动换行-->
         <h2 v-if="dataCount===0">数据为空</h2>
         <el-card class="el-card-item" v-for="(item,index) in examStore.examList" :key="index">
-            <span>{{ item.testpaperTitle }}</span><br><br>
+            <span>{{ item.displayTitle }}</span><br><br>
             <span>开始时间：{{ item.beginTime }}</span><br>
             <span>结束时间：{{ item.endTime }}</span>
             <div style="float: right; margin-top: 10px;">
@@ -60,6 +60,7 @@ function init(){
 }
 
 function beginExam(testpaperTitle:string) {
+    console.log(testpaperTitle);
     const url = router.resolve({name: 'examination', query:{ title: encodeURIComponent(testpaperTitle) }}).href;
     window.open(url);
 }

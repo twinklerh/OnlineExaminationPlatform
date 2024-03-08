@@ -71,7 +71,7 @@ export const useTestpaperStore = defineStore('testpaper', {
                 if (index !== -1) {
                     item.title = item.title.slice(index + 1); // 保留'}'符号后的字符
                 }
-            });  
+            });
         }
     },
     getters: {

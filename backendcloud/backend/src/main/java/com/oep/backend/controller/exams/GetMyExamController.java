@@ -1,4 +1,4 @@
-package com.oep.backend.controller.candidate_exam;
+package com.oep.backend.controller.exams;
 
 import com.oep.backend.service.exams.GetMyExamService;
 import org.springframework.beans.factory.annotation.Autowired;

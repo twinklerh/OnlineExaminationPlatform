@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 07/03/2024 19:33:39
+ Date: 09/03/2024 00:46:08
 */
 
 SET NAMES utf8mb4;
@@ -75,12 +75,13 @@ CREATE TABLE `candidate_exam`  (
   INDEX `candidate_exam_exam_exam_id_fk`(`exam_id` ASC) USING BTREE,
   CONSTRAINT `candidate_exam_candidate_candidate_id_fk` FOREIGN KEY (`candidate_id`) REFERENCES `candidate` (`candidate_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `candidate_exam_exam_exam_id_fk` FOREIGN KEY (`exam_id`) REFERENCES `exam` (`exam_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of candidate_exam
 -- ----------------------------
 INSERT INTO `candidate_exam` VALUES (13, 4, 40, -1, '');
+INSERT INTO `candidate_exam` VALUES (14, 4, 41, -1, '');
 
 -- ----------------------------
 -- Table structure for enterprise
@@ -123,12 +124,13 @@ CREATE TABLE `exam`  (
   INDEX `exam_testpaper_title_fk`(`testpaper_title` ASC) USING BTREE,
   CONSTRAINT `exam_enterprise_name_fk` FOREIGN KEY (`enterprise_name`) REFERENCES `enterprise` (`name`) ON DELETE RESTRICT ON UPDATE RESTRICT,
   CONSTRAINT `exam_testpaper_title_fk` FOREIGN KEY (`testpaper_title`) REFERENCES `testpaper` (`title`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 41 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 42 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of exam
 -- ----------------------------
 INSERT INTO `exam` VALUES (40, '2024-03-07 19:28:06', '2024-03-08 00:00:00', '', 1, '22306453j10011753u967067123', '{hy}第一次测试', 'hy');
+INSERT INTO `exam` VALUES (41, '2024-03-08 13:46:24', '2024-03-10 00:00:00', '', 1, '89a707644125791728487433116', '{hy}第二次考试', 'hy');
 
 -- ----------------------------
 -- Table structure for group
@@ -220,12 +222,13 @@ CREATE TABLE `testpaper`  (
   INDEX `testpaper_enterprise_name_fk`(`enterprise_name` ASC) USING BTREE,
   INDEX `testpaper_title_index`(`title` ASC) USING BTREE,
   CONSTRAINT `testpaper_enterprise_name_fk` FOREIGN KEY (`enterprise_name`) REFERENCES `enterprise` (`name`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 35 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of testpaper
 -- ----------------------------
-INSERT INTO `testpaper` VALUES (32, '{hy}第一次测试', '', 7, 0, '{\"problemId\":80,\"description\":\"什么是 MVVM、MVC 模型？\",\"rightAnswer\":\"\",\"checkBy\":\"人工批改\",\"type\":\"综合\"}{\"problemId\":81,\"description\":\"vue 的生命周期有哪些？\",\"rightAnswer\":\"\",\"checkBy\":\"人工批改\",\"type\":\"综合\"}{\"problemId\":79,\"description\":\"微机中控制总线上完成传输的信号有（）\\na.存储器和I/O设备的地址码\\nb.所有存储器和I/O设备的时序信号与控制信号\\nc.来自I/O设备和存储器的响应信号\",\"rightAnswer\":\"B\",\"checkBy\":\"自动批改\",\"type\":\"选择\"}{\"problemId\":78,\"description\":\"传输一幅分辨率为640*480像素、颜色数量为65536的照片（采用无压缩方式），设有效数据传输率为56kb/s，大约需要的时间是（）\",\"rightAnswer\":\"D\",\"checkBy\":\"自动批改\",\"type\":\"选择\"}{\"problemId\":72,\"description\":\"系统总线用来连接（ ）\",\"rightAnswer\":\"C\",\"checkBy\":\"自动批改\",\"type\":\"选择\"}{\"problemId\":77,\"description\":\"系统总线中地址线的功能是（ ）\",\"rightAnswer\":\"D\",\"checkBy\":\"自动批改\",\"type\":\"选择\"}{\"problemId\":73,\"description\":\"间址寻址第一次访问内存所得到的信息经系统总线的（ ）传送到CPU。\",\"rightAnswer\":\"A\",\"checkBy\":\"自动批改\",\"type\":\"选择\"}', 'hy');
-INSERT INTO `testpaper` VALUES (33, '{hy}第二次测试', '无', 2, 0, '{\"problemId\":80,\"description\":\"什么是 MVVM、MVC 模型？\",\"rightAnswer\":\"\",\"checkBy\":\"人工批改\",\"type\":\"综合\"}{\"problemId\":73,\"description\":\"间址寻址第一次访问内存所得到的信息经系统总线的（ ）传送到CPU。\",\"rightAnswer\":\"A\",\"checkBy\":\"自动批改\",\"type\":\"选择\"}', 'hy');
+INSERT INTO `testpaper` VALUES (32, '{hy}第一次测试', '', 7, 0, '{\"problemId\":80,\"description\":\"什么是 MVVM、MVC 模型？\",\"rightAnswer\":\"\",\"checkBy\":\"人工批改\",\"type\":\"综合\"},{\"problemId\":81,\"description\":\"vue 的生命周期有哪些？\",\"rightAnswer\":\"\",\"checkBy\":\"人工批改\",\"type\":\"综合\"},{\"problemId\":79,\"description\":\"微机中控制总线上完成传输的信号有（）\\na.存储器和I/O设备的地址码\\nb.所有存储器和I/O设备的时序信号与控制信号\\nc.来自I/O设备和存储器的响应信号\",\"rightAnswer\":\"B\",\"checkBy\":\"自动批改\",\"type\":\"选择\"},{\"problemId\":78,\"description\":\"传输一幅分辨率为640*480像素、颜色数量为65536的照片（采用无压缩方式），设有效数据传输率为56kb/s，大约需要的时间是（）\",\"rightAnswer\":\"D\",\"checkBy\":\"自动批改\",\"type\":\"选择\"},{\"problemId\":72,\"description\":\"系统总线用来连接（ ）\",\"rightAnswer\":\"C\",\"checkBy\":\"自动批改\",\"type\":\"选择\"},{\"problemId\":77,\"description\":\"系统总线中地址线的功能是（ ）\",\"rightAnswer\":\"D\",\"checkBy\":\"自动批改\",\"type\":\"选择\"},{\"problemId\":73,\"description\":\"间址寻址第一次访问内存所得到的信息经系统总线的（ ）传送到CPU。\",\"rightAnswer\":\"A\",\"checkBy\":\"自动批改\",\"type\":\"选择\"},', 'hy');
+INSERT INTO `testpaper` VALUES (33, '{hy}第二次测试', '无', 2, 0, '{\"problemId\":80,\"description\":\"什么是 MVVM、MVC 模型？\",\"rightAnswer\":\"\",\"checkBy\":\"人工批改\",\"type\":\"综合\"},{\"problemId\":73,\"description\":\"间址寻址第一次访问内存所得到的信息经系统总线的（ ）传送到CPU。\",\"rightAnswer\":\"A\",\"checkBy\":\"自动批改\",\"type\":\"选择\"},', 'hy');
+INSERT INTO `testpaper` VALUES (34, '{hy}第二次考试', '', 4, 0, '{\"problemId\":81,\"description\":\"vue 的生命周期有哪些？\",\"rightAnswer\":\"\",\"checkBy\":\"人工批改\",\"type\":\"综合\"},{\"problemId\":78,\"description\":\"传输一幅分辨率为640*480像素、颜色数量为65536的照片（采用无压缩方式），设有效数据传输率为56kb/s，大约需要的时间是（）\",\"rightAnswer\":\"D\",\"checkBy\":\"自动批改\",\"type\":\"选择\"},{\"problemId\":77,\"description\":\"系统总线中地址线的功能是（ ）\",\"rightAnswer\":\"D\",\"checkBy\":\"自动批改\",\"type\":\"选择\"},{\"problemId\":73,\"description\":\"间址寻址第一次访问内存所得到的信息经系统总线的（ ）传送到CPU。\",\"rightAnswer\":\"A\",\"checkBy\":\"自动批改\",\"type\":\"选择\"},', 'hy');
 
 SET FOREIGN_KEY_CHECKS = 1;

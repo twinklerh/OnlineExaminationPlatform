@@ -12,6 +12,7 @@ export interface ExamInterface{
     state: string,
     announced: boolean,
     inviteCode: string,
+    displayTitle: string
 }
 
 
@@ -109,7 +110,7 @@ export const useExamStore = defineStore('exam',{
             this.examList.forEach((item) => {
                 const index = item.testpaperTitle.indexOf('}');
                 if (index !== -1) {
-                    item.testpaperTitle = item.testpaperTitle.slice(index + 1); // 保留'}'符号后的字符
+                    item.displayTitle = item.testpaperTitle.slice(index + 1); // 保留'}'符号后的字符
                 }
             });  
         }

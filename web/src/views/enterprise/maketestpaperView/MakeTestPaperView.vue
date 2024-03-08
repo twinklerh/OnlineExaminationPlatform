@@ -117,7 +117,7 @@ function submit(){
             checkBy: item.checkBy,
             type: item.type,
         };
-        problemsString = problemsString + JSON.stringify(obj);
+        problemsString = problemsString + JSON.stringify(obj) + ',';
     })
     testpaperStore.submitTestPaper(paper, problemsString, isNeedAppendix.value, (msg)=>{
         if(msg === 'success'){

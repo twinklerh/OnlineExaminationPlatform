@@ -1,4 +1,4 @@
-package com.oep.backend.serviceImpl.candidate_exam;
+package com.oep.backend.serviceImpl.exams;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
@@ -9,6 +9,7 @@ import com.oep.backend.pojo.Account;
 import com.oep.backend.pojo.CandidateExam;
 import com.oep.backend.pojo.Exam;
 import com.oep.backend.service.exams.GetMyExamService;
+import com.oep.backend.serviceImpl.candidate_exam.ClassCandidateExam;
 import com.oep.backend.utils.WriteValue;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
