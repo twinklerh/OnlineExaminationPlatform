@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Service
 public class SubmitSubjectServiceImpl implements SubmitSubjectService {
@@ -43,6 +44,11 @@ public class SubmitSubjectServiceImpl implements SubmitSubjectService {
         String difficulty = map.get("radioSelectRank");
         String checkBy = map.get("checkSelect");
         String rightAnswer = map.get("rightAnswer");
+        if(!isFloat(map.get("score")))    {
+            returnHashMap.put("error_message", "分值的输入格式有误");
+            return WriteValue.writeValueAsString(returnHashMap);
+        }
+        Float score = Float.valueOf(map.get("score"));
 
         if("".equals(description)) {
             returnHashMap.put("error_message", "题目描述不能为空！");
@@ -50,7 +56,7 @@ public class SubmitSubjectServiceImpl implements SubmitSubjectService {
         }
 
         try{
-            Problem problem = new Problem(null,title,description,difficulty,checkBy,rightAnswer, null,"综合",0,0);
+            Problem problem = new Problem(null,title,description,difficulty,checkBy,rightAnswer, null,"综合", score);
             int resp = problemMapper.insert(problem);
             QueryWrapper<Group> groupQueryWrapper = new QueryWrapper<>();
             groupQueryWrapper.eq("group_name", groupSelect);
@@ -69,5 +75,10 @@ public class SubmitSubjectServiceImpl implements SubmitSubjectService {
 
         returnHashMap.put("error_message", "success");
         return WriteValue.writeValueAsString(returnHashMap);
+    }
+    public static boolean isFloat(String str) {
+        if (null == str || str.isEmpty()) return false;
+        Pattern pattern = Pattern.compile("^[-+]?[.\\d]*$");
+        return pattern.matcher(str).matches();
     }
 }

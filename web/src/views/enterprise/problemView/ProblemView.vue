@@ -10,7 +10,7 @@
             <el-table-column prop="type" label="题型" width="90" sortable/>
             <el-table-column prop="checkBy" label="批改" width="100" />
             <el-table-column prop="difficulty" label="难度" width="100" align="center" sortable/>
-            <el-table-column prop="" label="正确率" width="180" />
+            <el-table-column prop="score" label="分值" width="180" />
             <el-table-column width="180">
                 <template #default="{row}">
                     <el-button type="primary" @click="handleButtonClick(row)">查看</el-button>
@@ -57,8 +57,8 @@ function selectProblem(){
 }
 
 function handleButtonClick(row: ProblemInterface){
-    const url = router.resolve({name: 'problemdetail', params: { problem_id:row.id }});
-    window.open(url.href, url);
+    const url = router.resolve({name: 'problemdetail', params: { problem_id:row.id }}).href;
+    window.open(url);
 }
 
 function handlePrimaryDelete(problem_id:number){

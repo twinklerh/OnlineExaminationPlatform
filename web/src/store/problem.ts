@@ -10,9 +10,7 @@ export interface ProblemInterface{
     difficulty: string,
     checkBy: string,
     type: string,
-    accurateTimes: number,
-    finishedTimes: number,
-    accuracy: string,
+    score: number,
     rightAnswer:string
 }
 
@@ -37,25 +35,12 @@ export const useProblemStore = defineStore('problem', {
                         return;
                     }   
                     this.problemList = JSON.parse(resp)
-                    this.calculateAccuracy();
                     if(typeof callback !== 'undefined') callback("成功删除一个试题");
                 },
                 error: ()=>{
                     alert('error');
                 }
             })
-        },
-        calculateAccuracy() {
-            let problem;
-            for (let i = 0; i < this.problemList.length; i++) {
-                problem = this.problemList[i];
-
-                if (problem.finishedTimes > 0) {
-                    problem.accuracy = problem.accurateTimes.toString() + '/' + problem.finishedTimes.toString();
-                } else {
-                    problem.accuracy = "N/A";
-                }
-            }
         },
         deleteProblem(problem_id:number, callback ?:()=> void ){
             $.ajax({

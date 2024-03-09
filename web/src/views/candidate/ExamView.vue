@@ -6,7 +6,7 @@
             <span>开始时间：{{ item.beginTime }}</span><br>
             <span>结束时间：{{ item.endTime }}</span>
             <div style="float: right; margin-top: 10px;">
-                <el-button @click="beginExam(item.testpaperTitle)" type="primary" :disabled="btn[item.examId]">{{ btnMsg[item.examId] }}</el-button>                
+                <el-button @click="beginExam(item.testpaperTitle, item.examId)" type="primary" :disabled="btn[item.examId]">{{ btnMsg[item.examId] }}</el-button>                
             </div>
         </el-card>
     </div>
@@ -59,9 +59,9 @@ function init(){
     })
 }
 
-function beginExam(testpaperTitle:string) {
+function beginExam(testpaperTitle:string, examid:number) {
     console.log(testpaperTitle);
-    const url = router.resolve({name: 'examination', query:{ title: encodeURIComponent(testpaperTitle) }}).href;
+    const url = router.resolve({name: 'examination', query:{ title: encodeURIComponent(testpaperTitle), examId: examid }}).href;
     window.open(url);
 }
 

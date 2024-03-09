@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 09/03/2024 00:46:08
+ Date: 10/03/2024 02:25:53
 */
 
 SET NAMES utf8mb4;
@@ -84,6 +84,30 @@ INSERT INTO `candidate_exam` VALUES (13, 4, 40, -1, '');
 INSERT INTO `candidate_exam` VALUES (14, 4, 41, -1, '');
 
 -- ----------------------------
+-- Table structure for candidate_problem
+-- ----------------------------
+DROP TABLE IF EXISTS `candidate_problem`;
+CREATE TABLE `candidate_problem`  (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `problem_id` int NULL DEFAULT NULL,
+  `candidate_id` int NULL DEFAULT NULL,
+  `exam_id` int NULL DEFAULT NULL,
+  `candidate_answer` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL,
+  `date_time` date NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE,
+  INDEX `candidate_problem_candidate_candidate_id_fk`(`candidate_id` ASC) USING BTREE,
+  INDEX `candidate_problem_problem_id_fk`(`problem_id` ASC) USING BTREE,
+  INDEX `candidate_problem_exam_exam_id_fk`(`exam_id` ASC) USING BTREE,
+  CONSTRAINT `candidate_problem_candidate_candidate_id_fk` FOREIGN KEY (`candidate_id`) REFERENCES `candidate` (`candidate_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `candidate_problem_exam_exam_id_fk` FOREIGN KEY (`exam_id`) REFERENCES `exam` (`exam_id`) ON DELETE RESTRICT ON UPDATE RESTRICT,
+  CONSTRAINT `candidate_problem_problem_id_fk` FOREIGN KEY (`problem_id`) REFERENCES `problem` (`id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 15 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of candidate_problem
+-- ----------------------------
+
+-- ----------------------------
 -- Table structure for enterprise
 -- ----------------------------
 DROP TABLE IF EXISTS `enterprise`;
@@ -130,7 +154,7 @@ CREATE TABLE `exam`  (
 -- Records of exam
 -- ----------------------------
 INSERT INTO `exam` VALUES (40, '2024-03-07 19:28:06', '2024-03-08 00:00:00', '', 1, '22306453j10011753u967067123', '{hy}第一次测试', 'hy');
-INSERT INTO `exam` VALUES (41, '2024-03-08 13:46:24', '2024-03-10 00:00:00', '', 1, '89a707644125791728487433116', '{hy}第二次考试', 'hy');
+INSERT INTO `exam` VALUES (41, '2024-03-08 13:46:24', '2024-03-11 00:00:00', '', 1, '89a707644125791728487433116', '{hy}第二次考试', 'hy');
 
 -- ----------------------------
 -- Table structure for group
@@ -189,21 +213,20 @@ CREATE TABLE `problem`  (
   `right_answer` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `appendix_name` varchar(2048) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `type` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
-  `accurate_times` int NOT NULL DEFAULT 0,
-  `finished_times` int NOT NULL DEFAULT 0,
+  `score` float NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 82 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of problem
 -- ----------------------------
-INSERT INTO `problem` VALUES (72, '系统总线', '系统总线用来连接（ ）', '简单', '自动批改', 'C', '[null,\"寄存器和运算器部件\",\"运算器和控制器部件\",\"CPU、主存和外设部件\",\"接口和外部设备\"]', '选择', 0, 0);
-INSERT INTO `problem` VALUES (73, '间址寻址', '间址寻址第一次访问内存所得到的信息经系统总线的（ ）传送到CPU。', '简单', '自动批改', 'A', '[null,\"数据总线\",\"地址总线\",\"控制总线\",\"总线控制器\"]', '选择', 0, 0);
-INSERT INTO `problem` VALUES (77, '系统总线中地址线的功能', '系统总线中地址线的功能是（ ）', '未设置', '自动批改', 'D', '[null,\"选择主存单元地址\",\"选择进行信息传输的设备\",\"选择外存地址\",\"指定主存和I/O设备接口电路的地址\"]', '选择', 0, 0);
-INSERT INTO `problem` VALUES (78, '数据传输的计算', '传输一幅分辨率为640*480像素、颜色数量为65536的照片（采用无压缩方式），设有效数据传输率为56kb/s，大约需要的时间是（）', '简单', '自动批改', 'D', '[null,\"34.82s\",\"43.86s\",\"85.71s\",\"87.77s\"]', '选择', 0, 0);
-INSERT INTO `problem` VALUES (79, '微机中控制总线上完成传输的信号', '微机中控制总线上完成传输的信号有（）\na.存储器和I/O设备的地址码\nb.所有存储器和I/O设备的时序信号与控制信号\nc.来自I/O设备和存储器的响应信号', '未设置', '自动批改', 'B', '[null,\"仅a\",\"b和c\",\"仅b\",\"a、b、c\"]', '选择', 0, 0);
-INSERT INTO `problem` VALUES (80, 'MVC、MVVM模型', '什么是 MVVM、MVC 模型？', '简单', '人工批改', '', '', '综合', 0, 0);
-INSERT INTO `problem` VALUES (81, 'vue的生命周期', 'vue 的生命周期有哪些？', '简单', '人工批改', '', '', '综合', 0, 0);
+INSERT INTO `problem` VALUES (72, '系统总线', '系统总线用来连接（ ）', '简单', '自动批改', 'C', '[null,\"寄存器和运算器部件\",\"运算器和控制器部件\",\"CPU、主存和外设部件\",\"接口和外部设备\"]', '选择', 5);
+INSERT INTO `problem` VALUES (73, '间址寻址', '间址寻址第一次访问内存所得到的信息经系统总线的（ ）传送到CPU。', '简单', '自动批改', 'A', '[null,\"数据总线\",\"地址总线\",\"控制总线\",\"总线控制器\"]', '选择', 5);
+INSERT INTO `problem` VALUES (77, '系统总线中地址线的功能', '系统总线中地址线的功能是（ ）', '未设置', '自动批改', 'D', '[null,\"选择主存单元地址\",\"选择进行信息传输的设备\",\"选择外存地址\",\"指定主存和I/O设备接口电路的地址\"]', '选择', 5);
+INSERT INTO `problem` VALUES (78, '数据传输的计算', '传输一幅分辨率为640*480像素、颜色数量为65536的照片（采用无压缩方式），设有效数据传输率为56kb/s，大约需要的时间是（）', '简单', '自动批改', 'D', '[null,\"34.82s\",\"43.86s\",\"85.71s\",\"87.77s\"]', '选择', 5);
+INSERT INTO `problem` VALUES (79, '微机中控制总线上完成传输的信号', '微机中控制总线上完成传输的信号有（）\na.存储器和I/O设备的地址码\nb.所有存储器和I/O设备的时序信号与控制信号\nc.来自I/O设备和存储器的响应信号', '未设置', '自动批改', 'B', '[null,\"仅a\",\"b和c\",\"仅b\",\"a、b、c\"]', '选择', 5);
+INSERT INTO `problem` VALUES (80, 'MVC、MVVM模型', '什么是 MVVM、MVC 模型？', '简单', '人工批改', '', '', '综合', 10);
+INSERT INTO `problem` VALUES (81, 'vue的生命周期', 'vue 的生命周期有哪些？', '简单', '人工批改', '', '', '综合', 10);
 
 -- ----------------------------
 -- Table structure for testpaper

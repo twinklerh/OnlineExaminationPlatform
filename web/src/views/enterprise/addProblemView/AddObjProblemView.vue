@@ -29,6 +29,8 @@
             <el-tooltip effect="dark" content="添加一个分组" placement="right-start">
                 <el-icon class="el-icon" size="20"><CirclePlus @click="addNewGroup" /></el-icon>
             </el-tooltip>
+            <el-col :span="2" class="el-col-text-pure">分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;值：</el-col>
+            <el-col :span="4"><el-input v-model="score" placeholder="输入整数或小数"/></el-col>
         </el-row>
 
         <br>
@@ -128,6 +130,7 @@ const radioSelectRank = ref('未设置');
 const checkSelect = '自动批改';
 const right_select = ref('');
 const selectAnswer = ref([]);
+const score = ref<number>();
 
 const childRef = ref();
 
@@ -152,7 +155,8 @@ function submit(){
             'rightAnswer': right_select.value,
             'radioSelectRank': radioSelectRank.value,
             'checkSelect': checkSelect,
-            'appendix': JSON.stringify(selectAnswer.value)
+            'appendix': JSON.stringify(selectAnswer.value),
+            'score': score.value,
         },
         success: (result:string)=>{
             const resp = JSON.parse(result);

@@ -21,6 +21,5 @@ public class Problem {
     private String rightAnswer;
     private String appendixName;
     private String type;
-    private Integer accurateTimes;
-    private Integer finishedTimes;
+    private Float score;
 }

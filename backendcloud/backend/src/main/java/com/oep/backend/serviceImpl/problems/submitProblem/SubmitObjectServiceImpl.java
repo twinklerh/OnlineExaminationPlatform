@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 @Service
 public class SubmitObjectServiceImpl implements SubmitObjectService {
@@ -41,18 +42,23 @@ public class SubmitObjectServiceImpl implements SubmitObjectService {
 
         String problemType = map.get("problemType");
         String title = map.get("title");
-        String groupSelect = map.get("groupSelect");    //  分组
+        String groupSelect = map.get("groupSelect");
         String description = map.get("description");
         String rightAnswer = map.get("rightAnswer");
         String difficulty = map.get("radioSelectRank");
         String checkBy = map.get("checkSelect");
         String appendix_name =map.get("appendix");
+        if(!isFloat(map.get("score")))    {
+            returnHashMap.put("error_message", "分值的输入格式有误");
+            return WriteValue.writeValueAsString(returnHashMap);
+        }
+        Float score = Float.valueOf(map.get("score"));
 
         Map<String, String> ee = produceErrorMessage(title, description, rightAnswer);
         if(!"success".equals(ee.get("error_message")))  return WriteValue.writeValueAsString(ee);
 
         try{
-            Problem problem = new Problem(null,title,description,difficulty,checkBy,rightAnswer,appendix_name,problemType,0,0);
+            Problem problem = new Problem(null,title,description,difficulty,checkBy,rightAnswer,appendix_name,problemType, score);
 
             int resp = problemMapper.insert(problem);
             QueryWrapper<Group> groupQueryWrapper = new QueryWrapper<>();
@@ -89,5 +95,9 @@ public class SubmitObjectServiceImpl implements SubmitObjectService {
         respMap.put("error_message", "success");
         return respMap;
     }
-
+    public static boolean isFloat(String str) {
+        if (null == str || str.isEmpty()) return false;
+        Pattern pattern = Pattern.compile("^[-+]?[.\\d]*$");
+        return pattern.matcher(str).matches();
+    }
 }

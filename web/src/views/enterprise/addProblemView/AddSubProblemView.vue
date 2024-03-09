@@ -18,6 +18,8 @@
             <el-tooltip effect="dark" content="添加一个分组" placement="right-start">
                 <el-icon class="el-icon" size="20"><CirclePlus @click="addNewGroup" /></el-icon>
             </el-tooltip>
+            <el-col :span="2" class="el-col-text-pure">分&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;值：</el-col>
+            <el-col :span="4"><el-input v-model="score" placeholder="输入整数或小数"/></el-col>
         </el-row>
 
         <br>
@@ -86,6 +88,7 @@ const radioSelectRank = ref('未设置')
 const checkSelect = ref('自动批改')
 const rightAnswer = ref('');
 const appendix = ref('');
+const score = ref();
 
 const childRef = ref();
 
@@ -107,16 +110,19 @@ function submit(){
             Authorization: "Bearer " + userStore.token,
         },
         data:{
-            'title': title.value,
-            'groupSelect': groupSelect.value,
-            'description': description.value,
-            'radioSelectRank': radioSelectRank.value,
-            'checkSelect': checkSelect.value,
-            'rightAnswer': rightAnswer.value,
-            'appendix': appendix.value
-        },// eslint-disable-next-line
-        success: (resp:any)=>{
-            ElMessage({message: "成功添加一个试题", type: 'success',});
+            title: title.value,
+            groupSelect: groupSelect.value,
+            description: description.value,
+            radioSelectRank: radioSelectRank.value,
+            checkSelect: checkSelect.value,
+            rightAnswer: rightAnswer.value,
+            appendix: appendix.value,
+            score: score.value,
+        },
+        success: (result:string)=>{
+            const resp = JSON.parse(result);
+            if(resp.error_message === 'success')    ElMessage({message: "成功添加一个试题", type: 'success',});
+            else    ElMessage({type: 'error', message: resp.error_message});
         },
         error(){
             ElMessage.error('添加失败');
