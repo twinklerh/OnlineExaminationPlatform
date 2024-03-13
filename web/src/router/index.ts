@@ -111,7 +111,7 @@ const router = createRouter({
         {
             path: '/examination',
             name: 'examination',
-            component: () => import('@/views/candidate/ExaminationView.vue'),
+            component: () => import('@/views/candidate/ExaminationPageView.vue'),
             meta: { requestAuth: true, holder: 'candidate'},
         },
         {

@@ -14,6 +14,6 @@ public class PostTestPaperController {
     private PostTestPaperService postTestPaperService;
     @PostMapping("/handout/testpaper/")
     public String postTestPaper(@RequestParam Map<String, String> map){
-        return postTestPaperService.postTestPaper(map.get("testpaperTitle"));
+        return postTestPaperService.postTestPaper(map.get("testpaperTitle"), Integer.valueOf(map.get("examId")));
     }
 }

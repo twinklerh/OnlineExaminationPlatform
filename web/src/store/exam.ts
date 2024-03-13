@@ -12,9 +12,9 @@ export interface ExamInterface{
     state: string,
     announced: boolean,
     inviteCode: string,
-    displayTitle: string
+    displayTitle: string,
+    isJoined: false,
 }
-
 
 export const useExamStore = defineStore('exam',{
     state(){
@@ -68,9 +68,9 @@ export const useExamStore = defineStore('exam',{
                 error: ()=>{ ElMessage.error("失败"); }
             })
         },
-        joinExam(inviteCode:string, callback:()=>void){
+        fillInviteCode(inviteCode:string, callback:()=>void){
             $.ajax({
-                url: 'http://127.0.0.1:3000/candidate/join/exam/',
+                url: 'http://127.0.0.1:3000/candidate/fill/invitecode/',
                 type: 'post',
                 headers: {
                     Authorization: 'Bearer ' + useUserStore().token,
@@ -113,6 +113,23 @@ export const useExamStore = defineStore('exam',{
                     item.displayTitle = item.testpaperTitle.slice(index + 1); // 保留'}'符号后的字符
                 }
             });  
-        }
+        },
+        tryToJoinExam(examId:number, callback:(isJoin:string)=>void) {
+            $.ajax({
+                url: 'http://127.0.0.1:3000/candidate/join/exam/',
+                type: 'post',
+                headers: {
+                    Authorization: 'Bearer ' +  useUserStore().token,
+                },
+                data: {
+                    examId: examId,
+                },
+                success: (result:string) => {
+                    const resp = JSON.parse(result);
+                    if(resp.error_message === 'success')    callback("success");
+                    else    callback(resp.error_message);
+                }
+            });
+        },
     }
 })

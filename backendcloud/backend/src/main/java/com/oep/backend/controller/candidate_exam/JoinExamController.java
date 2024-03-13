@@ -12,8 +12,13 @@ import java.util.Map;
 public class JoinExamController {
     @Autowired
     private JoinExamService joinExamService;
-    @PostMapping("/candidate/join/exam/")
-    public String joinExam(@RequestParam Map<String,String> map){
-        return joinExamService.joinExam(map);
+    @PostMapping("/candidate/fill/invitecode/")
+    public String fillInviteCode(@RequestParam Map<String,String> map){
+        return joinExamService.fillInviteCode(map);
+    }
+    @PostMapping("/candidate/join/exam")
+    public String tryToJoinExam(@RequestParam Map<String, String> map){
+        System.out.println(666);
+        return joinExamService.tryToJoinExam(map);
     }
 }

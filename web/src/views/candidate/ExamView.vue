@@ -41,7 +41,7 @@ function handleAddExam(){
         cancelButtonText: 'Cancel',
     }).then(({value})=>{
         if(!value)  return;
-        examStore.joinExam(value, ()=>{
+        examStore.fillInviteCode(value, ()=>{
             changePage(currentPage)
             ElMessage({type: 'success', message: '成功加入一场应试'});
         })
@@ -60,9 +60,14 @@ function init(){
 }
 
 function beginExam(testpaperTitle:string, examid:number) {
-    console.log(testpaperTitle);
-    const url = router.resolve({name: 'examination', query:{ title: encodeURIComponent(testpaperTitle), examId: examid }}).href;
-    window.open(url);
+    examStore.tryToJoinExam(examid, (msg:string)=>{
+        if(msg != 'success')    {
+            ElMessageBox.alert(msg, "信息",{confirmButtonText:'确认',}).catch(()=>{return;});
+            return;
+        }
+        const url = router.resolve({name: 'examination', query:{ title: encodeURIComponent(testpaperTitle), examId: examid }}).href;
+        window.open(url);        
+    });
 }
 
 </script>
