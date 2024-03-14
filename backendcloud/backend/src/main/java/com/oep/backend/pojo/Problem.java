@@ -22,4 +22,5 @@ public class Problem {
     private String appendixName;
     private String type;
     private Float score;
+    private Integer enterpriseId;
 }

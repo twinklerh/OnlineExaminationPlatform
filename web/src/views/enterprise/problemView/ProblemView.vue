@@ -26,7 +26,8 @@
                     </el-popover>
                 </template>
             </el-table-column>
-        </el-table>        
+        </el-table>
+        <el-pagination @current-change="handleCurrentChange" :page-size="8" small background layout="prev, pager, next" :total="problemStore.sum_page"/>
     </el-card>
 </template>
 
@@ -74,6 +75,13 @@ function handleButtonDelete(problem_id:number){
     })
 }
 
+function handleCurrentChange(current_page:number) {
+    cancelVisible.value[last_row] = false;
+    problemStore.current_page = current_page;
+    problemStore.getProblemList(()=>{
+        resultlist.value = problemStore.problemList;
+    });
+}
 </script>
 
 <style scoped>

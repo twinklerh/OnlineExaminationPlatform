@@ -1,13 +1,11 @@
 package com.oep.backend.serviceImpl.problems.submitProblem;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.oep.backend.mapper.EnterpriseMapper;
 import com.oep.backend.mapper.GroupMapper;
 import com.oep.backend.mapper.GroupProblemMapper;
 import com.oep.backend.mapper.ProblemMapper;
-import com.oep.backend.pojo.Account;
-import com.oep.backend.pojo.Group;
-import com.oep.backend.pojo.GroupProblem;
-import com.oep.backend.pojo.Problem;
+import com.oep.backend.pojo.*;
 import com.oep.backend.security.utils.UserDetailsImpl;
 import com.oep.backend.service.problems.submitProblem.SubmitSubjectService;
 import com.oep.backend.utils.WriteValue;
@@ -29,13 +27,16 @@ public class SubmitSubjectServiceImpl implements SubmitSubjectService {
     private GroupProblemMapper groupProblemMapper;
     @Autowired
     private GroupMapper groupMapper;
+    private EnterpriseMapper enterpriseMapper;
     @Override
     public String addSubjectProblem(Map<String, String> map) {
         UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         UserDetailsImpl loginUser = (UserDetailsImpl) authenticationToken.getPrincipal();
         Account account = loginUser.getAccount();
         if(!"enterprise".equals(account.getStatus())) return WriteValue.writeValueAsString(new HashMap<>() {{ put("error_message", "身份验证异常"); }});
-
+        QueryWrapper<Enterprise> queryWrapper = new QueryWrapper<>();
+        queryWrapper.eq("account_id", account.getAccountId());
+        Enterprise enterprise = enterpriseMapper.selectOne(queryWrapper);
         Map<String,String> returnHashMap = new HashMap<>();
 
         String title = map.get("title");
@@ -56,7 +57,7 @@ public class SubmitSubjectServiceImpl implements SubmitSubjectService {
         }
 
         try{
-            Problem problem = new Problem(null,title,description,difficulty,checkBy,rightAnswer, null,"综合", score);
+            Problem problem = new Problem(null,title,description,difficulty,checkBy,rightAnswer, null,"综合", score, enterprise.getEnterpriseId());
             int resp = problemMapper.insert(problem);
             QueryWrapper<Group> groupQueryWrapper = new QueryWrapper<>();
             groupQueryWrapper.eq("group_name", groupSelect);

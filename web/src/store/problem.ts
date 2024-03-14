@@ -17,24 +17,31 @@ export interface ProblemInterface{
 export const useProblemStore = defineStore('problem', {
     state(){
         return{
-            problemList: [] as ProblemInterface[]
+            problemList: [] as ProblemInterface[],
+            current_page: 1,
+            sum_page: 1 as number,
         }
     },
     actions: {
         getProblemList(callback ? : (msg?:string) => void){
             $.ajax({
                 url: 'http://localhost:3000/problems/getallproblems/',
+                type: 'get',
                 headers: {
                     Authorization: 'Bearer ' + useUserStore().token,
                 },
-                type: 'get',
-                success: (resp:string)=>{
-                    if(resp==="数据为空"){
+                data: {
+                    current_page: this.current_page,
+                },
+                success: (result:string)=>{
+                    const resp = JSON.parse(result);
+                    if(resp.error_message != "success") {
                         this.problemList = [];
-                        if(typeof callback !== 'undefined') callback('数据为空');
+                        if(typeof callback !== 'undefined') callback(resp.error_message);
                         return;
-                    }   
-                    this.problemList = JSON.parse(resp)
+                    }
+                    this.problemList = JSON.parse(resp.problemList);
+                    this.sum_page = parseInt(resp.sum_page);
                     if(typeof callback !== 'undefined') callback("成功删除一个试题");
                 },
                 error: ()=>{
@@ -42,7 +49,7 @@ export const useProblemStore = defineStore('problem', {
                 }
             })
         },
-        deleteProblem(problem_id:number, callback ?:()=> void ){
+        deleteProblem(problem_id?:number, callback ?:()=> void ){
             $.ajax({
                 url: 'http://localhost:3000/problems/deleteproblem/',
                 type: 'post',
