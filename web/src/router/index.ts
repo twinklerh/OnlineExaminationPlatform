@@ -75,11 +75,17 @@ const router = createRouter({
                     meta:{ title: '发布考试', requestAuth: true, holder: 'enterprise'}
                 },
                 {
+                    path: 'check',
+                    name: 'check',
+                    component: () => import('@/views/enterprise/checkExamView/CheckExamView.vue'),
+                    meta: { title: '阅卷', requestAuth: true, holder: 'enterprise'},
+                },
+                {
                     path: 'grade',
                     name: 'grade',
                     component: () => import('@/views/enterprise/getGradeView/GetGradeView.vue'),
                     meta:{ title: '成绩查询', requestAuth: true, holder: 'enterprise'}              
-                }
+                },
             ]
         },
         {
@@ -113,6 +119,12 @@ const router = createRouter({
             name: 'examination',
             component: () => import('@/views/candidate/ExaminationPageView.vue'),
             meta: { requestAuth: true, holder: 'candidate'},
+        },
+        {
+            path: '/checkdetail',
+            name: 'checkdetail',
+            component: () => import('@/views/enterprise/checkExamView/CheckDetailView.vue'),
+            meta: { requestAuth: true, holder: 'enterprise' }
         },
         {
             path: '/notfound/',

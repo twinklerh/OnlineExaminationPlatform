@@ -65,7 +65,7 @@ public class FinishExamServiceImpl extends ClassCandidateExam implements FinishE
                 score = problemMapper.selectOne(queryWrapper).getScore();
                 this.sumScore += score;
             }
-            CandidateProblem candidateProblem = new CandidateProblem(null, Integer.valueOf(key), candidate.getCandidateId(), examId, "" + ch, new Date(), score);
+            CandidateProblem candidateProblem = new CandidateProblem(null, Integer.valueOf(key), candidate.getCandidateId(), examId, "" + ch, new Date(), score, true);
             candidateProblemMapper.insert(candidateProblem);
         });
     }
@@ -80,7 +80,7 @@ public class FinishExamServiceImpl extends ClassCandidateExam implements FinishE
                 score = problemMapper.selectOne(queryWrapper).getScore();
                 this.sumScore += score;
             }
-            CandidateProblem candidateProblem = new CandidateProblem(null, Integer.valueOf(key), candidate.getCandidateId(), examId, value.toString(), new Date(), score);
+            CandidateProblem candidateProblem = new CandidateProblem(null, Integer.valueOf(key), candidate.getCandidateId(), examId, value.toString(), new Date(), score, true);
             candidateProblemMapper.insert(candidateProblem);
         });
     }
@@ -98,7 +98,7 @@ public class FinishExamServiceImpl extends ClassCandidateExam implements FinishE
                 score = problemMapper.selectOne(queryWrapper).getScore();
                 this.sumScore += score;
             }
-            CandidateProblem candidateProblem = new CandidateProblem(null, Integer.valueOf(key), candidate.getCandidateId(), examId, value.toString(), new Date(), score);
+            CandidateProblem candidateProblem = new CandidateProblem(null, Integer.valueOf(key), candidate.getCandidateId(), examId, value.toString(), new Date(), score, true);
             candidateProblemMapper.insert(candidateProblem);
         });
     }
@@ -111,7 +111,7 @@ public class FinishExamServiceImpl extends ClassCandidateExam implements FinishE
         for(String key: jsonObject.keySet()) {
             Integer problem_id = Integer.valueOf(key);
             String answer = jsonObject.getString(key);
-            CandidateProblem candidateProblem = new CandidateProblem(null, problem_id, candidate.getCandidateId(), examId, answer, new Date(), -1f);
+            CandidateProblem candidateProblem = new CandidateProblem(null, problem_id, candidate.getCandidateId(), examId, answer, new Date(), -1f, false);
             candidateProblemMapper.insert(candidateProblem);
         }
     }

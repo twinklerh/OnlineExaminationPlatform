@@ -66,7 +66,7 @@ function beginExam(testpaperTitle:string, examid:number) {
             return;
         }
         const url = router.resolve({name: 'examination', query:{ title: encodeURIComponent(testpaperTitle), examId: examid }}).href;
-        window.open(url);        
+        window.open(url);
     });
 }
 

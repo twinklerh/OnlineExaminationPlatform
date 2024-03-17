@@ -22,4 +22,5 @@ public class CandidateProblem {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
     private Date dateTime;
     private Float getScore;
+    private Boolean isChecked;
 }

@@ -9,6 +9,7 @@
         <el-icon><Files /></el-icon>
         <span>试题库</span>
       </el-menu-item>
+
       <el-sub-menu index="2" class="el-sub-menu" >
         <template #title>
           <span style="font-size: 16px;">
@@ -25,6 +26,7 @@
           <span>主观题</span>
         </el-menu-item>
       </el-sub-menu>
+
       <el-menu-item class="el-menu-item" index="maketestpaper">
         <el-icon><Paperclip /></el-icon>
         <span>组卷</span>
@@ -47,6 +49,10 @@
         </el-menu-item>
       </el-sub-menu>
 
+      <el-menu-item index="check" class="el-menu-item">
+        <el-icon><Search /></el-icon>
+        <span>阅卷</span>
+      </el-menu-item>
       <el-menu-item index="grade" class="el-menu-item">
         <el-icon><Search /></el-icon>
         <span>成绩查询</span>
@@ -69,11 +75,11 @@ const router = useRouter();
 }
 .text-div{
   background-color: #fbfbfb;
-  display: flex; /* 本行让span占满了父组件 */
-  justify-content: center; /* 水平居中 */
-  align-items: center; /* 垂直居中 */
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 56px;
-  cursor: pointer; /* 设置鼠标样式为手型 */
+  cursor: pointer;
 }
 .el-divider{
   margin: 0;

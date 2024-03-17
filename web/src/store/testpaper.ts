@@ -5,7 +5,7 @@ import { ElMessage } from "element-plus";
 
 export interface TestpaperInterface{
     title: string,
-    memo: string
+    memo: string,
     problemCount: number,
 }
 
@@ -43,7 +43,7 @@ export const useTestpaperStore = defineStore('testpaper', {
                 }
             });
         },
-        getTestPaper(page:number, callback:(dataCount:number)=>void){
+        getTestPaper(page:number, callback?:(dataCount:number)=>void){
             $.ajax({
                 url: 'http://127.0.0.1:3000/testpaper/gettestpaper/',
                 type: 'get',
@@ -58,7 +58,7 @@ export const useTestpaperStore = defineStore('testpaper', {
                     this.testpaperlist = result.testpaperList;
                     this.current_page = result.current_page;
                     this.fixTestPaperMsg();
-                    callback(result.dataCount)
+                    if(typeof callback !='undefined')    callback(result.dataCount)
                 },
                 error: ()=>{
                     ElMessage.error("拉取试卷信息失败");
