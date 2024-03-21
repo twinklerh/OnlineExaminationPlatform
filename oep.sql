@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 17/03/2024 23:55:14
+ Date: 21/03/2024 19:22:08
 */
 
 SET NAMES utf8mb4;
@@ -230,7 +230,7 @@ INSERT INTO `candidate_problem` VALUES (131, 84, 4, 42, 'true', '2024-03-13', -1
 INSERT INTO `candidate_problem` VALUES (132, 82, 4, 42, 'false', '2024-03-13', -1, 0);
 INSERT INTO `candidate_problem` VALUES (133, 83, 4, 42, 'true', '2024-03-13', 2, 0);
 INSERT INTO `candidate_problem` VALUES (134, 84, 4, 42, 'true', '2024-03-13', -1, 0);
-INSERT INTO `candidate_problem` VALUES (135, 81, 4, 42, 'n', '2024-03-13', -1, 0);
+INSERT INTO `candidate_problem` VALUES (135, 81, 4, 42, 'n', '2024-03-13', 6, 0);
 INSERT INTO `candidate_problem` VALUES (136, 82, 4, 42, '没有', '2024-03-13', -1, 0);
 INSERT INTO `candidate_problem` VALUES (137, 72, 4, 42, 'C', '2024-03-13', 5, 0);
 INSERT INTO `candidate_problem` VALUES (138, 73, 4, 42, 'A', '2024-03-13', 5, 0);
@@ -241,7 +241,7 @@ INSERT INTO `candidate_problem` VALUES (142, 82, 4, 42, 'false', '2024-03-13', -
 INSERT INTO `candidate_problem` VALUES (143, 83, 4, 42, 'true', '2024-03-13', 2, 0);
 INSERT INTO `candidate_problem` VALUES (144, 84, 4, 42, 'true', '2024-03-13', -1, 0);
 INSERT INTO `candidate_problem` VALUES (145, 85, 4, 42, '5', '2024-03-13', -1, 0);
-INSERT INTO `candidate_problem` VALUES (146, 81, 4, 42, '4', '2024-03-13', -1, 0);
+INSERT INTO `candidate_problem` VALUES (146, 81, 4, 42, '4', '2024-03-13', 9, 0);
 INSERT INTO `candidate_problem` VALUES (147, 82, 4, 42, '6', '2024-03-13', -1, 0);
 INSERT INTO `candidate_problem` VALUES (148, 72, 4, 42, 'C', '2024-03-13', 5, 0);
 INSERT INTO `candidate_problem` VALUES (149, 73, 4, 42, 'A', '2024-03-13', 5, 0);
@@ -252,7 +252,7 @@ INSERT INTO `candidate_problem` VALUES (153, 82, 4, 42, 'false', '2024-03-13', -
 INSERT INTO `candidate_problem` VALUES (154, 83, 4, 42, 'true', '2024-03-13', 2, 0);
 INSERT INTO `candidate_problem` VALUES (155, 84, 4, 42, 'true', '2024-03-13', -1, 0);
 INSERT INTO `candidate_problem` VALUES (156, 85, 4, 42, '5', '2024-03-13', -1, 0);
-INSERT INTO `candidate_problem` VALUES (157, 81, 4, 42, '4', '2024-03-13', -1, 0);
+INSERT INTO `candidate_problem` VALUES (157, 81, 4, 42, '4', '2024-03-13', 10, 0);
 INSERT INTO `candidate_problem` VALUES (158, 82, 4, 42, '6', '2024-03-13', -1, 0);
 INSERT INTO `candidate_problem` VALUES (159, 72, 4, 42, 'C', '2024-03-13', 5, 0);
 INSERT INTO `candidate_problem` VALUES (160, 73, 4, 42, 'D', '2024-03-13', -1, 0);

@@ -55,8 +55,9 @@ public class GetGetCheckServiceImpl extends ClassCandidateExam implements GetChe
             Float get_score = item.getGetScore();
             Float score = getProblemScore(problemId);
             JSONObject jsonObject = new JSONObject();
-            jsonObject.put("checkId", checkId);
+            jsonObject.put("problemId", problemId);
             jsonObject.put("description", description);
+            jsonObject.put("checkId", checkId);
             jsonObject.put("answer", answer);
             jsonObject.put("candidateName", candidateName);
             jsonObject.put("getScore", get_score);
