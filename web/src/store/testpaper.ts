@@ -55,10 +55,12 @@ export const useTestpaperStore = defineStore('testpaper', {
                 },
                 success: (resp:string)=>{
                     const result = JSON.parse(resp);
-                    this.testpaperlist = result.testpaperList;
-                    this.current_page = result.current_page;
-                    this.fixTestPaperMsg();
-                    if(typeof callback !='undefined')    callback(result.dataCount)
+                    if(result.error_message === 'success')  {
+                        this.testpaperlist = result.testpaperList;
+                        this.current_page = result.current_page;
+                        this.fixTestPaperMsg();
+                        if(typeof callback !='undefined')    callback(result.dataCount)                        
+                    }
                 },
                 error: ()=>{
                     ElMessage.error("拉取试卷信息失败");

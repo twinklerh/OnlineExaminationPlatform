@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class GetGetCheckServiceImpl extends ClassCandidateExam implements GetCheckService {
+public class GetCheckServiceImpl extends ClassCandidateExam implements GetCheckService {
     @Autowired
     private ExamMapper examMapper;
     @Autowired
@@ -31,6 +31,10 @@ public class GetGetCheckServiceImpl extends ClassCandidateExam implements GetChe
         Integer examId = getExamId(title);
         if(examId==-1)   return WriteValue.writeValueAsString(Collections.singletonMap("error_message", "试卷不存在"));
         JSONArray jsonArray = getAnswerMsg(examId);
+        if(jsonArray.isEmpty())     {
+            respMap.put("error_message", "数据为空");
+            return WriteValue.writeValueAsString(respMap);
+        }
         return WriteValue.writeValueAsString(jsonArray);
     }
     private Integer getExamId(String title) {

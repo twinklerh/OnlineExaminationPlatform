@@ -14,13 +14,6 @@
             <el-form-item label="备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注：">
                 <el-input class="el-input-1" v-model="paper.memo" placeholder="备注信息" clearable />
             </el-form-item>
-            <el-form-item label="附&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;件：">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                <el-radio-group v-model="isNeedAppendix">
-                    <el-radio :label="false">无需附件</el-radio>
-                    <el-radio :label="true">可选附件</el-radio>
-                </el-radio-group>
-                <span v-if="isNeedAppendix===true" style="color:rgb(163, 163, 0); font-size: 13px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;*单个附件大小不得超过10MB</span>
-            </el-form-item>
         </el-form>
     </div>
     <div v-if="activeNumber===1" style="display: flex; justify-content: center; align-items: center; ">

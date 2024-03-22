@@ -8,7 +8,7 @@
                     <template #title>
                         <div class="title">{{ item.problemId +"、"+item.description }}</div>
                     </template>
-                </CheckTitleCardComp>                        
+                </CheckTitleCardComp>
             </el-scrollbar>
         </div>
     </div>
@@ -46,6 +46,7 @@ import $ from 'jquery';
 import { useUserStore } from '@/store/user';
 import { ref } from 'vue';
 import CheckTitleCardComp from '@/components/CheckTitleCardComp.vue';
+import { ElMessageBox } from 'element-plus';
 const route = useRoute();
 const testpaperTitle = decodeURIComponent(route.query.title as string) as string;
 const subStringResult = testpaperTitle.substring(testpaperTitle.indexOf('}') + 1, testpaperTitle.length);
@@ -65,9 +66,10 @@ function getCheckMsg()  {
             testpaper_title: testpaperTitle,
         },
         success: (result:string) => {
+            console.log(result)
             const resp = JSON.parse(result);
             CheckData.value = resp;
-            filterateProblemTitle()
+            filterateProblemTitle();
         },
         error: () => {
             console.log("error");
@@ -118,8 +120,10 @@ function submit() {
             activeObject: listJson,
         },
         success: (result:string)=>{
-            // const resp = JSON.parse(result);
-            console.log(result);
+            const resp = JSON.parse(result);
+            if(resp.error_message === 'success')    {
+                ElMessageBox.alert('成功', '提交成功').catch(()=>{return;})
+            }
         },
         error: ()=>{
             console.log("error");

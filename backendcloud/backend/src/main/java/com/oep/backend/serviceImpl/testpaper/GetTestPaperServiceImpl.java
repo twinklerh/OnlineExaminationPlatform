@@ -37,6 +37,7 @@ public class GetTestPaperServiceImpl extends ClassTestPaper implements com.oep.b
         jsonObject.put("dataCount",testpaperIPage.getTotal());
         jsonObject.put("current_page", testpaperIPage.getCurrent());
         jsonObject.put("sum_page_count", testpaperIPage.getPages());
+        jsonObject.put("error_message", "success");
         return WriteValue.writeValueAsString(jsonObject);
     }
 }

@@ -15,6 +15,6 @@ public class CandidateExam {
     private Integer candidateId;
     private Integer examId;
     private float score;
-    private String appendix;
+    private Boolean announced;
     private Boolean isJoined;
 }

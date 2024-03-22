@@ -3,7 +3,7 @@
         <span class="span-pure-text">试卷标题：</span><span style="color: blue;">{{ props.data_checkedPaper.testpaper_title }}</span><br>
         <span class="span-pure-text">开始时间：</span><span style="color: blue;">{{ props.data_checkedPaper.begin_time }}</span><br>
         <span class="span-pure-text">结束时间：</span><span style="color: blue;">{{ props.data_checkedPaper.end_time }}</span><br>
-        <span class="span-pure-text">状态：</span><span style="color: red;">{{ msg }}</span><br>
+        <span class="span-pure-text">&nbsp;</span><br>
         <div style="display: flex; flex-direction: row-reverse;">
             <slot name="button"></slot>
         </div>
@@ -11,14 +11,13 @@
 </template>
 
 <script lang="ts" setup>
-import { defineProps, ref } from 'vue';
+import { defineProps } from 'vue';
 const props = defineProps({
     data_checkedPaper: { 
         type: Object,
         required: true
     }
 });
-const msg = ref(props.data_checkedPaper.is_checked === false ? '未批改' : '已批改');
 </script>
 
 <style scoped lang="scss">

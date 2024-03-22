@@ -3,10 +3,11 @@
         <TableCardComp style="margin-top: 30px;" :data_checkedPaper="item" v-for="(item,index) in data_checkedPaper" :key="index">
             <template #button>
                 <el-button type="primary" @click="getDetail(item.testpaper_title)">查看</el-button>
-            </template> 
-        </TableCardComp>
+                <el-button type="primary" @click="announceScore(item.testpaper_title)" style="margin-right: 10px;">发布成绩</el-button>
+            </template>
+        </TableCardComp>    
     </div>
-    <!-- <el-pagination /> -->
+    <el-pagination @current-change="changePage" :total="8" layout="prev, pager, next" background />
 </template>
 
 <script lang="ts" setup>
@@ -17,19 +18,24 @@ import { useUserStore } from '@/store/user';
 import { TestpaperInterface } from '@/store/testpaper';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
+import { ElMessage } from 'element-plus';
 const router = useRouter();
 interface CheckedTestPaper {begin_time:string, end_time:string, ischecked:boolean, testpaper_title:string}
 const testpaperStore = useTestpaperStore();
 const data_checkedPaper = ref<CheckedTestPaper[]>([]);
-testpaperStore.getTestPaper(1, async()=>{ await getCheckMsg(); });
+
+changePage(1);
+
+function changePage(pageNum:number) {
+    testpaperStore.getTestPaper(pageNum, async()=>{ await getCheckMsg(); });
+}
 
 const getDetail = (param:string) => {   //  创建新页面
-    console.log(param)
     const url = router.resolve({name: 'checkdetail', query: { title: encodeURIComponent(param) }}).href;
     window.open(url);
 }
 
-async function getCheckMsg():Promise<void> {
+async function getCheckMsg():Promise<void> {    //  依据试卷获取考试场次信息
     const arr:string[] = [];
     useTestpaperStore().testpaperlist.forEach((item:TestpaperInterface)=>{arr.push(item.title);})
     await $.ajax({
@@ -46,7 +52,27 @@ async function getCheckMsg():Promise<void> {
             if(data_checkedPaper.value != null)  data_checkedPaper.value = resp;
         },
         error: ()=>{
-            console.log(77)
+            ElMessage.error("失败");
+        }
+    })
+}
+
+function announceScore(testpaper_title:string) {
+    $.ajax({
+        url: 'http://127.0.0.1:3000/enterprise/announce/score/',
+        type: 'post',
+        headers: {
+            Authorization: 'Bearer ' + useUserStore().token,
+        },
+        data: {
+            testPaperTitle: testpaper_title
+        },
+        success: (result:string)=>{
+            const resp = JSON.parse(result);
+            console.log(resp);
+        },
+        error: ()=>{
+            console.log("error");
         }
     })
 }
@@ -56,7 +82,7 @@ async function getCheckMsg():Promise<void> {
 <style scoped>
 .container {
     display: flex;
-    justify-content: center;
+    justify-content: left;
     height: 550px;
     width: 98%;
     border: 1px solid;

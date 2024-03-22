@@ -9,6 +9,7 @@
                     <br><span class="span-pure-text">结束时间：</span><br><span style="color: red;">{{ item.endTime }}</span>
                     <br><el-button v-if="item.announced==false" type="primary" size="small" class="announced-msg" @click="releaseExam(item)">发布</el-button>
                     <div v-else class="announced-msg" style="font-size: 14px;">已发布</div>
+                    <div v-if="item.announced==true">邀请码：{{ item.inviteCode }}</div>
                 </el-card>
             </el-row>
             <el-pagination @current-change="changePage" :page-size="6" small background layout="prev, pager, next" :total="dataCount"/>

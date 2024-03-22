@@ -1,6 +1,5 @@
 package com.oep.backend.serviceImpl.check;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.oep.backend.mapper.CandidateProblemMapper;
 import com.oep.backend.pojo.CandidateProblem;
