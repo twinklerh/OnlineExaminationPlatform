@@ -27,19 +27,23 @@ public class AnnounceScoreServiceImpl implements AnnounceScoreService {
     private CandidateProblemMapper candidateProblemMapper;
     @Autowired
     private CandidateExamMapper candidateExamMapper;
+    @Autowired
+    private TestpaperMapper testpaperMapper;
     @Override
     public String announceScore(Map<String, String> map) {
         String testPaperTitle = map.get("testPaperTitle");
         Account account = this.authenticate();
         Enterprise enterprise = this.getEnterprise(account);
         Integer examId = this.getExamId(testPaperTitle);
-        List<CandidateProblem> candidateProblemsList = this.getCandidateIdList(examId);
-        candidateProblemsList.forEach((item)->{
-            Double score = this.calculateScore(examId, item.getCandidateId());
-            updateCandidateScore(item.getCandidateId(), examId, score);
-            UpdateWrapper<CandidateExam> updateWrapper = new UpdateWrapper<>();
-            updateWrapper.set("announced", true);
-            candidateExamMapper.update(updateWrapper);
+        UpdateWrapper<Testpaper> updateWrapper = new UpdateWrapper<>();
+        updateWrapper.eq("title", testPaperTitle);
+        updateWrapper.set("is_score_public", true);
+        testpaperMapper.update(updateWrapper);
+        //  接下来算分
+        List<Integer> candidateIdList =  getCandidateIdList(examId);
+        candidateIdList.forEach((item)->{
+            Double score = calculateScore(examId, item);
+            updateCandidateScore(item, examId, score);
         });
         Map<String, String> respMap = new HashMap<>();
         respMap.put("error_message", "success");
@@ -60,10 +64,10 @@ public class AnnounceScoreServiceImpl implements AnnounceScoreService {
         queryWrapper.eq("testpaper_title", testPaperTitle);
         return examMapper.selectOne(queryWrapper).getExamId();
     }
-    private List<CandidateProblem> getCandidateIdList(Integer examId)    {
-        QueryWrapper<CandidateProblem> queryWrapper = new QueryWrapper<>();
+    private List<Integer> getCandidateIdList(Integer examId)    {
+        QueryWrapper<CandidateExam> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("exam_id", examId);
-        return candidateProblemMapper.selectList(queryWrapper);
+        return candidateExamMapper.selectList(queryWrapper).stream().map(CandidateExam::getCandidateId).collect(Collectors.toList());
     }
     private double calculateScore(Integer examId, Integer candidateId) {
         QueryWrapper<CandidateProblem> queryWrapper = new QueryWrapper<>();

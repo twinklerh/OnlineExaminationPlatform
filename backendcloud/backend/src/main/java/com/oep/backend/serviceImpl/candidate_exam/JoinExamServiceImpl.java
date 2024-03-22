@@ -1,7 +1,6 @@
 package com.oep.backend.serviceImpl.candidate_exam;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.oep.backend.mapper.CandidateExamMapper;
 import com.oep.backend.mapper.ExamMapper;
 import com.oep.backend.pojo.Account;
@@ -41,7 +40,7 @@ public class JoinExamServiceImpl extends ClassCandidateExam implements JoinExamS
             respMap.put("error_message", "您已经添加过该场应试啦！");
             return WriteValue.writeValueAsString(respMap);
         }
-        CandidateExam candidateExam = new CandidateExam(null, candidateId, examId, -1, false,false);
+        CandidateExam candidateExam = new CandidateExam(null, candidateId, examId, -1, false);
         candidateExamMapper.insert((candidateExam));
         respMap.put("error_message", "success");
         return WriteValue.writeValueAsString(respMap);

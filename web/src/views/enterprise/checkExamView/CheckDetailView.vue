@@ -57,7 +57,7 @@ const activeProblem = ref('');
 const activeObject = ref<CheckedDataInterface[]>([])
 function getCheckMsg()  {
     $.ajax({
-        url: 'http://127.0.0.1:3000/get/check/msg/',
+        url: 'http://127.0.0.1:3000/enterprise/get/check/msg/',
         type: 'post',
         headers: {
             Authorization: "Bearer " + useUserStore().token,

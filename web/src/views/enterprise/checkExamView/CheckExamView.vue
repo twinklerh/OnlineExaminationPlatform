@@ -3,53 +3,42 @@
         <TableCardComp style="margin-top: 30px;" :data_checkedPaper="item" v-for="(item,index) in data_checkedPaper" :key="index">
             <template #button>
                 <el-button type="primary" @click="getDetail(item.testpaper_title)">查看</el-button>
-                <el-button type="primary" @click="announceScore(item.testpaper_title)" style="margin-right: 10px;">发布成绩</el-button>
+                <el-button v-if="item.is_score_public==false" type="primary" @click="announceScore(item)" style="margin-right: 10px;">公布成绩</el-button>
+                <span v-else style="margin:auto 20px;">已公布</span>
             </template>
         </TableCardComp>    
     </div>
-    <el-pagination @current-change="changePage" :total="8" layout="prev, pager, next" background />
+    <el-pagination @current-change="changePage" :page-size="8" :total="dataCount" layout="prev, pager, next" background />
 </template>
 
 <script lang="ts" setup>
 import TableCardComp from '@/components/TableCardComp.vue';
-import { useTestpaperStore } from '@/store/testpaper';
 import $ from 'jquery';
 import { useUserStore } from '@/store/user';
-import { TestpaperInterface } from '@/store/testpaper';
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { ElMessage } from 'element-plus';
 const router = useRouter();
-interface CheckedTestPaper {begin_time:string, end_time:string, ischecked:boolean, testpaper_title:string}
-const testpaperStore = useTestpaperStore();
+interface CheckedTestPaper {begin_time:string, end_time:string, is_score_public:boolean, testpaper_title:string}
 const data_checkedPaper = ref<CheckedTestPaper[]>([]);
+const dataCount = ref(8);
 
 changePage(1);
 
-function changePage(pageNum:number) {
-    testpaperStore.getTestPaper(pageNum, async()=>{ await getCheckMsg(); });
-}
-
-const getDetail = (param:string) => {   //  创建新页面
-    const url = router.resolve({name: 'checkdetail', query: { title: encodeURIComponent(param) }}).href;
-    window.open(url);
-}
-
-async function getCheckMsg():Promise<void> {    //  依据试卷获取考试场次信息
-    const arr:string[] = [];
-    useTestpaperStore().testpaperlist.forEach((item:TestpaperInterface)=>{arr.push(item.title);})
-    await $.ajax({
-        url: 'http://127.0.0.1:3000/get/check/message/',
+function changePage(pageNum:number) {   //  获取candidate_exam和exam的信息
+    $.ajax({
+        url: 'http://127.0.0.1:3000/enterprise/get/unchecked/tesepaper/',
         type: 'post',
         headers: {
             Authorization: "Bearer " + useUserStore().token,
         },
         data: {
-            testpaperTitle: JSON.stringify(arr),
+            current_page: pageNum,
         },
         success: (result:string)=>{
             const resp = JSON.parse(result);
-            if(data_checkedPaper.value != null)  data_checkedPaper.value = resp;
+            dataCount.value = parseInt(resp.total);
+            if(data_checkedPaper.value != null)  data_checkedPaper.value = JSON.parse(resp.jsonArray);
         },
         error: ()=>{
             ElMessage.error("失败");
@@ -57,7 +46,14 @@ async function getCheckMsg():Promise<void> {    //  依据试卷获取考试场�
     })
 }
 
-function announceScore(testpaper_title:string) {
+const getDetail = (param_testPaperTitle:string) => {   //  创建新页面
+    const url = router.resolve({name: 'checkdetail', query: { title: encodeURIComponent(param_testPaperTitle) }}).href;
+    window.open(url);
+}
+
+function announceScore(item:CheckedTestPaper) {
+    const testpaper_title = item.testpaper_title;
+    item.is_score_public = true;
     $.ajax({
         url: 'http://127.0.0.1:3000/enterprise/announce/score/',
         type: 'post',
@@ -69,7 +65,7 @@ function announceScore(testpaper_title:string) {
         },
         success: (result:string)=>{
             const resp = JSON.parse(result);
-            console.log(resp);
+            ElMessage({type: 'success', message: resp.error_message});
         },
         error: ()=>{
             console.log("error");

@@ -12,7 +12,7 @@ import java.util.Map;
 public class CheckController {
     @Autowired
     private GetCheckService getCheckService;
-    @PostMapping("/get/check/msg/")
+    @PostMapping("/enterprise/get/check/msg/")
     public String getCheckMsg(@RequestParam Map<String, String> map) {
         return getCheckService.getCheckMsg(map.get("testpaper_title"));
     }
