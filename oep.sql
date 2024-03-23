@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 23/03/2024 01:03:33
+ Date: 23/03/2024 19:51:39
 */
 
 SET NAMES utf8mb4;
@@ -56,8 +56,8 @@ CREATE TABLE `candidate`  (
 -- ----------------------------
 -- Records of candidate
 -- ----------------------------
-INSERT INTO `candidate` VALUES (3, '123', NULL, 'f', NULL, NULL, NULL, 'twinkle');
-INSERT INTO `candidate` VALUES (4, '123', NULL, 'f', NULL, NULL, NULL, 'uy');
+INSERT INTO `candidate` VALUES (3, '李华', NULL, 'f', NULL, NULL, NULL, 'twinkle');
+INSERT INTO `candidate` VALUES (4, '李雷', NULL, 'f', NULL, NULL, NULL, 'uy');
 
 -- ----------------------------
 -- Table structure for candidate_exam
