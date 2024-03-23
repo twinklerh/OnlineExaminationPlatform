@@ -4,7 +4,7 @@
             <span v-if="examStore.examList.length === 0" style="font-size: 25px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;无数据！</span>
             <el-row style="display: flex; justify-content: left; align-items: center; margin-bottom: 20px;">
                 <el-card class="el-card-inner" v-for="(item,index) in examStore.examList" :key="index">
-                    <span>{{ item.testpaperTitle }}</span><br>
+                    <span>{{  handleTitle(item.testpaperTitle) }}</span><br>
                     <br><span class="span-pure-text">开始时间：</span><br><span style="color: red;">{{ item.beginTime }}</span>
                     <br><span class="span-pure-text">结束时间：</span><br><span style="color: red;">{{ item.endTime }}</span>
                     <br><el-button v-if="item.announced==false" type="primary" size="small" class="announced-msg" @click="releaseExam(item)">发布</el-button>
@@ -24,6 +24,11 @@ import { ref } from 'vue';
 
 const examStore = useExamStore();
 const dataCount = ref(0)
+
+function handleTitle(title:string)  {
+    const begin = title.indexOf('}');
+    return title.substring(begin+1, title.length);
+}
 
 function releaseExam(item:ExamInterface){
     examStore.releaseExam(item.examId, (s)=>{
