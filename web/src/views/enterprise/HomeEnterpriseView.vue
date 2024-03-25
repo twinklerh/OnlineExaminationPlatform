@@ -5,6 +5,7 @@
             <el-row class="el-row">
                 <el-col :span="3" class="el-col-di1">{{ route.meta.title }}</el-col>
                 <el-col :span="3" :offset="15" class="el-col-di7">
+                    <img class="feedback" src="@/assets/feedback.svg" @click="feedbackVisable = true;" />
                     <el-dropdown trigger="click">
                         <img class="el-avatar" size="30" src="@/assets/defaultHeadImg.png" />
                         <template #dropdown>
@@ -26,6 +27,12 @@
             </el-card>
         </el-main>
     </el-container>
+    <el-dialog v-model="feedbackVisable" title="提交您宝贵的建议" style="width: 450px; height: 450px;">
+        <el-input v-model="feedback" type="textarea" :rows="15" resize="none" class="feedback-content"/>
+        <div style="display: flex; flex-direction: row-reverse; margin-top: 5px;">
+            <el-button type="primary" @click="startFeedback">提交</el-button>
+        </div>
+    </el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -42,7 +49,8 @@ const route = useRoute()
 const userStore = useUserStore();
 interface enterprise { accountId: number, email: string, enterpriseId: number, name: string, }
 const enterprise_user = ref<enterprise>();
-
+const feedback = ref('')
+const feedbackVisable = ref(false);
 
 function getUserInfo()  {
     $.ajax({
@@ -65,6 +73,29 @@ function getUserInfo()  {
 function editEnterpriseInfo()   {
     getUserInfo();
     containerVisable.value = false;
+}
+
+function startFeedback() {
+  if(feedback.value === '') return;
+  $.ajax({
+    url: 'http://127.0.0.1:3000/user/add/feedback/',
+    type: 'post',
+    headers: {
+      Authorization: "Bearer " + userStore.token,
+    },
+    data: {
+      content: feedback.value,
+    },
+    success: (result:string) => {
+      const resp = JSON.parse(result);
+      ElMessage({type: 'success', message: resp.error_message});
+      feedbackVisable.value = false;
+      feedback.value = '';
+    },
+    error: ()=>{
+      ElMessage.error("反馈提交失败");
+    }
+  })
 }
 
 </script>
@@ -137,5 +168,18 @@ function editEnterpriseInfo()   {
     background-color: #F5DEB3;
     border-radius: 50%;
     cursor: pointer;
+}
+.feedback {
+  position: absolute;
+  z-index: 1;
+  height: 21px;
+  width: 21px;
+  right: 20%;
+}
+.feedback:hover {
+  cursor: pointer;
+}
+.feedback-content:deep(.el-textarea__inner){
+  letter-spacing: 1px;
 }
 </style>

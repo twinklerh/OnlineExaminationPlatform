@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 23/03/2024 21:22:56
+ Date: 25/03/2024 22:24:12
 */
 
 SET NAMES utf8mb4;
@@ -42,7 +42,7 @@ DROP TABLE IF EXISTS `candidate`;
 CREATE TABLE `candidate`  (
   `candidate_id` int NOT NULL AUTO_INCREMENT,
   `fullname` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
-  `headphoto` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `headphoto` varchar(512) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `sex` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `email` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
   `telephone` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
@@ -56,8 +56,8 @@ CREATE TABLE `candidate`  (
 -- ----------------------------
 -- Records of candidate
 -- ----------------------------
-INSERT INTO `candidate` VALUES (3, '李华', NULL, 'f', NULL, NULL, NULL, 'twinkle');
-INSERT INTO `candidate` VALUES (4, '李雷', NULL, 'f', NULL, NULL, NULL, 'uy');
+INSERT INTO `candidate` VALUES (3, '李华', NULL, 'f', '666', NULL, NULL, 'twinkle');
+INSERT INTO `candidate` VALUES (4, '李雷', 'D:\\Develop\\oep\\backendcloud\\backend\\target\\classes\\headerImages\\6ed487cc-437e-4631-9532-eec7214f8db5.png', 'm', '777', '13766403661', '2002-08-15', 'uy');
 
 -- ----------------------------
 -- Table structure for candidate_exam
@@ -160,6 +160,24 @@ CREATE TABLE `exam`  (
 -- Records of exam
 -- ----------------------------
 INSERT INTO `exam` VALUES (44, '2024-03-22 00:00:00', '2024-03-23 00:00:00', '', 1, '66814R2870224535623012478119', '{hy}计算机组成原理', 'hy');
+
+-- ----------------------------
+-- Table structure for feedback
+-- ----------------------------
+DROP TABLE IF EXISTS `feedback`;
+CREATE TABLE `feedback`  (
+  `feedback_id` int NOT NULL AUTO_INCREMENT,
+  `content` varchar(10240) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `account_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`feedback_id`) USING BTREE,
+  UNIQUE INDEX `feedback_pk_2`(`feedback_id` ASC) USING BTREE,
+  INDEX `feedback_account_account_id_fk`(`account_id` ASC) USING BTREE,
+  CONSTRAINT `feedback_account_account_id_fk` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Records of feedback
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for group

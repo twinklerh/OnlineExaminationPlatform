@@ -127,6 +127,7 @@ useUserStore().getHeadImg((imgString)=>{
 .display-heading {
     width: 50px;
     height: 50px;
+    border-radius: 50%;
 }
 .display-heading:hover {
     cursor: pointer;
