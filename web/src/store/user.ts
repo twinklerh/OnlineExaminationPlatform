@@ -49,6 +49,39 @@ export const useUserStore = defineStore('user',{
                 }
             })
         },
+        getHeadImg(callback:(imgString:string)=>void) {
+            $.ajax({
+                url: 'http://127.0.0.1:3000/candidate/get/headImg/',
+                type: 'post',
+                headers: {
+                    Authorization: "Bearer " + useUserStore().token,
+                },
+                success: (result:string)=>{
+                    const resp = JSON.parse(result);
+                    if(resp.error_message === 'success')    callback(resp.base64String);
+                    else    ElMessage.error("头像获取失败");
+                },
+                error: ()=>{
+                    ElMessage.error("头像获取失败");
+                }
+            })
+        },
+        base64toFile(base64String: string, fileName: string): File {
+            // 将 base64 字符串转换为 Uint8Array
+            const binaryString = window.atob(base64String);
+            const len = binaryString.length;
+            const bytes = new Uint8Array(len);
+            for (let i = 0; i < len; ++i) {
+                bytes[i] = binaryString.charCodeAt(i);
+            }
+            // 创建 Blob 对象
+            const blob = new Blob([bytes], { type: 'application/octet-stream' });
+        
+            // 创建 File 对象
+            const file = new File([blob], fileName, { type: 'application/octet-stream' });
+        
+            return file;
+        },
         logout(){
             localStorage.setItem('jwt_token','');
             this.token = "", this.status = '', this.username = '';

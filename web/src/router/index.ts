@@ -106,6 +106,12 @@ const router = createRouter({
                     component: () => import('@/views/candidate/ScoreView.vue'),
                     meta: { requestAuth: true, holder: 'candidate'},
                 },
+                {
+                    path: 'info',
+                    name: 'candidate_info',
+                    component: () => import('@/views/candidate/CandidateInfoView.vue'),
+                    meta: { requestAuth: true, holder: 'candidate' },
+                }
             ]
         },
         {

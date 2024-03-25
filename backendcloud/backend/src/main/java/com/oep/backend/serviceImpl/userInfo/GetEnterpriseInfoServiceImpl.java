@@ -1,4 +1,4 @@
-package com.oep.backend.serviceImpl.user_info;
+package com.oep.backend.serviceImpl.userInfo;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.oep.backend.mapper.EnterpriseMapper;
@@ -21,9 +21,7 @@ public class GetEnterpriseInfoServiceImpl implements GetEnterpriseInfoService {
     private EnterpriseMapper enterpriseMapper;
     @Override
     public String getEnterpriseInfo() {
-        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        UserDetailsImpl userDetails = (UserDetailsImpl) authenticationToken.getPrincipal();
-        Account account = userDetails.getAccount();
+        Account account = getAccount();
         QueryWrapper<Enterprise> queryWrapper = new QueryWrapper<>();
         queryWrapper.eq("account_id", account.getAccountId());
         Enterprise enterprise = enterpriseMapper.selectOne(queryWrapper);
@@ -31,5 +29,10 @@ public class GetEnterpriseInfoServiceImpl implements GetEnterpriseInfoService {
         respMap.put("enterprise_user", WriteValue.writeValueAsString(enterprise));
         respMap.put("error_message", "success");
         return WriteValue.writeValueAsString(respMap);
+    }
+    private Account getAccount()    {
+        UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        UserDetailsImpl userDetails = (UserDetailsImpl) authenticationToken.getPrincipal();
+        return userDetails.getAccount();
     }
 }

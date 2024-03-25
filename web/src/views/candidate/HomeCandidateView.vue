@@ -1,15 +1,15 @@
 <template>
   <el-menu router class="el-menu" active-text-color="#748199" mode="horizontal" :default-active="route.name">
     <div class="title-span" @click=" () => { router.push({name: 'exams'}) } ">
-      <img src="@/assets/logo.png" style="height:30px; width:auto; ">  &nbsp;&nbsp;在线应试平台
+      <img src="@/assets/logo.png" style="height:30px; width:auto; border-radius: 50%;">  &nbsp;&nbsp;在线应试平台
     </div>
     <el-menu-item index="exams" class="el-menu-item">我的考试</el-menu-item>
     <el-menu-item index="score" class="el-menu-item">我的成绩</el-menu-item>
     <el-dropdown class="el-dropdown el-col-di7" trigger="click">
-      <img class="el-avatar" size="30" src="@/assets/defaultHeadImg.png" />
+      <img class="el-avatar" size="30" :src="headImg" />
       <template #dropdown>
       <el-dropdown-menu>
-        <el-dropdown-item>个人信息</el-dropdown-item>
+        <el-dropdown-item @click="()=>{ router.push({name: 'candidate_info'}) }">个人信息</el-dropdown-item>
         <el-dropdown-item @click="userStore.logout()" divided>退出登录</el-dropdown-item>
       </el-dropdown-menu>
     </template>
@@ -20,10 +20,24 @@
 
 <script lang="ts" setup>
 import { useUserStore } from '@/store/user';
+import { ref } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
+import defaultHeadImg from '@/assets/defaultHeadImg.png';
 const userStore = useUserStore();
 const router = useRouter();
 const route = useRoute();
+const headImg = ref(defaultHeadImg);
+
+userStore.getHeadImg((imgString)=>{
+  const fileObj =  userStore.base64toFile(imgString, "file");
+  const reader = new FileReader();
+  reader.readAsDataURL(fileObj);
+  reader.onload = (event) => {
+    const fileContent = event.target?.result as string | ArrayBuffer | null;
+    if(typeof fileContent === 'string')    headImg.value = fileContent as string;
+  };
+})
+
 </script>
 
 <style scoped>

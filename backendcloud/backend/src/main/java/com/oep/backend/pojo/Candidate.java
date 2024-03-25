@@ -17,10 +17,11 @@ public class Candidate {
     @TableId(type = IdType.AUTO)
     private Integer candidateId;
     private String fullname;
+    private String headphoto;
     private char sex;
     private String email;
     private String telephone;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Shanghai")
+    @JsonFormat(pattern = "yyyy-MM-dd", timezone = "Asia/Shanghai")
     private Date birthday;
     private String accountId;
 }
