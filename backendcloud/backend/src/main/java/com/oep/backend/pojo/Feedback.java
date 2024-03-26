@@ -14,4 +14,5 @@ public class Feedback {
     Integer feedbackId;
     String content;
     String accountId;
+    Boolean isRead;
 }

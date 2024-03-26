@@ -50,7 +50,6 @@ const router = createRouter({
 router.beforeEach((to,from,next)=>{
   if(!to.meta.requestAuth) next();
   else {
-    console.log("53", useUserStore().token)
     if(localStorage.getItem("jwt_token") && localStorage.getItem("jwt_token")!='')  next();
     else  next({name: 'login'})
   }

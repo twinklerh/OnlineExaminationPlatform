@@ -28,7 +28,7 @@ public class AddFeedbackServiceImpl implements AddFeedbackService {
             return WriteValue.writeValueAsString(respMap);
         }
         Account account = getAccount();
-        Feedback feedback = new Feedback(null, content, account.getAccountId());
+        Feedback feedback = new Feedback(null, content, account.getAccountId(), false);
         feedbackMapper.insert(feedback);
 
         respMap.put("error_message", "success");

@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 27/03/2024 00:09:02
+ Date: 27/03/2024 01:10:24
 */
 
 SET NAMES utf8mb4;
@@ -130,7 +130,7 @@ CREATE TABLE `enterprise`  (
   UNIQUE INDEX `enterprise_pk_4`(`name` ASC) USING BTREE,
   INDEX `enterprise_account_account_id_fk`(`account_id` ASC) USING BTREE,
   CONSTRAINT `enterprise_account_account_id_fk` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of enterprise
@@ -170,6 +170,7 @@ CREATE TABLE `feedback`  (
   `feedback_id` int NOT NULL AUTO_INCREMENT,
   `content` varchar(10240) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `account_id` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NULL DEFAULT NULL,
+  `is_read` tinyint(1) NOT NULL,
   PRIMARY KEY (`feedback_id`) USING BTREE,
   UNIQUE INDEX `feedback_pk_2`(`feedback_id` ASC) USING BTREE,
   INDEX `feedback_account_account_id_fk`(`account_id` ASC) USING BTREE,
