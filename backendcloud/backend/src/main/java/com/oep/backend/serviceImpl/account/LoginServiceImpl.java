@@ -32,6 +32,7 @@ public class LoginServiceImpl implements LoginService {
             Account account = loginUser.getAccount();
             if("enterprise".equals(account.getStatus()))        map.put("status", "enterprise");
             else if("candidate".equals(account.getStatus()))    map.put("status", "candidate");
+            else if("root".equals(account.getStatus()))         map.put("status", "root");
             String jwt = JwtUtil.createJWT(account.getAccountId());
             map.put("error_message","success");
             map.put("token", jwt);

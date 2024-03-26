@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 25/03/2024 22:24:12
+ Date: 27/03/2024 00:09:02
 */
 
 SET NAMES utf8mb4;
@@ -32,6 +32,7 @@ CREATE TABLE `account`  (
 -- Records of account
 -- ----------------------------
 INSERT INTO `account` VALUES ('hy', '$2a$10$63CH4tzDZ0MQ54y6lAigaupnwvEXVyGYYLq2QUaRjjNYICIMbdkdS', 'enterprise');
+INSERT INTO `account` VALUES ('root', '$2a$10$Sv86jQqNQTNdLmCsUMmUjesooHSicVGqHQuIpxoz4pw7Ri28HFyva', 'root');
 INSERT INTO `account` VALUES ('twinkle', '$2a$10$NpNX5uSXMNmcbQ/K00zgZOBXIT1xW1jS7rcZMV6YKHZ9AxdO.jNme', 'candidate');
 INSERT INTO `account` VALUES ('uy', '$2a$10$S5/PusGi9QJ4fdoH340ld.J1gmj9D2q9c.AC.EBbc4fWs4RjQa2va', 'candidate');
 
@@ -51,7 +52,7 @@ CREATE TABLE `candidate`  (
   PRIMARY KEY (`candidate_id`) USING BTREE,
   INDEX `candidate_account_account_id_fk`(`account_id` ASC) USING BTREE,
   CONSTRAINT `candidate_account_account_id_fk` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of candidate

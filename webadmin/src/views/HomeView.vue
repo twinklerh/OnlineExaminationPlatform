@@ -20,15 +20,28 @@
             </el-menu>
         </el-aside>
         <el-main>
+            <el-dropdown trigger="click" class="icon-head">
+                <span class="trigger-text">root</span>
+                <template #dropdown>
+                    <el-dropdown-menu>
+                        <el-dropdown-item @click="exit">退出</el-dropdown-item>
+                    </el-dropdown-menu>
+                </template>      
+            </el-dropdown>
             <RouterView />
         </el-main>
     </el-container>
 </template>
 
 <script lang="ts" setup>
-import { useRoute } from 'vue-router';
-
+import { useRoute, useRouter } from 'vue-router';
 const route = useRoute();
+const router = useRouter();
+
+function exit() {
+    localStorage.setItem("jwt_token", "");
+    router.push({name: 'login'});
+}
 </script>
 
 <style scoped>
@@ -36,5 +49,21 @@ const route = useRoute();
     width: 30px;
     height: 30px;
     margin-right: 15px;
+}
+.trigger-text {
+    background-color: skyblue;
+    border-radius: 10%;
+    height: 25px;
+    width: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.icon-head {
+    position: absolute;
+    right: 15%;
+}
+.icon-head:hover {
+    cursor: pointer;
 }
 </style>

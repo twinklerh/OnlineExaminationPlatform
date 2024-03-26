@@ -3,6 +3,7 @@ package com.oep.backend.controller.account;
 import com.oep.backend.service.account.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -15,6 +16,10 @@ public class LoginController {
 
     @PostMapping("/account/token/")
     public String login(@RequestParam Map<String,String> map) {
+        return loginService.getToken(map.get("account_id"), map.get("password"));
+    }
+    @PostMapping("/root/account/token/")
+    public String rootLogin(@RequestBody Map<String, String> map)  {
         return loginService.getToken(map.get("account_id"), map.get("password"));
     }
 }
