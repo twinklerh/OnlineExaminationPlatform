@@ -20,15 +20,15 @@ public class GetFeedbackServiceImpl implements GetFeedbackService {
     private FeedbackMapper feedbackMapper;
     @Override
     public String getFeedbackInfo(int current_page) {
-        IPage<Feedback> iPage = new Page<>(current_page, 10);
+//        IPage<Feedback> iPage = new Page<>(current_page, 10);
         QueryWrapper<Feedback> queryWrapper = new QueryWrapper<>();
         queryWrapper.orderByDesc("feedback_id");
-        iPage = feedbackMapper.selectPage(iPage, queryWrapper);
-        List<Feedback> list = iPage.getRecords();
-
+//        iPage = feedbackMapper.selectPage(iPage, queryWrapper);
+//        List<Feedback> list = iPage.getRecords();
+        List<Feedback> list = feedbackMapper.selectList(queryWrapper);
         Map<String, String> respMap = new HashMap<>();
         respMap.put("error_message", "success");
-        respMap.put("total", String.valueOf(iPage.getTotal()));
+//        respMap.put("total", String.valueOf(iPage.getTotal()));
         respMap.put("feedbackList", WriteValue.writeValueAsString(list));
         return WriteValue.writeValueAsString(respMap);
     }
