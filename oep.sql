@@ -11,7 +11,7 @@
  Target Server Version : 80035
  File Encoding         : 65001
 
- Date: 27/03/2024 01:10:24
+ Date: 27/03/2024 15:46:56
 */
 
 SET NAMES utf8mb4;
@@ -175,11 +175,13 @@ CREATE TABLE `feedback`  (
   UNIQUE INDEX `feedback_pk_2`(`feedback_id` ASC) USING BTREE,
   INDEX `feedback_account_account_id_fk`(`account_id` ASC) USING BTREE,
   CONSTRAINT `feedback_account_account_id_fk` FOREIGN KEY (`account_id`) REFERENCES `account` (`account_id`) ON DELETE RESTRICT ON UPDATE RESTRICT
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_0900_ai_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of feedback
 -- ----------------------------
+INSERT INTO `feedback` VALUES (5, '建议加强李信', 'hy', 1);
+INSERT INTO `feedback` VALUES (6, '建议削弱兰陵王', 'uy', 0);
 
 -- ----------------------------
 -- Table structure for group

@@ -3,11 +3,9 @@
         <el-aside width="250px">
             <div style="display:flex; justify-content: left; align-items: center; margin-bottom: 12px;" >
                 <img src="@/assets/logo.svg" style="height:30px;width:50px;"/>   
-                <span>在线应试平台-后台管理</span>                
+                <span class="system-title" @click="router.push('/')">在线应试平台-后台管理</span>                
             </div>
-
             <el-divider style="margin: 0px auto;" />
-
             <el-menu style="height: 450px;" :default-active="route.name" router>
                 <el-menu-item index="register">
                     <img src="@/assets/registerIcon.svg" class="icon">
@@ -64,6 +62,9 @@ function exit() {
     right: 15%;
 }
 .icon-head:hover {
+    cursor: pointer;
+}
+.system-title:hover {
     cursor: pointer;
 }
 </style>
